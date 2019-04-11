@@ -1,0 +1,69 @@
+
+
+
+/* 普通头部 */
+.normalheader {
+    width: 100%;
+    height: 1.2rem;
+    background-color: cornflowerblue;
+    display: flex;
+    align-items: center;
+}
+
+
+/* 固定定位的头 */
+.positionheader {
+    width: 100%;
+    height: 1.2rem;
+    background-color: cornflowerblue;
+    display: flex;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+
+/* 头部返回 */
+
+#header_back {
+    width: 25%;
+}
+
+/* 头部标题 */
+
+#header_title {
+    text-align: center;
+    width: 50%;
+    color: aliceblue;
+    font-size: 0.4rem;
+}
+
+/* 头部右侧 */
+
+#header_right {
+    width: 25%;
+}
+
+
+body {
+    margin: 0rem;
+    padding: 0rem;
+    background-color: whitesmoke
+}
+
+
+/* 普通字体大小 15px */
+.normalText {
+    font-size: 0.3rem;
+}
+/* 大 18px */
+.bigText{
+    font-size: 0.36rem;
+}
+
+/* 小 13px */
+.smallText {
+    font-size: 0.26rem;
+}

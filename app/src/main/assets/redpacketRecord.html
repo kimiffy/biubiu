@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="css/style_common.css" type="text/css">
+    <link rel="stylesheet" href="css/style_redpacket_record.css" type="text/css">
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <title>现金红包</title>
+</head>
+
+<body>
+
+<header class="normalheader">
+    <div id="header_back"></div>
+    <div id="header_title">现金红包</div>
+    <div id="header_right"></div>
+</header>
+
+
+<div id="content">
+
+    <!--<img src="img/icon_logo.png" class="round_icon" alt="">-->
+
+    <!--<p class="smallText">收到10个红包,共</p>-->
+
+    <!--<p class="smallText" id="sum"> <strong id="money">9.80</strong> 元</p>-->
+
+</div>
+
+<dl id="list">
+
+    <!-- <dt class='item_container'>
+        <div class="item_inner">
+            <strong id="type">膨胀红包</strong>
+            <strong id="item_money">0.10元</strong>
+        </div>
+        <div class="item_inner">
+            <p class="smallText" class="lightgrey">来自微信朋友 今天 10:02 </p>
+            <p class="smallText" class="lightgrey">已领取</p>
+        </div>
+    </dt> -->
+
+
+</dl>
+
+
+
+
+<script>
+
+        $(document).ready(
+            //初始化
+            function init() {
+                console.log("执行了");
+                var deviceWidth = document.documentElement.clientWidth;
+                if (deviceWidth > 700) deviceWidth = 500;  //如果设备的宽>700 说明可能是 pad 或者pc 给一个固定的值,防止布局显示过大
+                document.documentElement.style.fontSize = deviceWidth / 7.5 + 'px'  //这里使用网易适配方案  7.5 为 设计稿的横向分辨率/100
+                getData();
+            }
+        );
+
+
+        <!--function getData() {-->
+            <!--var head='';-->
+            <!--head +='<img src="'+"img/icon_logo.png"+'" class="round_icon" alt="">';-->
+            <!--head +='<p class="smallText">收到'+"10"+'个红包,共</p>';-->
+            <!--head +='<p class="smallText" id="sum"> <strong id="money">'+"9.80"+'</strong> 元</p>';-->
+            <!--$("#content").append(head);-->
+
+            <!--var str = '';-->
+            <!--for (var index = 0; index < 3; index++) {-->
+                <!--str += '<dt class="item_container"><div class="item_inner">';-->
+                <!--str += '<strong id="type">膨胀红包</strong>';-->
+                <!--str += '<strong id="item_money">0.10元</strong>';-->
+                <!--str += '</div><div class="item_inner"><p class="smallText" class="lightgrey">来自微信朋友 今天 10:02 </p>';-->
+                <!--str += '<p class="smallText" class="lightgrey">已领取</p></div></dt>';-->
+            <!--}-->
+
+            <!--$("#list").append(str);-->
+        <!--}-->
+
+        function getData() {
+            var arrData = new Array();
+            var i = 0;
+            while(i<10){
+                var dic = {
+                    type:i%2==0?"膨胀红包":"普通红包",
+                    money:i,
+                    from:i%2==0?"微信好友":"支付宝好友",
+                    state:i%2,
+                    time:"2019-12-21 12:01:01",
+                }
+                arrData.push(dic);
+                i++;
+            }
+            var arrState = ["已领取","未领取"];
+            var  allMoney = 0;
+            var str = '';
+            for (var index = 0; index < arrData.length; index++) {
+                var dic = arrData[index];
+                str += '<dt class="item_container"><div class="item_inner">';
+                str += '<strong id="type">' + dic["type"] + '</strong>';
+                str += '<strong id="item_money">' + dic["money"] + "元" + '</strong>';
+                str += '</div><div class="item_inner"><p class="smallText" class="lightgrey">来自' +  dic["from"]  + dic["time"] + '</p>';
+                str += '<p class="smallText" class="lightgrey">' + arrState[dic["state"]] + '</p></div></dt>';
+                allMoney +=  dic["money"];
+            }
+            var head = '';
+            head += '<img src="' + "img/icon_logo.png" + '" class="round_icon" alt="">';
+            head += '<p class="smallText">收到' + arrData.length + '个红包,共</p>';
+            head += '<p class="smallText" id="sum"> <strong id="money">' + allMoney+""+ '</strong> 元</p>';
+            $("#content").append(head);
+
+
+            $("#list").append(str);
+        }
+
+
+
+    </script>
+</body>
+
+</html>

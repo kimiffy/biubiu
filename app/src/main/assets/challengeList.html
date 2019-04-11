@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,user-scalable=no,maximum-scale=1, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="css/style_challenge_list.css" type="text/css">
+    <link rel="stylesheet" href="css/style_common.css" type="text/css">
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <title>优驾挑战</title>
+
+</head>
+
+<body>
+
+<header class="positionheader">
+    <div id="header_back"></div>
+    <div id="header_title">优驾挑战</div>
+    <div id="header_right"></div>
+</header>
+
+<div>
+    <dl id="list">
+        <!-- <dt>
+            <div class="normalText" id="item_head">
+                <div>
+                    <p id="item_car_num">闽D 88888 ,正在挑战 </p>
+                    <p id="item_time">2019-3-26</p>
+                </div>
+                <img src="/html_work_space/h5Demo/image/icon_arrow_down.png">
+            </div>
+
+            <div id="item_content">
+                <table>
+                    <tbody>
+                        <tr id="table_head">
+                            <td>挑战里程</td>
+                            <td>挑战分数</td>
+                            <td>已行驶里程</td>
+                            <td>节能得分</td>
+                        </tr>
+
+                        <tr>
+                            <td>200公里</td>
+                            <td>45</td>
+                            <td>120公里</td>
+                            <td>35</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+
+            </div>
+
+            <div id="item_footer">
+                <button class="button" onclick="btnClick()">领取红包</button>
+                <strong>获得红包奖励8.8元</strong>
+            </div>
+
+        </dt> -->
+    </dl>
+
+</div>
+
+
+<script>
+
+        $(document).ready(
+            //初始化
+            function init() {
+                 //这里使用网易适配方案 7.5 为 设计稿的横向分辨率/100
+                document.documentElement.style.fontSize = document.documentElement.clientWidth / 7.5 + 'px'
+            }
+        );
+        $(function () {
+            getData();
+        });
+
+        // 获取数据
+        function getData() {
+
+            $.post("http://api.tingwen.me/index.php/api/Interface/commentListNew", { "post_id": "97865" },
+                function (data) {
+
+                    var str = '';
+                    // $.each(data.results, function (index, item) {
+
+                    for (var index = 0; index < 5; index++) {
+                        str += '<dt><div id="item_head"><div>';
+                        str += '<p class="normalText" id="item_car_num">' + '闽D 88888 ,正在挑战' + '</p>';
+                        str += '<p id="item_time">' + '2019-3-26' + '</p>';
+                        str += '</div><img src="img/icon_arrow_down.png"></div>';
+                        str += '<div id="item_content"><table><tbody><tr id="table_head">';
+                        str += '<td>' + "挑战里程" + '</td>';
+                        str += '<td>' + "挑战分数" + '</td>';
+                        str += '<td>' + "已行驶里程" + '</td>';
+                        str += '<td>' + "节能得分" + '</td>';
+                        str += '<tr><td>' + "200公里" + '</td>';
+                        str += '<td>' + "45" + '</td>';
+                        str += '<td>' + "120公里" + '</td>';
+                        str += '<td>' + "35" + '</td>';
+                        str += '</tr></tbody></table></div><div id="item_footer">';
+
+                        if (index > 1) {
+                            if (index % 2 == 0) {
+                                str += '<button class="button" onclick="btnClick()">领取红包</button>';
+                            } else {
+                                str += '<strong class="bigText">获得红包奖励8.8元</strong>';
+                            }
+                        }
+                        str += '</div> </dt> </dl>';
+
+                    }
+                    // });
+
+                    $("#list").append(str);
+
+                }, "json")
+        }
+
+
+        // 点击领取红包
+        function btnClick() {
+            window.location.href = "redpacket.html";
+        }
+
+        //横竖屏监听 如果发生改变刷新页面
+        window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", function () {
+            if (window.orientation === 180 || window.orientation === 0) {
+
+                location.reload(false)
+            }
+            if (window.orientation === 90 || window.orientation === -90) {
+                location.reload(false)
+            }
+        }, false);
+
+    </script>
+
+</body>
+
+</html>

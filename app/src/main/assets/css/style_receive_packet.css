@@ -1,0 +1,154 @@
+
+
+@media screen and (max-width:321px){
+    .m-navlist{font-size:15px}
+}
+
+@media screen and (min-width:321px) and (max-width:400px){
+    .m-navlist{font-size:16px}
+}
+
+@media screen and (min-width:400px){
+    .m-navlist{font-size:18px}
+}
+
+
+#header {
+    width: 100%;
+    height: 1.2rem;
+    background-color: cornflowerblue;
+    display: flex;
+    align-items: center;
+}
+
+/* 头部返回 */
+
+#header_back {
+    width: 25%;
+}
+
+/* 头部标题 */
+
+#header_title {
+    text-align: center;
+    width: 50%;
+    color: aliceblue;
+    font-size: 0.4rem;
+}
+
+/* 头部右侧 */
+
+#header_right {
+    width: 25%;
+}
+
+body {
+    margin: 0rem;
+    padding: 0rem;
+    background-color: whitesmoke
+}
+
+p {
+    margin: 0rem;
+    padding: 0rem;
+}
+
+/* --------------------------------------------领取红包------------------------------------------------ */
+
+#receive_redpacket_container {
+    height: 4.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.normalText {
+    font-size: 0.3rem;
+}
+
+
+#logo {
+    margin-bottom: 0.1rem;
+    margin-top: 0.5rem;
+    width: 0.8rem;
+    height: 0.8rem;
+    background-size: cover
+}
+
+#wishes {
+    font-size: 0.4rem;
+    margin-top: 0.3rem;
+}
+
+#money {
+    font-size: 0.8rem;
+    color: red;
+}
+
+#sum {
+    font-size: 0.3rem;
+    margin-top: 0.2rem;
+    margin-bottom: 0.2rem;
+}
+
+#expand_content {
+    display: flex;
+    align-items: center;
+    height: 3rem;
+}
+
+#expand_redpacket_container {
+    height: 2.7rem;
+    width: 100%;
+    background-color: red;
+    display: flex;
+    align-items: center;
+}
+
+#expand_redpacket_inner {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#expand_des {
+    color: white;
+    font-size: 0.5rem;
+    margin-bottom: 0.2rem;
+}
+
+.share {
+    font-size: 0.25rem;
+    background: white;
+    border: 1px solid #6b6a6a;
+    border-radius: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 0.06rem;
+    padding-bottom: 0.06rem;
+    outline-style: none;
+}
+
+#text_rule {
+    font-size: 0.25rem;
+    margin-top: 0.2rem;
+    color: white;
+}
+
+#footer {
+    display: flex;
+    justify-content: center;
+    height: 4rem;
+}
+
+#text_record {
+    margin-bottom: 0.2rem;
+    font-size: 0.3rem;
+    color: cornflowerblue;
+    display: flex;
+    align-items: flex-end
+}
+
+/* ---------------------------------------end  领取红包  end------------------------------------------- */

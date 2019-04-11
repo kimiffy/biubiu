@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1, minimum-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="css/style_common.css" type="text/css">
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <title>活动规则</title>
+</head>
+
+<body>
+
+<header class="normalheader">
+    <div id="header_back"></div>
+    <div id="header_title">活动规则</div>
+    <div id="header_right"></div>
+</header>
+
+
+<div style=" display: flex;  height: 5rem;  flex-direction: column;padding-left: 0.5rem;padding-right: 0.5rem">
+
+    <strong style="font-size: 0.8rem ; margin-top:0.6rem ;text-align: center;">膨胀红包</strong>
+
+    <strong style="font-size: 0.4rem ; margin-top:0.4rem ;text-align: center;">最高膨胀25次</strong>
+
+    <strong style="font-size: 0.3rem ; margin-top:0.4rem ;text-align: center;">最高变888元</strong>
+
+    <p style="font-size: 0.26rem ; margin-top:0.4rem ;text-align: center;">规则 : 推广链接每被不同的微信用户点开一次,红包膨胀一次,膨胀金额随机</p>
+
+</div>
+
+
+
+
+<script>
+
+        $(document).ready(
+            function init() {
+                document.documentElement.style.fontSize = document.documentElement.clientWidth / 7.5 + 'px'  //这里使用网易适配方案 7.5 为 设计稿的横向分辨率/100
+            }
+        );
+
+        window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", function () {
+            if (window.orientation === 180 || window.orientation === 0) {
+                location.reload(false)
+            }
+            if (window.orientation === 90 || window.orientation === -90) {
+                location.reload(false)
+            }
+        }, false);
+
+    </script>
+
+
+</body>
+
+</html>

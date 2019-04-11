@@ -1,0 +1,12 @@
+@media only screen and (width: 375px) and (height: 690px) {
+    body {
+        /* 为导航栏+状态栏的高度 88px  */
+        padding-top: 88px;
+        /* 如果未竖屏时为0  */
+        padding-left: 0px;
+        /*如果未竖屏时为0 */
+        padding-right: 0px;
+        /* 为底下圆弧的高度 34px  */
+        padding-bottom: 34px;
+    }
+}

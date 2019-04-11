@@ -1,0 +1,73 @@
+ext {
+    android = [
+            compileSdkVersion: 27,
+            buildToolsVersion: "27.0.1",
+            applicationId    : "com.kimiffy.cn.biubiu",
+            minSdkVersion    : 21,
+            targetSdkVersion : 27,
+            versionCode      : 1,
+            versionName      : "1.0"
+    ]
+
+    dependVersion = [
+            support: "27.1.1"
+    ]
+    //数据库依赖版本
+    dbflow_version = [
+            version: "4.2.0"
+    ]
+    dependencies = [
+            //android-support
+            "appcompat-v7"        : "com.android.support:appcompat-v7:${dependVersion.support}",
+            "support-v4"          : "com.android.support:support-v4:${dependVersion.support}",
+            "design"              : "com.android.support:design:${dependVersion.support}",
+            "recyclerview"        : "com.android.support:recyclerview-v7:${dependVersion.support}",
+            "constraint"          : "com.android.support.constraint:constraint-layout:1.1.3",
+
+            //test
+            "junit"               : "junit:junit:4.12",
+            "testrunner"          : "com.android.support.test:runner:1.0.2",
+            "testespresso"        : "com.android.support.test.espresso:espresso-core:3.0.2",
+
+            //net
+            "retrofit"            : "com.squareup.retrofit2:retrofit:2.4.0",
+            "converter-scalars"   : "com.squareup.retrofit2:converter-gson:2.3.0",
+            "okhttp3"             : "com.squareup.okhttp3:okhttp:3.11.0",
+            "rxjava"              : "io.reactivex.rxjava2:rxjava:2.2.0",
+            "rxandroid"           : "io.reactivex.rxjava2:rxandroid:2.1.0",
+            "adapter-rxjava"      : "com.squareup.retrofit2:adapter-rxjava2:2.3.0",
+
+            //eventBus
+            "eventbus"            : "org.greenrobot:eventbus:3.1.1",
+
+            //dataBase
+            "dbflow"              : "com.github.Raizlabs.DBFlow:dbflow:${dbflow_version.version}",
+            "dbflow-processor"    : "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version.version}",
+            "dbflow-core"         : "com.github.Raizlabs.DBFlow:dbflow-core:${dbflow_version.version}",
+
+            //aop
+            "aspectjrt"           : "org.aspectj:aspectjrt:1.8.13",
+
+            //imageLoader
+            "glide"               : "com.github.bumptech.glide:glide:4.8.0",
+            "glide-compiler"      : "com.github.bumptech.glide:compiler:4.8.0",
+
+            //log
+            "logger"              : "com.orhanobut:logger:2.2.0",
+
+            //screen adaptation
+            "autosize"            : "me.jessyan:autosize:1.1.2",
+
+            //web
+            "agentweb"            : "com.just.agentweb:agentweb:4.0.2",
+
+            //ui
+            "butterknife"         : "com.jakewharton:butterknife:8.8.1",
+            "butterknife-compiler": "com.jakewharton:butterknife-compiler:8.8.1",
+            "brvah"               : "com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.46",
+
+
+    ]
+
+
+}
