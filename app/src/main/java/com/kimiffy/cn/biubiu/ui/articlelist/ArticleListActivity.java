@@ -99,7 +99,6 @@ public class ArticleListActivity extends BaseMVPActivity<ArticleListPresenter> i
         mStateView.getStateViewImpl().setRetryListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtil.showToast("点击重试");
                 mPresenter.refresh();
             }
         });
