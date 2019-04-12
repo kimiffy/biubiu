@@ -130,7 +130,7 @@ public class SpUtil {
      * @return list
      */
     public static <T> List<T> getDataList(String key, Class<T> cls) {
-        List<T> datalist = new ArrayList<T>();
+        List<T> datalist = new ArrayList<>();
         String strJson = SpUtil.getString( key, null);
         if (null == strJson) {
             return datalist;

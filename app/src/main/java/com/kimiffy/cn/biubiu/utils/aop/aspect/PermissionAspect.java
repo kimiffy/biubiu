@@ -36,7 +36,7 @@ public class PermissionAspect {
         Method method = methodSignature.getMethod();
         NeedPermission annotation = method.getAnnotation(NeedPermission.class);
         String[] permissions = annotation.value();
-        if (null == permissions || permissions.length == 0) {
+        if (permissions.length == 0) {
             LogUtil.e("the request permission can not be empty!!");
             return;
         }

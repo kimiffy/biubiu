@@ -88,7 +88,9 @@ public final class PermissionFragment extends Fragment implements Runnable {
     public void requestPermission() {
         if (PermissionUtils.isOverMarshmallow()) {
             ArrayList<String> permissions = getArguments().getStringArrayList(PERMISSION_GROUP);
-            requestPermissions(permissions.toArray(new String[permissions.size() - 1]), getArguments().getInt(REQUEST_CODE));
+            if(null!=permissions){
+                requestPermissions(permissions.toArray(new String[permissions.size() - 1]), getArguments().getInt(REQUEST_CODE));
+            }
         }
     }
 

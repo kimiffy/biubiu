@@ -18,12 +18,11 @@ import okhttp3.ResponseBody;
 
 public class LogInterceptor implements Interceptor{
 
-    private final int byteCount = 1024*1024;
-
     @Override
     public Response intercept(@NonNull Chain chain) throws IOException {
         Request request = chain.request();
         Response response = chain.proceed(request);
+        int byteCount = 1024 * 1024;
         ResponseBody responseBody = response.peekBody(byteCount);
         LogUtil.d(request.url());//请求
         LogUtil.json(responseBody.string());//响应
