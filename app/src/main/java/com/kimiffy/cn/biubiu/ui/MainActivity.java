@@ -215,8 +215,6 @@ public class MainActivity extends BaseActivity {
     }
 
     private void login() {
-//      startActivity(LoginActivity.class);
-
         startActivity(WebActivity.class);
     }
 
