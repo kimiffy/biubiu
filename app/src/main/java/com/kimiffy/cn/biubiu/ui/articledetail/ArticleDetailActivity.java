@@ -29,7 +29,7 @@ public class ArticleDetailActivity extends BaseActivity {
     }
 
     @Override
-    protected void initData() {
+    protected void initData(Bundle savedInstanceState) {
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
@@ -38,7 +38,7 @@ public class ArticleDetailActivity extends BaseActivity {
     }
 
     @Override
-    protected void initUI(Bundle savedInstanceState) {
+    protected void initUI() {
         //传入AgentWeb 的父控件 ，如果父控件为 RelativeLayout ， 那么第二参数需要传入 RelativeLayout.LayoutParams
         //传入AgentWeb 的父控件 ，如果父控件为 RelativeLayout ， 那么第二参数需要传入 RelativeLayout.LayoutParams
 // 使用默认进度条

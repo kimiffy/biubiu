@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.kimiffy.cn.biubiu.base.contract.IBaseFragment;
+import com.kimiffy.cn.biubiu.utils.stateview.IStateView;
 import com.kimiffy.cn.biubiu.utils.stateview.StateViewProxy;
 
 /**
@@ -14,7 +15,7 @@ import com.kimiffy.cn.biubiu.utils.stateview.StateViewProxy;
  * Created by kimiffy on 2019/3/12.
  */
 
-public abstract class BaseMVPFragment<P extends BasePresenter> extends BaseFragment implements IBaseFragment {
+public abstract class BaseMVPFragment<P extends BasePresenter> extends BaseFragment implements IBaseFragment, IStateView {
 
     /**
      * 具体的presenter由子类确定

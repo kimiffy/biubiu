@@ -9,7 +9,7 @@ import com.kimiffy.cn.biubiu.R;
  * Created by kimiffy on 2019/3/21.
  */
 
-public class StateViewImpl extends BaseStateViewImpl implements IStateView {
+public class StateViewImpl extends BaseStateView implements IStateView {
 
 
     @Override

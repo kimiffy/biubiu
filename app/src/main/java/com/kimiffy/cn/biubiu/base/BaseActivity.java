@@ -33,9 +33,9 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         super.onCreate(savedInstanceState);
         setContentView(getLayoutResId());
         unbinder = ButterKnife.bind(this);
-        initData();
+        initData(savedInstanceState);
         initStateView();
-        initUI(savedInstanceState);
+        initUI();
         initEventBus();
         setListener();
     }
@@ -51,15 +51,17 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
 
     /**
      * 数据初始化
+     *
+     * @param savedInstanceState
      */
-    protected abstract void initData();
+    protected abstract void initData(Bundle savedInstanceState);
 
     /**
      * 视图初始化
      *
-     * @param savedInstanceState
+     *
      */
-    protected abstract void initUI(Bundle savedInstanceState);
+    protected abstract void initUI();
 
 
     /**

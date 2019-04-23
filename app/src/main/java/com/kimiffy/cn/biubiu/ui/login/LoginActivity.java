@@ -35,12 +35,12 @@ public class LoginActivity extends BaseMVPActivity<LoginPresenter> implements Lo
     }
 
     @Override
-    protected void initData() {
+    protected void initData(Bundle savedInstanceState) {
 
     }
 
     @Override
-    protected void initUI(Bundle savedInstanceState) {
+    protected void initUI() {
 
     }
 

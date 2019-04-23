@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.kimiffy.cn.biubiu.base.contract.IBaseActivity;
+import com.kimiffy.cn.biubiu.utils.stateview.IStateView;
 import com.kimiffy.cn.biubiu.utils.stateview.StateViewProxy;
 
 /**
@@ -12,7 +13,7 @@ import com.kimiffy.cn.biubiu.utils.stateview.StateViewProxy;
  * Created by kimiffy on 2019/3/11.
  */
 
-public abstract class BaseMVPActivity<P extends BasePresenter> extends BaseActivity implements IBaseActivity {
+public abstract class BaseMVPActivity<P extends BasePresenter> extends BaseActivity implements IBaseActivity, IStateView {
 
     /**
      * 具体的presenter由子类确定

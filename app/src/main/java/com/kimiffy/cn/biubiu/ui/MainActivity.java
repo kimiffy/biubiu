@@ -1,65 +1,33 @@
 package com.kimiffy.cn.biubiu.ui;
 
-
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
+import android.view.MenuItem;
+import android.widget.FrameLayout;
 
 import com.kimiffy.cn.biubiu.R;
 import com.kimiffy.cn.biubiu.base.BaseActivity;
-import com.kimiffy.cn.biubiu.constant.EventCode;
-import com.kimiffy.cn.biubiu.database.model.User;
-import com.kimiffy.cn.biubiu.database.model.User_Table;
-import com.kimiffy.cn.biubiu.http.dowload.DownLoadListener;
-import com.kimiffy.cn.biubiu.http.dowload.DownLoadManager;
-import com.kimiffy.cn.biubiu.ui.articlelist.ArticleListActivity;
-import com.kimiffy.cn.biubiu.utils.ToastUtil;
-import com.kimiffy.cn.biubiu.utils.aop.FilterType;
-import com.kimiffy.cn.biubiu.utils.aop.annotation.LoginFilter;
-import com.kimiffy.cn.biubiu.utils.aop.annotation.NeedPermission;
-import com.kimiffy.cn.biubiu.utils.event.BindEventBus;
-import com.kimiffy.cn.biubiu.utils.event.Event;
-import com.kimiffy.cn.biubiu.utils.event.EventBusUtil;
-import com.kimiffy.cn.biubiu.utils.imageloader.ImageLoader;
-import com.kimiffy.cn.biubiu.utils.imageloader.base.ScaleType;
-import com.kimiffy.cn.biubiu.utils.imageloader.glide.CommonOption;
-import com.kimiffy.cn.biubiu.utils.permission.Permission;
-import com.raizlabs.android.dbflow.sql.language.SQLite;
+import com.kimiffy.cn.biubiu.ui.home.HomeFragment;
+import com.kimiffy.cn.biubiu.utils.BottomNavigationViewHelper;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 
 /**
- * 主页面
+ * Description:主页面
+ * Created by kimiffy on 2019/4/16.
  */
-@BindEventBus//注册eventbus
-public class MainActivity extends BaseActivity {
-    private static final String TAG = "MainActivity";
-    @BindView(R.id.iv)
-    ImageView iv;
-    @BindView(R.id.btn_login)
-    Button btnLogin;
-    @BindView(R.id.btn_article)
-    Button btnArticle;
-    @BindView(R.id.btn_permission)
-    Button btnPermission;
-    @BindView(R.id.btn_load_image)
-    Button btnLoadImage;
-    @BindView(R.id.btn_insert)
-    Button btnInsert;
-    @BindView(R.id.btn_delete)
-    Button btnDelete;
-    @BindView(R.id.tv_user)
-    TextView tvUser;
-    @BindView(R.id.btn_send_event)
-    Button btnSendEvent;
-    @BindView(R.id.btn_download)
-    Button btnDownload;
-    @BindView(R.id.tv_progress)
-    TextView tvProgress;
 
+public class MainActivity extends BaseActivity {
+    @BindView(R.id.fl_content)
+    FrameLayout mFlContent;
+    @BindView(R.id.bnv_bar)
+    BottomNavigationView mBnvBar;
+    private Fragment[] mFragments = new Fragment[5];
+    private int lastIndex;
 
     @Override
     protected int getLayoutResId() {
@@ -67,155 +35,115 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    protected void initData() {
-
-    }
-
-    @Override
-    protected void initUI(Bundle savedInstanceState) {
-
-    }
-
-    @OnClick({R.id.btn_login, R.id.btn_article, R.id.btn_permission, R.id.btn_load_image, R.id.btn_insert, R.id.btn_delete, R.id.btn_send_event, R.id.btn_download})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.btn_login:
-                login();
-                break;
-            case R.id.btn_article:
-                goArticleListPage();
-                break;
-            case R.id.btn_permission:
-                takePhoto();
-                break;
-            case R.id.btn_load_image:
-                loadImage();
-                break;
-            case R.id.btn_insert:
-                insert();
-                break;
-            case R.id.btn_delete:
-                delete();
-                break;
-            case R.id.btn_send_event:
-                sendEvent();
-                break;
-            case R.id.btn_download:
-                downLoad();
-                break;
+    protected void initData(Bundle savedInstanceState) {
+        initFragments();
+        //恢复数据
+        if (null != savedInstanceState) {
+            String indexString = savedInstanceState.getString("lastIndex");
+            if (!TextUtils.isEmpty(indexString)) {
+                lastIndex = Integer.parseInt(indexString);
+            }
         }
     }
 
+    /**
+     * 初始化fragments
+     */
+    private void initFragments() {
+        mFragments[0] = HomeFragment.newInstance();
+        mFragments[1] = HomeFragment.newInstance();
+        mFragments[2] = HomeFragment.newInstance();
+        mFragments[3] = HomeFragment.newInstance();
+        mFragments[4] = HomeFragment.newInstance();
+    }
 
-    @NeedPermission({Permission.READ_EXTERNAL_STORAGE, Permission.WRITE_EXTERNAL_STORAGE})
-    private void downLoad() {
-        String url = "https://www.wanandroid.com/blogimgs/64542bbb-b0f6-4c0e-828f-e38eb3abdc00.apk";
-        DownLoadManager.getInstance().downFile(url, new DownLoadListener() {
+    @Override
+    protected void initUI() {
+        mBnvBar.setItemIconTintList(null);
+        BottomNavigationViewHelper.disableShiftMode(mBnvBar);
+    }
 
+    @Override
+    protected void setListener() {
+        super.setListener();
+        mBnvBar.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public void onStart(long totalSize) {
-
-            }
-
-            @Override
-            public void onProgress(long totalSize, long downSize) {
-                int progress = (int) (downSize * 100 / totalSize);
-                if (null != tvProgress) {
-                    tvProgress.setText(progress + "%" + downSize);
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.navigation_home:
+                        selectFragment(0);
+                        break;
+                    case R.id.navigation_sys:
+                        selectFragment(1);
+                        break;
+                    case R.id.navigation_we_chat:
+                        selectFragment(2);
+                        break;
+                    case R.id.navigation_project:
+                        selectFragment(3);
+                        break;
+                    case R.id.navigation_me:
+                        selectFragment(4);
+                        break;
                 }
+                return true;
             }
-
-            @Override
-            public void onSuccess(String path) {
-                ToastUtil.showToast("下载成功，path=" + path);
-            }
-
-            @Override
-            public void onFail(String msg) {
-                ToastUtil.showToast("下载失败，msg=" + msg);
-            }
-
-            @Override
-            public void onComplete() {
-
-            }
-
         });
+        setSelectedItemId(lastIndex);
+    }
+
+    /**
+     * 设置选中的tab
+     *
+     * @param lastIndex 上一次记录的下标
+     */
+    private void setSelectedItemId(int lastIndex) {
+        switch (lastIndex) {
+            case 0:
+                mBnvBar.setSelectedItemId(R.id.navigation_home);
+                break;
+            case 1:
+                mBnvBar.setSelectedItemId(R.id.navigation_sys);
+                break;
+            case 2:
+                mBnvBar.setSelectedItemId(R.id.navigation_we_chat);
+                break;
+            case 3:
+                mBnvBar.setSelectedItemId(R.id.navigation_project);
+                break;
+            case 4:
+                mBnvBar.setSelectedItemId(R.id.navigation_me);
+                break;
+        }
     }
 
 
-    //订阅事件
+    /**
+     * 设置选中fragment
+     *
+     * @param index 下标
+     */
+    private void selectFragment(int index) {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        Fragment currentFragment = mFragments[index];
+        Fragment lastFragment = mFragments[lastIndex];
+        lastIndex = index;
+        ft.hide(lastFragment);
+        if (!currentFragment.isAdded()) {
+            getSupportFragmentManager().beginTransaction().remove(currentFragment).commit();
+            ft.add(R.id.fl_content, currentFragment);
+        }
+        ft.show(currentFragment);
+        ft.commitAllowingStateLoss();
+    }
+
     @Override
-    public void onEventCome(Event event) {
-        super.onEventCome(event);
-        int code = event.getCode();
-        if (code == EventCode.TEST_CODE) {
-            String event1 = (String) event.getEvent();
-            ToastUtil.showToast(event1);
-        }
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        //保存数据
+        outState.putString("lastIndex", lastIndex + "");
+
     }
 
-    private void sendEvent() {
-        EventBusUtil.post(new Event<>(EventCode.TEST_CODE, "我是测试事件"));
-    }
-
-    private void insert() {
-        User user = new User();
-        user.name = "小王";
-        user.age = 25;
-        user.insert();
-
-        User user1 = search();
-        if (null != user1) {
-            tvUser.setText(user1.name + "  " + user1.age);
-        }
-    }
-
-    private User search() {
-        User user = SQLite.select()
-                .from(User.class)
-                .where(User_Table.name.is("小王"))
-                .querySingle();
-        return user;
-    }
-
-    private void delete() {
-        User user = search();
-        if (null != user) {
-            user.delete();
-        }
-
-        User user1 = search();
-        if (null == user1) {
-            tvUser.setText("");
-        }
-    }
-
-
-    private void loadImage() {
-        CommonOption commonOption = CommonOption.builder()
-                .load(R.mipmap.ic_launcher)
-                .isCircleImage(true)
-                .scaleType(ScaleType.CENTER_INSIDE)
-                .into(iv)
-                .build();
-        ImageLoader.getInstance().loadImage(this, commonOption);
-    }
-
-    //检查权限
-    @NeedPermission({Permission.CAMERA})
-    private void takePhoto() {
-        ToastUtil.showToast("拍照啦!!");
-    }
-
-    //统一管理登录
-    @LoginFilter(FilterType.JUMP)
-    private void goArticleListPage() {
-        startActivity(ArticleListActivity.class);
-    }
-
-    private void login() {
-        startActivity(WebActivity.class);
-    }
 
 }

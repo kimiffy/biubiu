@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.kimiffy.cn.biubiu.base.contract.IBaseFragment;
+import com.kimiffy.cn.biubiu.utils.stateview.IStateView;
 import com.kimiffy.cn.biubiu.utils.stateview.StateViewProxy;
 
 /**
@@ -14,7 +15,7 @@ import com.kimiffy.cn.biubiu.utils.stateview.StateViewProxy;
  * Created by kimiffy on 2019/3/13.
  */
 
-public abstract class LazyMVPFragment<P extends BasePresenter> extends BaseFragment implements IBaseFragment {
+public abstract class LazyMVPFragment<P extends BasePresenter> extends BaseFragment implements IBaseFragment , IStateView {
     /**
      * rootView是否初始化标志，防止回调函数在rootView为空的时候触发
      */

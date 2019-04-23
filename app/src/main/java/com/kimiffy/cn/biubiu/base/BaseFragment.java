@@ -46,8 +46,8 @@ public abstract class BaseFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         mActivity = getActivity();
         unbinder = ButterKnife.bind(this, view);
-        initData();
-        initUI(savedInstanceState);
+        initData(savedInstanceState);
+        initUI();
         initEventBus();
     }
 
@@ -60,15 +60,15 @@ public abstract class BaseFragment extends Fragment {
 
     /**
      * 数据初始化
-     */
-    protected abstract void initData();
-
-    /**
-     * 界面初始化
      *
      * @param savedInstanceState
      */
-    protected abstract void initUI(Bundle savedInstanceState);
+    protected abstract void initData(Bundle savedInstanceState);
+
+    /**
+     * 界面初始化
+     */
+    protected abstract void initUI();
 
 
     /**
@@ -114,7 +114,7 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        rootView=null;
+        rootView = null;
     }
 
     @Override

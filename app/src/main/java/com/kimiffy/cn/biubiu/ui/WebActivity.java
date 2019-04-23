@@ -43,7 +43,7 @@ public class WebActivity extends BaseActivity {
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
-    protected void initData() {
+    protected void initData(Bundle savedInstanceState) {
 //        wb.addJavascriptInterface(new JsInterRation(), "android");
         wb.setWebViewClient(new WebViewController());
         WebSettings webSettings = wb.getSettings();
@@ -83,7 +83,7 @@ public class WebActivity extends BaseActivity {
 
 
     @Override
-    protected void initUI(Bundle savedInstanceState) {
+    protected void initUI() {
 
     }
 //    @OnClick({R.id.button_1})

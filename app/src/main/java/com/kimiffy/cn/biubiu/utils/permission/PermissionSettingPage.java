@@ -61,7 +61,7 @@ final class PermissionSettingPage {
 
     private static Intent huawei(Context context) {
         Intent intent = new Intent();
-        intent.setComponent(new ComponentName("com.huawei.systemmanager", "com.huawei.permissionmanager.ui.MainActivity"));
+        intent.setComponent(new ComponentName("com.huawei.systemmanager", "com.huawei.permissionmanager.ui.TestActivity"));
         if (hasIntent(context, intent)) return intent;
         intent.setComponent(new ComponentName("com.huawei.systemmanager", "com.huawei.systemmanager.addviewmonitor.AddViewMonitorActivity"));
         if (hasIntent(context, intent)) return intent;

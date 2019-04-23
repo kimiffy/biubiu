@@ -19,7 +19,7 @@ public class StateViewProxy implements IStateView {
     /**
      * 返回被代理状态布局实例,可以调用状态布局提供的方法,修改自己的状态布局
      *
-     * @return
+     * @return  被代理状态布局实例
      */
     public IStateViewInterface getStateViewImpl() {
         return mStateViewImpl;

@@ -1,3 +1,22 @@
 <resources>
+
+    <!--全局-->
     <string name="app_name">BiuBiu</string>
+    <string name="home_title">首页</string>
+    <string name="system_title">体系</string>
+    <string name="we_chat_title">公众号</string>
+    <string name="project_title">项目</string>
+    <string name="me_title">我</string>
+
+
+    <!--首页-->
+
+
+
+    <!--体系-->
+
+
+
+    <!--公众号-->
+
 </resources>

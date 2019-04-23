@@ -50,7 +50,7 @@ public class ArticleListActivity extends BaseMVPActivity<ArticleListPresenter> i
     }
 
     @Override
-    protected void initData() {
+    protected void initData(Bundle savedInstanceState) {
         articleList = new ArrayList<>();
 
     }
@@ -61,7 +61,7 @@ public class ArticleListActivity extends BaseMVPActivity<ArticleListPresenter> i
     }
 
     @Override
-    protected void initUI(Bundle savedInstanceState) {
+    protected void initUI() {
         mAdapter = new ArticleListAdapter(R.layout.item_rlv_article, articleList);
         rlvArticle.setLayoutManager(new LinearLayoutManager(this));//布局管理器
         rlvArticle.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));//分割线

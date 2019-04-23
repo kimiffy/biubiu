@@ -61,9 +61,11 @@ ext {
             //web
             "agentweb"            : "com.just.agentweb:agentweb:4.0.2",
 
-            //ui
+            //di
             "butterknife"         : "com.jakewharton:butterknife:8.8.1",
             "butterknife-compiler": "com.jakewharton:butterknife-compiler:8.8.1",
+
+            //ui
             "brvah"               : "com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.46",
 
 
