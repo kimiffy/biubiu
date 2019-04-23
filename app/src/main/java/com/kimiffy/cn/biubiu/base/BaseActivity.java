@@ -52,14 +52,12 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     /**
      * 数据初始化
      *
-     * @param savedInstanceState
+     * @param savedInstanceState 保存的状态
      */
     protected abstract void initData(Bundle savedInstanceState);
 
     /**
      * 视图初始化
-     *
-     *
      */
     protected abstract void initUI();
 
@@ -95,7 +93,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     /**
      * 订阅事件
      *
-     * @param event
+     * @param event 事件
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventCome(Event event) {
@@ -107,7 +105,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     /**
      * 订阅粘性事件
      *
-     * @param event
+     * @param event 事件
      */
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     public void onStickyEventCome(Event event) {
@@ -167,7 +165,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
      * 携带数据的页面跳转
      *
      * @param clz    要跳转的Activity
-     * @param bundle
+     * @param bundle 需要传递的数据
      */
     public void startActivity(Class<?> clz, Bundle bundle) {
         Intent intent = new Intent();

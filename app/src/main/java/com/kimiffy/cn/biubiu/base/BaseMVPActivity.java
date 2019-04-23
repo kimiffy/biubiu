@@ -36,7 +36,7 @@ public abstract class BaseMVPActivity<P extends BasePresenter> extends BaseActiv
     /**
      * 创建Presenter
      *
-     * @return
+     * @return 子类实现具体的Presenter
      */
     protected abstract P createPresenter();
 
@@ -44,7 +44,7 @@ public abstract class BaseMVPActivity<P extends BasePresenter> extends BaseActiv
      * 设置状态view 根布局
      * 如果需要使用状态布局,必须重写该方法 返回需要展示状态布局的view
      *
-     * @return
+     * @return 状态view根布局
      */
     protected View getStateViewRootView() {
         return null;//默认不使用状态视图
@@ -53,7 +53,7 @@ public abstract class BaseMVPActivity<P extends BasePresenter> extends BaseActiv
     /**
      * 获取状态布局
      *
-     * @return
+     * @return 状态view
      */
     @Override
     public StateViewProxy getStateView() {
@@ -76,7 +76,7 @@ public abstract class BaseMVPActivity<P extends BasePresenter> extends BaseActiv
     /**
      * 创建状态布局
      *
-     * @return
+     * @return 状态View代理
      */
     protected StateViewProxy createStateView() {
         return new StateViewProxy();

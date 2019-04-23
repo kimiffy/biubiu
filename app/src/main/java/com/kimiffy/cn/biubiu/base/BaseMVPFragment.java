@@ -44,7 +44,7 @@ public abstract class BaseMVPFragment<P extends BasePresenter> extends BaseFragm
      * 设置状态view 根布局
      * 如果需要使用状态布局,必须重写该方法 返回需要展示状态布局的view
      *
-     * @return
+     * @return 状态view 根布局
      */
     protected View getStateViewRootView() {
         return null;//默认不使用状态视图
@@ -53,7 +53,7 @@ public abstract class BaseMVPFragment<P extends BasePresenter> extends BaseFragm
     /**
      * 创建状态布局
      *
-     * @return
+     * @return 状态View
      */
     @Override
     public StateViewProxy getStateView() {
@@ -74,7 +74,7 @@ public abstract class BaseMVPFragment<P extends BasePresenter> extends BaseFragm
     /**
      * 创建状态布局
      *
-     * @return
+     * @return 状态view 代理
      */
     protected StateViewProxy createStateView() {
         return new StateViewProxy();
@@ -93,7 +93,7 @@ public abstract class BaseMVPFragment<P extends BasePresenter> extends BaseFragm
     /**
      * 获取当前绑定的activity
      *
-     * @return
+     * @return 当前绑定的activity
      */
     @Override
     public Activity getBindActivity() {

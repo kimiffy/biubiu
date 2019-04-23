@@ -61,7 +61,7 @@ public abstract class BaseFragment extends Fragment {
     /**
      * 数据初始化
      *
-     * @param savedInstanceState
+     * @param savedInstanceState 保存的数据
      */
     protected abstract void initData(Bundle savedInstanceState);
 
@@ -151,7 +151,7 @@ public abstract class BaseFragment extends Fragment {
      * 携带数据的页面跳转
      *
      * @param clz    要跳转的Activity
-     * @param bundle
+     * @param bundle 需要传递的数据
      */
     public void startActivity(Class<?> clz, Bundle bundle) {
         Intent intent = new Intent();

@@ -95,7 +95,7 @@ public abstract class LazyMVPFragment<P extends BasePresenter> extends BaseFragm
     /**
      * 创建状态布局
      *
-     * @return
+     * @return 状态view
      */
     @Override
     public StateViewProxy getStateView() {
@@ -113,7 +113,7 @@ public abstract class LazyMVPFragment<P extends BasePresenter> extends BaseFragm
     /**
      * 创建状态布局
      *
-     * @return
+     * @return 状态view代理
      */
     protected StateViewProxy createStateView() {
         return new StateViewProxy();
