@@ -62,7 +62,7 @@ public class BasePresenter<V extends IBaseView> implements IPresenter<V> {
      */
     private void removeDisposable() {
         if (compositeDisposable != null) {
-            compositeDisposable.clear();//清空订阅,防止rxjava的内存泄露
+            compositeDisposable.clear();//清空订阅,防止内存泄露
             compositeDisposable = null;
         }
     }

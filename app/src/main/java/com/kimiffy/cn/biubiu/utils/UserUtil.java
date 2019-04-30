@@ -11,10 +11,14 @@ import com.kimiffy.cn.biubiu.constant.SpKey;
 
 public class UserUtil {
 
+    private UserUtil() {
+        throw new UnsupportedOperationException("u can't instantiate me...");
+    }
+
     /**
      * 用户是否登录了
      *
-     * @return
+     * @return 登录状态
      */
     public static boolean isUserLogin() {
         return !TextUtils.isEmpty(SpUtil.getString(SpKey.LOGIN_INFO, ""));

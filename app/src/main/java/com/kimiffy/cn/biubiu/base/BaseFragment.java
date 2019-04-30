@@ -49,6 +49,7 @@ public abstract class BaseFragment extends Fragment {
         initData(savedInstanceState);
         initUI();
         initEventBus();
+        setListener();
     }
 
     /**
@@ -69,6 +70,14 @@ public abstract class BaseFragment extends Fragment {
      * 界面初始化
      */
     protected abstract void initUI();
+
+    /**
+     * 设置监听
+     */
+    protected void setListener() {
+
+    }
+
 
 
     /**
@@ -166,7 +175,7 @@ public abstract class BaseFragment extends Fragment {
      * 页面跳转并要求获取返回结果
      *
      * @param clz         要跳转的Activity
-     * @param bundle      bundel数据
+     * @param bundle      bundle数据
      * @param requestCode requestCode
      */
     public void startActivityForResult(Class<?> clz, Bundle bundle, int requestCode) {

@@ -13,10 +13,15 @@ import com.kimiffy.cn.biubiu.app.MyApplication;
 
 public class ToastUtil {
 
+    private ToastUtil() {
+        throw new UnsupportedOperationException("u can't instantiate me...");
+    }
+
+
     /**
      * 显示位于底部的Toast
      *
-     * @param msg
+     * @param msg 内容
      */
     public static void showToast(String msg) {
         Toast.makeText(MyApplication.getInstance().getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
@@ -25,7 +30,7 @@ public class ToastUtil {
     /**
      * 显示位于底部的Toast
      *
-     * @param msg
+     * @param msg 内容
      */
     public static void showToast(Context context, String msg) {
         Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
@@ -34,7 +39,7 @@ public class ToastUtil {
     /**
      * 显示位于底部的Toast
      *
-     * @param msgId
+     * @param msgId 内容
      */
     public static void showToast(int msgId) {
         Toast.makeText(MyApplication.getInstance(), msgId, Toast.LENGTH_SHORT).show();
@@ -44,7 +49,7 @@ public class ToastUtil {
     /**
      * 显示位于中部的Toast
      *
-     * @param msg
+     * @param msg 内容
      */
     public static void showMidToast(String msg) {
         Toast toast = Toast.makeText(MyApplication.getInstance().getApplicationContext(), msg, Toast.LENGTH_SHORT);
@@ -55,8 +60,8 @@ public class ToastUtil {
     /**
      * 显示位于中部的Toast
      *
-     * @param context
-     * @param msg
+     * @param context 上下文
+     * @param msg 内容
      */
     public static void showMidToast(Context context, String msg) {
         Toast toast = Toast.makeText(context, msg, Toast.LENGTH_SHORT);
@@ -67,7 +72,7 @@ public class ToastUtil {
     /**
      * 显示位于中部的Toast
      *
-     * @param msgId
+     * @param msgId 内容
      */
     public static void showMidToast(int msgId) {
         Toast toast = Toast.makeText(MyApplication.getInstance().getApplicationContext(), msgId, Toast.LENGTH_SHORT);

@@ -1,5 +1,13 @@
 <resources>
 
+
+
+    <!--behavior-->
+    <string name="bnv_behavior">com.kimiffy.cn.biubiu.utils.behavior.BottomNavigationViewBehavior</string>
+
+
+
+
     <!--全局-->
     <string name="app_name">BiuBiu</string>
     <string name="home_title">首页</string>

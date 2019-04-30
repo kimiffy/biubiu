@@ -1,11 +1,11 @@
 package com.kimiffy.cn.biubiu.ui;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.text.TextUtils;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 
@@ -13,6 +13,7 @@ import com.kimiffy.cn.biubiu.R;
 import com.kimiffy.cn.biubiu.base.BaseActivity;
 import com.kimiffy.cn.biubiu.ui.home.HomeFragment;
 import com.kimiffy.cn.biubiu.utils.BottomNavigationViewHelper;
+import com.kimiffy.cn.biubiu.utils.LogUtil;
 
 import butterknife.BindView;
 
@@ -36,25 +37,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-        initFragments();
-        //恢复数据
-        if (null != savedInstanceState) {
-            String indexString = savedInstanceState.getString("lastIndex");
-            if (!TextUtils.isEmpty(indexString)) {
-                lastIndex = Integer.parseInt(indexString);
-            }
-        }
-    }
 
-    /**
-     * 初始化fragments
-     */
-    private void initFragments() {
-        mFragments[0] = HomeFragment.newInstance();
-        mFragments[1] = HomeFragment.newInstance();
-        mFragments[2] = HomeFragment.newInstance();
-        mFragments[3] = HomeFragment.newInstance();
-        mFragments[4] = HomeFragment.newInstance();
     }
 
     @Override
@@ -71,25 +54,27 @@ public class MainActivity extends BaseActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.navigation_home:
-                        selectFragment(0);
+                        switchFragment(0);
                         break;
                     case R.id.navigation_sys:
-                        selectFragment(1);
+                        switchFragment(1);
                         break;
                     case R.id.navigation_we_chat:
-                        selectFragment(2);
+                        switchFragment(2);
                         break;
                     case R.id.navigation_project:
-                        selectFragment(3);
+                        switchFragment(3);
                         break;
                     case R.id.navigation_me:
-                        selectFragment(4);
+                        switchFragment(4);
+                        break;
+                    default:
                         break;
                 }
                 return true;
             }
         });
-        setSelectedItemId(lastIndex);
+        setSelectedTab(lastIndex);
     }
 
     /**
@@ -97,7 +82,7 @@ public class MainActivity extends BaseActivity {
      *
      * @param lastIndex 上一次记录的下标
      */
-    private void setSelectedItemId(int lastIndex) {
+    private void setSelectedTab(int lastIndex) {
         switch (lastIndex) {
             case 0:
                 mBnvBar.setSelectedItemId(R.id.navigation_home);
@@ -114,36 +99,79 @@ public class MainActivity extends BaseActivity {
             case 4:
                 mBnvBar.setSelectedItemId(R.id.navigation_me);
                 break;
+            default:
+                break;
         }
     }
 
 
     /**
-     * 设置选中fragment
+     * 选择显示Fragment
      *
-     * @param index 下标
+     * @param position 下标
      */
-    private void selectFragment(int index) {
+    private void switchFragment(int position) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        Fragment currentFragment = mFragments[index];
-        Fragment lastFragment = mFragments[lastIndex];
-        lastIndex = index;
-        ft.hide(lastFragment);
-        if (!currentFragment.isAdded()) {
-            getSupportFragmentManager().beginTransaction().remove(currentFragment).commit();
-            ft.add(R.id.fl_content, currentFragment);
+        for (Fragment fragment : mFragments) {
+            if (null != fragment) {
+                ft.hide(fragment);
+            }
         }
-        ft.show(currentFragment);
-        ft.commitAllowingStateLoss();
+        Fragment fragment = mFragments[position];
+        if (null == fragment) {
+            mFragments[position] = createFragment(position);
+            ft.add(R.id.fl_content, mFragments[position]);
+        } else {
+            ft.show(fragment);
+        }
+        lastIndex = position;
+        ft.commit();
+    }
+
+    /**
+     * 实例化Fragment
+     * @param position 下标
+     * @return fragment
+     */
+    private Fragment createFragment(int position) {
+        Fragment fragment=null;
+        switch (position){
+            case 0:
+                fragment=HomeFragment.newInstance();
+                break;
+            case 1:
+                fragment=HomeFragment.newInstance();
+                break;
+            case 2:
+                fragment=HomeFragment.newInstance();
+                break;
+            case 3:
+                fragment=HomeFragment.newInstance();
+                break;
+            case 4:
+                fragment=HomeFragment.newInstance();
+                break;
+        }
+        return fragment;
+    }
+
+    @SuppressLint("MissingSuperCall")
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        //保存上一次显示的下标
+        outState.putInt("lastIndex", lastIndex);
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        //保存数据
-        outState.putString("lastIndex", lastIndex + "");
-
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        lastIndex = savedInstanceState.getInt("lastIndex");
+        setSelectedTab(lastIndex);
+        super.onRestoreInstanceState(savedInstanceState);
     }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mFragments = null;
+    }
 }

@@ -17,7 +17,7 @@ import java.util.List;
 
 public class ArticleListAdapter extends BaseQuickAdapter<ArticleBean.DatasBean, BaseViewHolder> {
 
-    ArticleListAdapter(int layoutResId, @Nullable List<ArticleBean.DatasBean> data) {
+    public ArticleListAdapter(int layoutResId, @Nullable List<ArticleBean.DatasBean> data) {
         super(layoutResId, data);
     }
 

@@ -15,6 +15,7 @@ import com.kimiffy.cn.biubiu.database.model.User_Table;
 import com.kimiffy.cn.biubiu.http.dowload.DownLoadListener;
 import com.kimiffy.cn.biubiu.http.dowload.DownLoadManager;
 import com.kimiffy.cn.biubiu.ui.articlelist.ArticleListActivity;
+import com.kimiffy.cn.biubiu.ui.login.LoginActivity;
 import com.kimiffy.cn.biubiu.utils.ToastUtil;
 import com.kimiffy.cn.biubiu.utils.aop.FilterType;
 import com.kimiffy.cn.biubiu.utils.aop.annotation.LoginFilter;
@@ -215,7 +216,7 @@ public class TestActivity extends BaseActivity {
     }
 
     private void login() {
-        startActivity(WebActivity.class);
+        startActivity(LoginActivity.class);
     }
 
 }

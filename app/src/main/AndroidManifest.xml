@@ -48,7 +48,6 @@
         <activity android:name=".ui.login.LoginActivity" />
         <activity android:name=".ui.articlelist.ArticleListActivity"/>
         <activity android:name=".ui.articledetail.ArticleDetailActivity"/>
-        <activity android:name=".ui.WebActivity"/>
     </application>
 
 </manifest>

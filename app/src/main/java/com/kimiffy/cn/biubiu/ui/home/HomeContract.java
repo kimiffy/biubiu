@@ -13,6 +13,8 @@ public class HomeContract {
 
     public interface Presenter extends IPresenter<HomeContract.View> {
 
+        void firstFresh();
+
         void refresh();
 
         void loadMore();
