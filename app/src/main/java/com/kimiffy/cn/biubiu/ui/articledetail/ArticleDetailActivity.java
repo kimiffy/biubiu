@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import com.just.agentweb.AgentWeb;
 import com.kimiffy.cn.biubiu.R;
 import com.kimiffy.cn.biubiu.base.BaseActivity;
+import com.kimiffy.cn.biubiu.constant.Key;
 
 import butterknife.BindView;
 
@@ -34,7 +35,7 @@ public class ArticleDetailActivity extends BaseActivity {
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            link = bundle.getString("link");
+            link = bundle.getString(Key.HOME_FRAGMENT_TO_ARTICLE);
         }
     }
 

@@ -2,7 +2,7 @@ package com.kimiffy.cn.biubiu.utils;
 
 import android.text.TextUtils;
 
-import com.kimiffy.cn.biubiu.constant.SpKey;
+import com.kimiffy.cn.biubiu.constant.Key;
 
 /**
  * Description:用户相关工具类
@@ -21,7 +21,7 @@ public class UserUtil {
      * @return 登录状态
      */
     public static boolean isUserLogin() {
-        return !TextUtils.isEmpty(SpUtil.getString(SpKey.LOGIN_INFO, ""));
+        return !TextUtils.isEmpty(SpUtil.getString(Key.LOGIN_INFO, ""));
     }
 
 }

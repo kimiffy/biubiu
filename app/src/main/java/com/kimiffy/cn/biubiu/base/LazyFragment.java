@@ -13,26 +13,22 @@ import android.view.View;
 public abstract class LazyFragment extends BaseFragment {
 
     /**
-     * rootView是否初始化标志，防止回调函数在rootView为空的时候触发
+     * rootView是否初始化标志
      */
     private boolean hasCreateView;
 
     /**
-     * 当前Fragment是否处于可见状态标志，防止因ViewPager的缓存机制而导致回调函数的触发
+     * 是否已经加载过数据
      */
-    private boolean isFragmentVisible;
+    private boolean isDataLoaded;
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        initVariable();
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         hasCreateView = true;
+        preLazyLoad();
     }
+
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
@@ -42,25 +38,14 @@ public abstract class LazyFragment extends BaseFragment {
         }
         if (isVisibleToUser) {
             preLazyLoad();
-            isFragmentVisible = true;
-        } else {
-            isFragmentVisible = false;
         }
 
     }
 
-    private void initVariable() {
-        hasCreateView = false;
-        isFragmentVisible = false;
-    }
-
-
     private void preLazyLoad() {
-        if (hasCreateView && isFragmentVisible) {
+        if (hasCreateView && getUserVisibleHint()&&!isDataLoaded) {
             lazyLoadData();
-            //数据加载完毕,恢复标记,防止重复加载
-            hasCreateView = false;
-            isFragmentVisible = false;
+            isDataLoaded=true;
         }
     }
 

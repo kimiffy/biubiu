@@ -10,12 +10,10 @@ ext {
     ]
 
     dependVersion = [
-            support: "27.1.1"
+            support: "27.1.1",
+            dbflow: "4.2.0"
     ]
-    //数据库依赖版本
-    dbflow_version = [
-            version: "4.2.0"
-    ]
+
     dependencies = [
             //android-support
             "appcompat-v7"        : "com.android.support:appcompat-v7:${dependVersion.support}",
@@ -41,9 +39,9 @@ ext {
             "eventbus"            : "org.greenrobot:eventbus:3.1.1",
 
             //dataBase
-            "dbflow"              : "com.github.Raizlabs.DBFlow:dbflow:${dbflow_version.version}",
-            "dbflow-processor"    : "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version.version}",
-            "dbflow-core"         : "com.github.Raizlabs.DBFlow:dbflow-core:${dbflow_version.version}",
+            "dbflow"              : "com.github.Raizlabs.DBFlow:dbflow:${dependVersion.dbflow}",
+            "dbflow-processor"    : "com.github.Raizlabs.DBFlow:dbflow-processor:${dependVersion.dbflow}",
+            "dbflow-core"         : "com.github.Raizlabs.DBFlow:dbflow-core:${dependVersion.dbflow}",
 
             //aop
             "aspectjrt"           : "org.aspectj:aspectjrt:1.8.13",

@@ -12,6 +12,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.kimiffy.cn.biubiu.R;
 import com.kimiffy.cn.biubiu.base.BaseMVPFragment;
 import com.kimiffy.cn.biubiu.bean.ArticleBean;
+import com.kimiffy.cn.biubiu.constant.Key;
 import com.kimiffy.cn.biubiu.ui.articledetail.ArticleDetailActivity;
 import com.kimiffy.cn.biubiu.ui.articlelist.ArticleListAdapter;
 import com.kimiffy.cn.biubiu.utils.ToastUtil;
@@ -90,7 +91,7 @@ public class HomeFragment extends BaseMVPFragment<HomePresenter> implements Home
                 ArticleBean.DatasBean bean = mAdapter.getData().get(position);
                 String link = bean.getLink();
                 Bundle bundle = new Bundle();
-                bundle.putString("link", link);
+                bundle.putString(Key.HOME_FRAGMENT_TO_ARTICLE, link);
                 startActivity(ArticleDetailActivity.class, bundle);
             }
         });

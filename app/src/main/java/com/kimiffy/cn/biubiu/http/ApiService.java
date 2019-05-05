@@ -3,7 +3,10 @@ package com.kimiffy.cn.biubiu.http;
 import com.kimiffy.cn.biubiu.base.BaseBean;
 import com.kimiffy.cn.biubiu.bean.ArticleBean;
 import com.kimiffy.cn.biubiu.bean.UserBean;
+import com.kimiffy.cn.biubiu.bean.WxTitleBean;
 import com.kimiffy.cn.biubiu.utils.AppUtils;
+
+import java.util.List;
 
 import io.reactivex.Observable;
 import retrofit2.http.Field;
@@ -51,4 +54,12 @@ public interface ApiService {
      */
     @GET("article/list/{page}/json")
     Observable<BaseBean<ArticleBean>> getArticleList(@Path("page") int num);
+
+
+    /**
+     * 获取 微信公众号列表
+     * @return
+     */
+    @GET("/wxarticle/chapters/json")
+    Observable<BaseBean<List<WxTitleBean>>> getWXList();
 }

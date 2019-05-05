@@ -1,12 +1,15 @@
 package com.kimiffy.cn.biubiu.base;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.kimiffy.cn.biubiu.base.contract.IBaseFragment;
+import com.kimiffy.cn.biubiu.utils.LogUtil;
 import com.kimiffy.cn.biubiu.utils.stateview.IStateView;
 import com.kimiffy.cn.biubiu.utils.stateview.StateViewProxy;
 
@@ -22,9 +25,9 @@ public abstract class LazyMVPFragment<P extends BasePresenter> extends BaseFragm
     private boolean hasCreateView;
 
     /**
-     * 当前Fragment是否处于可见状态标志，防止因ViewPager的缓存机制而导致回调函数的触发
+     * 是否已经加载过数据
      */
-    private boolean isFragmentVisible;
+    private boolean isDataLoaded;
 
     /**
      * 具体的presenter由子类确定
@@ -41,11 +44,6 @@ public abstract class LazyMVPFragment<P extends BasePresenter> extends BaseFragm
      */
     protected StateViewProxy mStateView;
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        initVariable();
-    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -54,7 +52,13 @@ public abstract class LazyMVPFragment<P extends BasePresenter> extends BaseFragm
             mPresenter.attach(this);
         }
         super.onViewCreated(view, savedInstanceState);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         hasCreateView = true;
+        preLazyLoad();
     }
 
     @Override
@@ -63,27 +67,15 @@ public abstract class LazyMVPFragment<P extends BasePresenter> extends BaseFragm
         if (rootView == null) {
             return;
         }
-        if (isVisibleToUser) {
+        if (getUserVisibleHint()) {
             preLazyLoad();
-            isFragmentVisible = true;
-        } else {
-            isFragmentVisible = false;
         }
-
     }
-
-    private void initVariable() {
-        hasCreateView = false;
-        isFragmentVisible = false;
-    }
-
 
     private void preLazyLoad() {
-        if (hasCreateView && isFragmentVisible) {
+        if (hasCreateView && getUserVisibleHint()&&!isDataLoaded) {
             lazyLoadData();
-            //数据加载完毕,恢复标记,防止重复加载
-            hasCreateView = false;
-            isFragmentVisible = false;
+            isDataLoaded=true;
         }
     }
 
@@ -91,6 +83,17 @@ public abstract class LazyMVPFragment<P extends BasePresenter> extends BaseFragm
      * 懒加载数据
      */
     protected abstract void lazyLoadData();
+
+    /**
+     * 获取当前绑定的activity
+     *
+     * @return 当前绑定的activity
+     */
+    @Override
+    public Activity getBindActivity() {
+        return mActivity;
+    }
+
 
     /**
      * 创建状态布局

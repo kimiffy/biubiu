@@ -11,7 +11,9 @@ import android.widget.FrameLayout;
 
 import com.kimiffy.cn.biubiu.R;
 import com.kimiffy.cn.biubiu.base.BaseActivity;
+import com.kimiffy.cn.biubiu.constant.Key;
 import com.kimiffy.cn.biubiu.ui.home.HomeFragment;
+import com.kimiffy.cn.biubiu.ui.wechat.WeChatMainFragment;
 import com.kimiffy.cn.biubiu.utils.BottomNavigationViewHelper;
 import com.kimiffy.cn.biubiu.utils.LogUtil;
 
@@ -143,7 +145,7 @@ public class MainActivity extends BaseActivity {
                 fragment=HomeFragment.newInstance();
                 break;
             case 2:
-                fragment=HomeFragment.newInstance();
+                fragment= WeChatMainFragment.newInstance();
                 break;
             case 3:
                 fragment=HomeFragment.newInstance();
@@ -159,12 +161,12 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         //保存上一次显示的下标
-        outState.putInt("lastIndex", lastIndex);
+        outState.putInt(Key.MAIN_ACTIVITY_STATE_LAST_INDEX, lastIndex);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        lastIndex = savedInstanceState.getInt("lastIndex");
+        lastIndex = savedInstanceState.getInt(Key.MAIN_ACTIVITY_STATE_LAST_INDEX);
         setSelectedTab(lastIndex);
         super.onRestoreInstanceState(savedInstanceState);
     }
