@@ -3,6 +3,7 @@ package com.kimiffy.cn.biubiu.http;
 import com.kimiffy.cn.biubiu.base.BaseBean;
 import com.kimiffy.cn.biubiu.bean.ArticleBean;
 import com.kimiffy.cn.biubiu.bean.UserBean;
+import com.kimiffy.cn.biubiu.bean.WxArticleListBean;
 import com.kimiffy.cn.biubiu.bean.WxTitleBean;
 import com.kimiffy.cn.biubiu.utils.AppUtils;
 
@@ -55,11 +56,20 @@ public interface ApiService {
     @GET("article/list/{page}/json")
     Observable<BaseBean<ArticleBean>> getArticleList(@Path("page") int num);
 
-
     /**
      * 获取 微信公众号列表
      * @return
      */
     @GET("/wxarticle/chapters/json")
     Observable<BaseBean<List<WxTitleBean>>> getWXList();
+
+
+    /**
+     *  获取 微信公众号详细信息列表数据
+     * @param page 页码
+     * @param id 公众号ID
+     * @return
+     */
+    @GET("wxarticle/list/{id}/{page}/json")
+    Observable<BaseBean<WxArticleListBean>> getWxArticleList( @Path("id")int id,@Path("page") int page );
 }

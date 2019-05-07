@@ -4,12 +4,9 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.kimiffy.cn.biubiu.base.contract.IBaseFragment;
-import com.kimiffy.cn.biubiu.utils.LogUtil;
 import com.kimiffy.cn.biubiu.utils.stateview.IStateView;
 import com.kimiffy.cn.biubiu.utils.stateview.StateViewProxy;
 
@@ -18,16 +15,19 @@ import com.kimiffy.cn.biubiu.utils.stateview.StateViewProxy;
  * Created by kimiffy on 2019/3/13.
  */
 
-public abstract class LazyMVPFragment<P extends BasePresenter> extends BaseFragment implements IBaseFragment , IStateView {
-    /**
-     * rootView是否初始化标志，防止回调函数在rootView为空的时候触发
-     */
-    private boolean hasCreateView;
+public abstract class LazyMVPFragment<P extends BasePresenter> extends BaseFragment implements IBaseFragment, IStateView {
 
     /**
-     * 是否已经加载过数据
+     * fragment是否可见
      */
-    private boolean isDataLoaded;
+    private boolean isFragmentVisible;
+
+
+    /**
+     * fragment 是否是第一次可见
+     */
+    private boolean isFirstVisible;
+
 
     /**
      * 具体的presenter由子类确定
@@ -46,6 +46,17 @@ public abstract class LazyMVPFragment<P extends BasePresenter> extends BaseFragm
 
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        initVariable();
+    }
+
+    private void initVariable() {
+        isFirstVisible = true;
+        isFragmentVisible = false;
+    }
+
+    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         mPresenter = createPresenter();
         if (mPresenter != null) {
@@ -57,8 +68,14 @@ public abstract class LazyMVPFragment<P extends BasePresenter> extends BaseFragm
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        hasCreateView = true;
-        preLazyLoad();
+        if (getUserVisibleHint()) {
+            if (isFirstVisible) {
+                onLazyLoad();
+                isFirstVisible = false;
+            }
+            onFragmentVisibleChange(true);
+            isFragmentVisible = true;
+        }
     }
 
     @Override
@@ -67,22 +84,32 @@ public abstract class LazyMVPFragment<P extends BasePresenter> extends BaseFragm
         if (rootView == null) {
             return;
         }
-        if (getUserVisibleHint()) {
-            preLazyLoad();
+        if (isFirstVisible && isVisibleToUser) {
+            onLazyLoad();
+            isFirstVisible = false;
+        }
+        if (isVisibleToUser) {
+            onFragmentVisibleChange(true);
+            isFragmentVisible = true;
+            return;
+        }
+        if (isFragmentVisible) {
+            isFragmentVisible = false;
+            onFragmentVisibleChange(false);
         }
     }
 
-    private void preLazyLoad() {
-        if (hasCreateView && getUserVisibleHint()&&!isDataLoaded) {
-            lazyLoadData();
-            isDataLoaded=true;
-        }
-    }
 
     /**
-     * 懒加载数据
+     * 设置状态view 根布局
+     * 如果需要使用状态布局,必须重写该方法 返回需要展示状态布局的view
+     *
+     * @return 状态view根布局
      */
-    protected abstract void lazyLoadData();
+    protected View getStateViewRootView() {
+        return null;//默认不使用状态视图
+    }
+
 
     /**
      * 获取当前绑定的activity
@@ -109,8 +136,11 @@ public abstract class LazyMVPFragment<P extends BasePresenter> extends BaseFragm
     }
 
     private void initStateView() {
-        mStateView = createStateView();
-        mStateView.getStateViewImpl().setRootView(mActivity);
+        View rootView = getStateViewRootView();
+        if (null != rootView) {
+            mStateView = createStateView();
+            mStateView.getStateViewImpl().setRootView(rootView);
+        }
     }
 
     /**
@@ -123,39 +153,90 @@ public abstract class LazyMVPFragment<P extends BasePresenter> extends BaseFragm
     }
 
 
-
     @Override
     public void onDestroy() {
         super.onDestroy();
         if (mPresenter != null) {
             mPresenter.detach();
         }
+        if (null != mStateView) {
+            mStateView.getStateViewImpl().clean();
+            mStateView = null;
+        }
+        initVariable();
     }
 
 
+    /**
+     * 保证只有当fragment可见状态发生变化时回调
+     * 回调时机在view创建完后，所以支持ui操作，解决在setUserVisibleHint()里进行ui操作有可能报null异常的问题
+     *
+     * 可在该回调方法里进行一些ui显示与隐藏
+     *
+     * @param isVisible true  不可见 -> 可见
+     *                  false 可见  -> 不可见
+     */
+    protected void onFragmentVisibleChange(boolean isVisible) {
+
+    }
+
+    /**
+     * 在fragment首次可见时回调，可用于加载数据，防止每次进入都重复加载数据
+     */
+    protected abstract void onLazyLoad();
+
+
+    /**
+     * fragment 是否可见
+     *
+     * @return
+     */
+    protected boolean isFragmentVisible() {
+        return isFragmentVisible;
+    }
+
     @Override
     public void showContent() {
-        getStateView().showContent();
+
+        StateViewProxy stateView = getStateView();
+        if (null != stateView) {
+            stateView.showContent();
+        }
+
     }
 
     @Override
     public void showDataError() {
-        getStateView().showDataError();
+        StateViewProxy stateView = getStateView();
+        if (null != stateView) {
+            stateView.showDataError();
+        }
     }
 
     @Override
     public void showDataEmpty() {
-        getStateView().showDataEmpty();
+        StateViewProxy stateView = getStateView();
+        if (null != stateView) {
+            stateView.showDataEmpty();
+        }
+
     }
 
     @Override
     public void showNetError() {
-        getStateView().showNetError();
+        StateViewProxy stateView = getStateView();
+        if (null != stateView) {
+            stateView.showNetError();
+        }
+
     }
 
     @Override
     public void showLoading() {
-        getStateView().showLoading();
+        StateViewProxy stateView = getStateView();
+        if (null != stateView) {
+            stateView.showLoading();
+        }
     }
 
 }

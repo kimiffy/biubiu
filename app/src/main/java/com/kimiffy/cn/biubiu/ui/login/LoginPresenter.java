@@ -1,6 +1,5 @@
 package com.kimiffy.cn.biubiu.ui.login;
 
-import com.google.gson.Gson;
 import com.kimiffy.cn.biubiu.base.BaseBean;
 import com.kimiffy.cn.biubiu.base.BasePresenter;
 import com.kimiffy.cn.biubiu.bean.UserBean;
@@ -27,7 +26,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
             @Override
             public void onSuccess(BaseBean<UserBean> bean) {
                 String userInfo = GsonUtil.toJson(bean);
-                SpUtil.putString(Key.LOGIN_INFO, userInfo);
+                SpUtil.putString(Key.PREF_LOGIN_INFO, userInfo);
                 mView.loginSuccess(bean.data);
             }
 
@@ -41,7 +40,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
 
     @Override
     public void loginOut() {
-        SpUtil.putString(Key.LOGIN_INFO, "");
+        SpUtil.putString(Key.PREF_LOGIN_INFO, "");
     }
 
 }

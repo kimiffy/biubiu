@@ -35,7 +35,7 @@ public class ArticleDetailActivity extends BaseActivity {
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            link = bundle.getString(Key.HOME_FRAGMENT_TO_ARTICLE);
+            link = bundle.getString(Key.BUNDLE_LINK);
         }
     }
 

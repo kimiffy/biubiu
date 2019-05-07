@@ -9,6 +9,7 @@ import com.kimiffy.cn.biubiu.R;
 import com.kimiffy.cn.biubiu.base.BaseMVPFragment;
 import com.kimiffy.cn.biubiu.bean.WxTitleBean;
 import com.kimiffy.cn.biubiu.ui.wechat.tab.WeChatTabFragment;
+import com.kimiffy.cn.biubiu.utils.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,12 +60,6 @@ public class WeChatMainFragment extends BaseMVPFragment<WeChatMainPresenter> imp
         mPresenter.getWxList();
     }
 
-
-    @Override
-    protected void setListener() {
-
-    }
-
     @Override
     public void getWxListSuccess(List<WxTitleBean> bean) {
         mFragments.clear();
@@ -80,7 +75,7 @@ public class WeChatMainFragment extends BaseMVPFragment<WeChatMainPresenter> imp
 
     @Override
     public void getWxListFail(String info) {
-
+        ToastUtil.showToast(info);
     }
 
 

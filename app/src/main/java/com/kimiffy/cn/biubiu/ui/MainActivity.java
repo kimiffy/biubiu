@@ -15,7 +15,6 @@ import com.kimiffy.cn.biubiu.constant.Key;
 import com.kimiffy.cn.biubiu.ui.home.HomeFragment;
 import com.kimiffy.cn.biubiu.ui.wechat.WeChatMainFragment;
 import com.kimiffy.cn.biubiu.utils.BottomNavigationViewHelper;
-import com.kimiffy.cn.biubiu.utils.LogUtil;
 
 import butterknife.BindView;
 
@@ -161,12 +160,12 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         //保存上一次显示的下标
-        outState.putInt(Key.MAIN_ACTIVITY_STATE_LAST_INDEX, lastIndex);
+        outState.putInt(Key.BUNDLE_STATE_LAST_INDEX, lastIndex);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        lastIndex = savedInstanceState.getInt(Key.MAIN_ACTIVITY_STATE_LAST_INDEX);
+        lastIndex = savedInstanceState.getInt(Key.BUNDLE_STATE_LAST_INDEX);
         setSelectedTab(lastIndex);
         super.onRestoreInstanceState(savedInstanceState);
     }

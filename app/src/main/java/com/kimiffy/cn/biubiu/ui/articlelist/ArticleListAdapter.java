@@ -7,6 +7,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.kimiffy.cn.biubiu.R;
 import com.kimiffy.cn.biubiu.bean.ArticleBean;
+import com.kimiffy.cn.biubiu.utils.StringUtil;
 
 import java.util.List;
 
@@ -24,7 +25,8 @@ public class ArticleListAdapter extends BaseQuickAdapter<ArticleBean.DatasBean, 
     @Override
     protected void convert(BaseViewHolder helper, ArticleBean.DatasBean item) {
         if (!TextUtils.isEmpty(item.getTitle())) {
-            helper.setText(R.id.tv_title, item.getTitle());
+            String format = StringUtil.format(item.getTitle());
+            helper.setText(R.id.tv_title, format);
         }
         if (!TextUtils.isEmpty(item.getSuperChapterName())) {
             helper.setText(R.id.tv_parent_type, item.getSuperChapterName() + "/");

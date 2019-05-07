@@ -30,14 +30,14 @@ public class WeChatMainPresenter extends BasePresenter<WeChatMainContract.View> 
             public void onSuccess(BaseBean<List<WxTitleBean>> bean) {
                 List<WxTitleBean> data = bean.data;
                 String WxTabList= GsonUtil.toJson(data);
-                SpUtil.putString(Key.WX_TAB_LIST,WxTabList);
+                SpUtil.putString(Key.PREF_WX_TAB_LIST,WxTabList);
                 mView.getWxListSuccess(data);
 
             }
 
             @Override
             public void onFailure(String msg, ErrorType errorType) {
-                String json = SpUtil.getString(Key.WX_TAB_LIST, "");
+                String json = SpUtil.getString(Key.PREF_WX_TAB_LIST, "");
                 List<WxTitleBean> list = GsonUtil.toList(json, WxTitleBean.class);
                 if(null!=list){
                     mView.getWxListSuccess(list);

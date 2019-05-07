@@ -6,19 +6,21 @@ package com.kimiffy.cn.biubiu.constant;
  */
 
 public class Key {
-    //SP key
-    public static final String LOGIN_INFO="login_info";
-    public static final String WX_TAB_LIST="wx_tab_list";
+
+    //SP
+    public static final String PREF_LOGIN_INFO ="PREF_LOGIN_INFO";
+    public static final String PREF_WX_TAB_LIST ="PREF_WX_TAB_LIST";
+
+    //bundle
+    public static final String BUNDLE_LINK ="BUNDLE_LINK";
+    public static final String BUNDLE_STATE_LAST_INDEX ="BUNDLE_STATE_LAST_INDEX";
 
 
 
-    //传值 key
-    public static final String HOME_FRAGMENT_TO_ARTICLE="link";
-    public static final String WE_CHAT_TAB_FRAGMENT_ID = "id";
+    //argument
+    public static final String ARGUMENT_ID = "ARGUMENT_ID";
 
 
-    //存贮 key
-    public static final String MAIN_ACTIVITY_STATE_LAST_INDEX="lastIndex";
 
 
 

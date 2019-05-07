@@ -1,6 +1,5 @@
 package com.kimiffy.cn.biubiu.ui.home;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
@@ -91,7 +90,7 @@ public class HomeFragment extends BaseMVPFragment<HomePresenter> implements Home
                 ArticleBean.DatasBean bean = mAdapter.getData().get(position);
                 String link = bean.getLink();
                 Bundle bundle = new Bundle();
-                bundle.putString(Key.HOME_FRAGMENT_TO_ARTICLE, link);
+                bundle.putString(Key.BUNDLE_LINK, link);
                 startActivity(ArticleDetailActivity.class, bundle);
             }
         });

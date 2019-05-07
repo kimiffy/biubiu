@@ -21,7 +21,7 @@ public class UserUtil {
      * @return 登录状态
      */
     public static boolean isUserLogin() {
-        return !TextUtils.isEmpty(SpUtil.getString(Key.LOGIN_INFO, ""));
+        return !TextUtils.isEmpty(SpUtil.getString(Key.PREF_LOGIN_INFO, ""));
     }
 
 }
