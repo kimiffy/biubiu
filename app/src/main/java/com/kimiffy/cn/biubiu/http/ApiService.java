@@ -72,4 +72,19 @@ public interface ApiService {
      */
     @GET("wxarticle/list/{id}/{page}/json")
     Observable<BaseBean<WxArticleListBean>> getWxArticleList( @Path("id")int id,@Path("page") int page );
+
+
+    /**
+     * 收藏文章
+     * @param id
+     */
+    @POST("lg/collect/{id}/json")
+    Observable<BaseBean> collectArticle(@Path("id") int id);
+
+    /**
+     *  取消收藏文章
+     * @param id id
+     */
+    @POST("lg/uncollect_originId/{id}/json")
+    Observable<BaseBean> unCollectArticle(@Path("id") int id);
 }

@@ -63,13 +63,15 @@ public abstract class BaseMVPFragment<P extends BasePresenter> extends BaseFragm
         return mStateView;
     }
 
-    private void initStateView() {
+    @Override
+    protected void initStateView() {
         View rootView = getStateViewRootView();
         if (null != rootView) {
             mStateView = createStateView();
             mStateView.getStateViewImpl().setRootView(rootView);
         }
     }
+
 
     /**
      * 创建状态布局

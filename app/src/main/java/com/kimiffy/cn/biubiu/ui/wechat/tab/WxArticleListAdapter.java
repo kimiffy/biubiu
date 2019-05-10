@@ -1,5 +1,6 @@
 package com.kimiffy.cn.biubiu.ui.wechat.tab;
 
+import android.app.Activity;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
@@ -18,9 +19,11 @@ import java.util.List;
 
 public class WxArticleListAdapter extends BaseQuickAdapter<WxArticleListBean.DatasBean, BaseViewHolder> {
 
+    private Activity mActivity;
 
-    WxArticleListAdapter(int layoutResId, @Nullable List<WxArticleListBean.DatasBean> data) {
+    WxArticleListAdapter(Activity activity, int layoutResId, @Nullable List<WxArticleListBean.DatasBean> data) {
         super(layoutResId, data);
+        this.mActivity = activity;
     }
 
     @Override
@@ -32,13 +35,21 @@ public class WxArticleListAdapter extends BaseQuickAdapter<WxArticleListBean.Dat
             helper.setText(R.id.tv_date, item.getNiceDate());
         }
         if (!TextUtils.isEmpty(item.getTitle())) {
-            String format = StringUtil.format(item.getTitle());
+            CharSequence format = StringUtil.formatTitle(item.getTitle());
             helper.setText(R.id.tv_title, format);
         }
         if (!TextUtils.isEmpty(item.getChapterName()) && !TextUtils.isEmpty(item.getSuperChapterName())) {
+
             helper.setText(R.id.tv_chapter, item.getSuperChapterName() + " / " + item.getChapterName());
         }
 
+        boolean collect = item.isCollect();
+        if (collect) {
+            helper.setImageDrawable(R.id.iv_collect, mActivity.getResources().getDrawable(R.drawable.ic_collect));
+        } else {
+            helper.setImageDrawable(R.id.iv_collect, mActivity.getResources().getDrawable(R.drawable.ic_collect_normal));
+        }
+        helper.addOnClickListener(R.id.iv_collect);
 
     }
 }

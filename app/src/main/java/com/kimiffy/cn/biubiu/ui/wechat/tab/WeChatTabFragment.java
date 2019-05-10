@@ -6,12 +6,17 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.kimiffy.cn.biubiu.R;
 import com.kimiffy.cn.biubiu.base.LazyMVPFragment;
 import com.kimiffy.cn.biubiu.bean.WxArticleListBean;
 import com.kimiffy.cn.biubiu.constant.Key;
+import com.kimiffy.cn.biubiu.utils.ToastUtil;
+import com.kimiffy.cn.biubiu.utils.aop.FilterType;
+import com.kimiffy.cn.biubiu.utils.aop.annotation.LoginFilter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,13 +64,13 @@ public class WeChatTabFragment extends LazyMVPFragment<WeChatTabPresenter> imple
         if (null != arguments) {
             id = arguments.getInt(Key.ARGUMENT_ID, -1);
         }
-        mList =new ArrayList<>();
+        mList = new ArrayList<>();
     }
 
     @Override
     protected void initUI() {
-        mSrlRefresh.setColorSchemeColors(getResources().getColor(R.color.md_blue_A200),getResources().getColor(R.color.md_blue_A400));
-        mAdapter = new WxArticleListAdapter(R.layout.item_rlv_wx_article, mList);
+        mSrlRefresh.setColorSchemeColors(getResources().getColor(R.color.md_blue_A200), getResources().getColor(R.color.md_blue_A400));
+        mAdapter = new WxArticleListAdapter(mActivity, R.layout.item_rlv_wx_article, mList);
         mRlvArticle.setLayoutManager(new LinearLayoutManager(getBindActivity()));
         mRlvArticle.addItemDecoration(new DividerItemDecoration(getBindActivity(), LinearLayoutManager.VERTICAL));
         mRlvArticle.setAdapter(mAdapter);
@@ -88,16 +93,56 @@ public class WeChatTabFragment extends LazyMVPFragment<WeChatTabPresenter> imple
             }
         }, mRlvArticle);
 
+        mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
+                WxArticleListBean.DatasBean item = (WxArticleListBean.DatasBean) baseQuickAdapter.getData().get(i);
+                switch (view.getId()) {
+                    case R.id.iv_collect:
+                        collectClick((ImageView) view, item,i);
+                        break;
+                        default:
+                            break;
+                }
+            }
+        });
+
+        mStateView.getStateViewImpl().setRetryListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ToastUtil.showToast("点击重试!");
+            }
+        });
+    }
+
+    /**
+     * 收藏/取消收藏
+     */
+    @LoginFilter(FilterType.JUMP)
+    private void collectClick(ImageView view, WxArticleListBean.DatasBean item,int position) {
+        boolean collect = item.isCollect();
+        if (collect) {
+            view.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_collect_normal));
+            view.startAnimation(AnimationUtils.loadAnimation(mActivity, R.anim.collect));
+            mPresenter.unCollect(item.getId(),position);
+        } else {
+            view.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_collect));
+            view.startAnimation(AnimationUtils.loadAnimation(mActivity, R.anim.collect));
+            mPresenter.doCollect(item.getId(),position);
+        }
     }
 
     @Override
-    protected void onFragmentVisibleChange(boolean isVisible) {
-
+    protected void onVisibleStateChange(boolean isVisible) {
+        if (!isVisible) {
+            mSrlRefresh.setRefreshing(false);
+        }
     }
 
     @Override
     protected void onLazyLoad() {
-        mPresenter.getData(id,1);
+        mSrlRefresh.setRefreshing(true);
+        mPresenter.firstFresh(id);
     }
 
 
@@ -107,25 +152,52 @@ public class WeChatTabFragment extends LazyMVPFragment<WeChatTabPresenter> imple
     }
 
     @Override
-    public void getDataSuccess(WxArticleListBean bean,boolean isRefresh) {
+    public void getDataSuccess(WxArticleListBean bean, boolean isRefresh) {
         List<WxArticleListBean.DatasBean> datas = bean.getDatas();
         if (isRefresh) {
             mList = datas;
             mAdapter.replaceData(mList);
-            mSrlRefresh.setRefreshing(false);
         } else {
-            if(!datas.isEmpty()){
+            if (!datas.isEmpty()) {
                 mAdapter.addData(datas);
                 mAdapter.loadMoreComplete();
-            }else{
+            } else {
                 mAdapter.loadMoreEnd();
             }
         }
+        mSrlRefresh.setRefreshing(false);
     }
 
     @Override
     public void getDataFail(String info) {
         mSrlRefresh.setRefreshing(false);
     }
+
+
+
+    @Override
+    public void collectSuccess(int position) {
+        mAdapter.getData().get(position).setCollect(true);
+        mAdapter.notifyItemChanged(position);
+    }
+
+    @Override
+    public void collectFail(int position, String msg) {
+        mAdapter.getData().get(position).setCollect(false);
+        mAdapter.notifyItemChanged(position);
+    }
+
+    @Override
+    public void unCollectSuccess(int position) {
+        mAdapter.getData().get(position).setCollect(false);
+        mAdapter.notifyItemChanged(position);
+    }
+
+    @Override
+    public void unCollectFail(int position, String msg) {
+        mAdapter.getData().get(position).setCollect(true);
+        mAdapter.notifyItemChanged(position);
+    }
+
 
 }

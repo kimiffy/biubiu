@@ -5,6 +5,7 @@ import com.kimiffy.cn.biubiu.base.BasePresenter;
 import com.kimiffy.cn.biubiu.bean.ArticleBean;
 import com.kimiffy.cn.biubiu.http.callback.BaseObserver;
 import com.kimiffy.cn.biubiu.http.exception.ErrorType;
+import com.kimiffy.cn.biubiu.utils.LogUtil;
 
 import java.util.List;
 
@@ -61,6 +62,7 @@ public class ArticleListPresenter extends BasePresenter<ArticleListContract.View
             @Override
             public void onFailure(String msg, ErrorType errorType) {
                 if (isFirstTimeLoadData) {
+                    LogUtil.d("errorType" +errorType.ordinal());
                     if (errorType.ordinal() == 0) {
                         mView.showNetError();
                     } else {

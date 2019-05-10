@@ -9,6 +9,10 @@ import android.content.Context;
 
 public class ResourceUtil {
 
+    private ResourceUtil() {
+        throw new UnsupportedOperationException("u can't instantiate me...");
+    }
+
     /**
      * 获取id 资源的ID
      * @param context

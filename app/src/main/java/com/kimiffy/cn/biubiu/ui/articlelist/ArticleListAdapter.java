@@ -25,7 +25,7 @@ public class ArticleListAdapter extends BaseQuickAdapter<ArticleBean.DatasBean, 
     @Override
     protected void convert(BaseViewHolder helper, ArticleBean.DatasBean item) {
         if (!TextUtils.isEmpty(item.getTitle())) {
-            String format = StringUtil.format(item.getTitle());
+            CharSequence format = StringUtil.formatTitle(item.getTitle());
             helper.setText(R.id.tv_title, format);
         }
         if (!TextUtils.isEmpty(item.getSuperChapterName())) {

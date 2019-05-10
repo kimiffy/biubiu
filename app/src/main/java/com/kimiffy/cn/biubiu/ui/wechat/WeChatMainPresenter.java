@@ -39,7 +39,7 @@ public class WeChatMainPresenter extends BasePresenter<WeChatMainContract.View> 
             public void onFailure(String msg, ErrorType errorType) {
                 String json = SpUtil.getString(Key.PREF_WX_TAB_LIST, "");
                 List<WxTitleBean> list = GsonUtil.toList(json, WxTitleBean.class);
-                if(null!=list){
+                if(null!=list&&!list.isEmpty()){
                     mView.getWxListSuccess(list);
                 }else{
                     mView.getWxListFail(msg);

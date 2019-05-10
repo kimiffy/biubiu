@@ -1,10 +1,7 @@
 package com.kimiffy.cn.biubiu.base;
 
-import android.app.Activity;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.view.View;
 
 import com.kimiffy.cn.biubiu.utils.stateview.StateViewProxy;
 
@@ -46,7 +43,7 @@ public abstract class LazyFragment extends BaseFragment {
                 onLazyLoad();
                 isFirstVisible = false;
             }
-            onFragmentVisibleChange(true);
+            onVisibleStateChange(true);
             isFragmentVisible = true;
         }
     }
@@ -62,13 +59,13 @@ public abstract class LazyFragment extends BaseFragment {
             isFirstVisible = false;
         }
         if (isVisibleToUser) {
-            onFragmentVisibleChange(true);
+            onVisibleStateChange(true);
             isFragmentVisible = true;
             return;
         }
         if (isFragmentVisible) {
             isFragmentVisible = false;
-            onFragmentVisibleChange(false);
+            onVisibleStateChange(false);
         }
     }
 
@@ -98,7 +95,7 @@ public abstract class LazyFragment extends BaseFragment {
      * @param isVisible true  不可见 -> 可见
      *                  false 可见  -> 不可见
      */
-    protected void onFragmentVisibleChange(boolean isVisible) {
+    protected void onVisibleStateChange(boolean isVisible) {
 
     }
 

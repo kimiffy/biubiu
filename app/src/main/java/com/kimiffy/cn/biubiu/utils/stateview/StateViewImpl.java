@@ -165,6 +165,16 @@ public class StateViewImpl extends BaseStateView implements IStateView {
                 listener.onClick(v);
             }
         });
+
+        View error = getStateViewByCode(STATUS_NET_ERROR);
+        error.findViewById(R.id.tv_net_error).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onClick(v);
+            }
+        });
+
+
     }
 
     @Override

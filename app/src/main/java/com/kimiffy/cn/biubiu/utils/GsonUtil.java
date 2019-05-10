@@ -1,5 +1,7 @@
 package com.kimiffy.cn.biubiu.utils;
 
+import android.text.TextUtils;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -73,6 +75,9 @@ public class GsonUtil {
     public static <T> List<T> toList(String json, Class<T> cls) {
         Gson gson = new Gson();
         List<T> list = new ArrayList<T>();
+        if(TextUtils.isEmpty(json)){
+            return list;
+        }
         JsonArray array = new JsonParser().parse(json).getAsJsonArray();
         for (final JsonElement elem : array) {
             list.add(gson.fromJson(elem, cls));

@@ -5,6 +5,7 @@ import android.os.Handler;
 import com.kimiffy.cn.biubiu.base.BaseBean;
 import com.kimiffy.cn.biubiu.base.BasePresenter;
 import com.kimiffy.cn.biubiu.bean.ArticleBean;
+import com.kimiffy.cn.biubiu.constant.Config;
 import com.kimiffy.cn.biubiu.http.callback.BaseObserver;
 import com.kimiffy.cn.biubiu.http.exception.ErrorType;
 
@@ -31,7 +32,7 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
             public void run() {
                 refresh();
             }
-        },400);
+        }, Config.LOAD_DELAY_TIME);
 
     }
 

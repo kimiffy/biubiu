@@ -73,7 +73,7 @@ public abstract class LazyMVPFragment<P extends BasePresenter> extends BaseFragm
                 onLazyLoad();
                 isFirstVisible = false;
             }
-            onFragmentVisibleChange(true);
+            onVisibleStateChange(true);
             isFragmentVisible = true;
         }
     }
@@ -89,13 +89,13 @@ public abstract class LazyMVPFragment<P extends BasePresenter> extends BaseFragm
             isFirstVisible = false;
         }
         if (isVisibleToUser) {
-            onFragmentVisibleChange(true);
+            onVisibleStateChange(true);
             isFragmentVisible = true;
             return;
         }
         if (isFragmentVisible) {
             isFragmentVisible = false;
-            onFragmentVisibleChange(false);
+            onVisibleStateChange(false);
         }
     }
 
@@ -135,7 +135,8 @@ public abstract class LazyMVPFragment<P extends BasePresenter> extends BaseFragm
         return mStateView;
     }
 
-    private void initStateView() {
+    @Override
+    protected void initStateView() {
         View rootView = getStateViewRootView();
         if (null != rootView) {
             mStateView = createStateView();
@@ -176,7 +177,7 @@ public abstract class LazyMVPFragment<P extends BasePresenter> extends BaseFragm
      * @param isVisible true  不可见 -> 可见
      *                  false 可见  -> 不可见
      */
-    protected void onFragmentVisibleChange(boolean isVisible) {
+    protected void onVisibleStateChange(boolean isVisible) {
 
     }
 

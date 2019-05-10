@@ -2,6 +2,7 @@ package com.kimiffy.cn.biubiu.http;
 
 import com.kimiffy.cn.biubiu.app.MyApplication;
 import com.kimiffy.cn.biubiu.constant.Config;
+import com.kimiffy.cn.biubiu.http.cookie.CookiesManager;
 import com.kimiffy.cn.biubiu.http.interceptor.HeaderInterceptor;
 import com.kimiffy.cn.biubiu.http.interceptor.LogInterceptor;
 import com.kimiffy.cn.biubiu.http.interceptor.NetCacheInterceptor;
@@ -50,7 +51,8 @@ public class ApiManager {
                 .writeTimeout(TIME_OUT, TimeUnit.SECONDS)  //读取缓存超时
                 .retryOnConnectionFailure(true)  //失败重连
                 .addInterceptor(new HeaderInterceptor())  //添加header
-                .addInterceptor(new NetCacheInterceptor());  //添加网络缓存
+                .addInterceptor(new NetCacheInterceptor())  //添加网络缓存
+                .cookieJar(new CookiesManager());
 
         addLogInterceptor(builder);  //日志拦截器
         setCacheFile(builder);  //网络缓存

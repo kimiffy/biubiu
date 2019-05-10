@@ -1,13 +1,11 @@
 package com.kimiffy.cn.biubiu.base;
 
-import java.io.Serializable;
-
 /**
  * Description:请求数据包装类
  * Created by kimiffy on 2019/3/12.
  */
 
-public class BaseBean<T> implements Serializable {
+public class BaseBean<T>{
 
     // TODO: 2019/3/12 需根据服务器返回数据封装这个包装类
     /**

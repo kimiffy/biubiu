@@ -41,6 +41,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
     @Override
     public void loginOut() {
         SpUtil.putString(Key.PREF_LOGIN_INFO, "");
+
     }
 
 }

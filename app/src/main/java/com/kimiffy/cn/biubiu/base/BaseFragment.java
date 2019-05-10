@@ -55,6 +55,7 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        initStateView();
         initUI();
         initEventBus();
         setListener();
@@ -84,6 +85,13 @@ public abstract class BaseFragment extends Fragment {
      * 设置监听
      */
     protected void setListener() {
+
+    }
+
+    /**
+     * 初始化状态布局
+     */
+    protected void initStateView() {
 
     }
 

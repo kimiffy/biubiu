@@ -20,6 +20,10 @@ public class SpUtil {
 
     private static SharedPreferences sp;
 
+    private SpUtil() {
+        throw new UnsupportedOperationException("u can't instantiate me...");
+    }
+
     private static void init() {
         if (sp == null) {
             sp = AppUtils.getContext().getSharedPreferences(Config.SP_NAME, Context.MODE_PRIVATE);
