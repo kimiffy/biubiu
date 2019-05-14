@@ -15,6 +15,7 @@ import com.kimiffy.cn.biubiu.constant.Key;
 import com.kimiffy.cn.biubiu.ui.articledetail.ArticleDetailActivity;
 import com.kimiffy.cn.biubiu.ui.articlelist.ArticleListAdapter;
 import com.kimiffy.cn.biubiu.utils.ToastUtil;
+import com.kimiffy.cn.biubiu.utils.aop.annotation.SingleClick;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,6 +86,7 @@ public class HomeFragment extends BaseMVPFragment<HomePresenter> implements Home
 
 
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @SingleClick
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 ArticleBean.DatasBean bean = mAdapter.getData().get(position);

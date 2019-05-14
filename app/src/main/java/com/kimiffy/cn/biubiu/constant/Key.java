@@ -14,7 +14,9 @@ public class Key {
     //bundle
     public static final String BUNDLE_LINK ="BUNDLE_LINK";
     public static final String BUNDLE_STATE_LAST_INDEX ="BUNDLE_STATE_LAST_INDEX";
-
+    public static final String BUNDLE_TITLE ="BUNDLE_TITLE";
+    public static final String BUNDLE_COLLECT ="BUNDLE_COLLECT";
+    public static final String BUNDLE_ID ="BUNDLE_ID";
 
 
     //argument

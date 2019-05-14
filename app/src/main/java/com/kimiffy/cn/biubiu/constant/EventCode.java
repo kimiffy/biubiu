@@ -7,6 +7,8 @@ package com.kimiffy.cn.biubiu.constant;
 
 public class EventCode {
 
-    public static final int TEST_CODE = 1;
+    public static final int TEST_CODE = -1;
+    public static final int COLLECT_ARTICLE_SUCCESS = 1;//收藏文章成功
+    public static final int CANCEL_COLLECT_ARTICLE_SUCCESS = 2;//取消收藏文章
 
 }

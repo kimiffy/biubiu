@@ -91,3 +91,8 @@ rx.internal.util.atomic.LinkedQueueNode consumerNode;
 -keepnames @org.aspectj.lang.annotation.Aspect class * {
     ajc* <methods>;
 }
+#AgentWeb
+-keep class com.just.agentweb.** {
+    *;
+}
+-dontwarn com.just.agentweb.**

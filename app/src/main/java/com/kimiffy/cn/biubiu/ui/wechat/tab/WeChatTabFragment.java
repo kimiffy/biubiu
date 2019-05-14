@@ -13,10 +13,15 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.kimiffy.cn.biubiu.R;
 import com.kimiffy.cn.biubiu.base.LazyMVPFragment;
 import com.kimiffy.cn.biubiu.bean.WxArticleListBean;
+import com.kimiffy.cn.biubiu.constant.EventCode;
 import com.kimiffy.cn.biubiu.constant.Key;
+import com.kimiffy.cn.biubiu.ui.articledetail.ArticleDetailActivity;
 import com.kimiffy.cn.biubiu.utils.ToastUtil;
 import com.kimiffy.cn.biubiu.utils.aop.FilterType;
 import com.kimiffy.cn.biubiu.utils.aop.annotation.LoginFilter;
+import com.kimiffy.cn.biubiu.utils.aop.annotation.SingleClick;
+import com.kimiffy.cn.biubiu.utils.event.BindEventBus;
+import com.kimiffy.cn.biubiu.utils.event.Event;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +32,7 @@ import butterknife.BindView;
  * Description:公众号文章列表
  * Created by kimiffy on 2019/5/3.
  */
-
+@BindEventBus
 public class WeChatTabFragment extends LazyMVPFragment<WeChatTabPresenter> implements WeChatTabContract.View {
 
 
@@ -94,23 +99,39 @@ public class WeChatTabFragment extends LazyMVPFragment<WeChatTabPresenter> imple
         }, mRlvArticle);
 
         mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @SingleClick
             @Override
             public void onItemChildClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
                 WxArticleListBean.DatasBean item = (WxArticleListBean.DatasBean) baseQuickAdapter.getData().get(i);
                 switch (view.getId()) {
                     case R.id.iv_collect:
-                        collectClick((ImageView) view, item,i);
+                        collectClick((ImageView) view, item, i);
                         break;
-                        default:
-                            break;
+                    default:
+                        break;
                 }
             }
         });
 
+        mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @SingleClick
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                WxArticleListBean.DatasBean item = (WxArticleListBean.DatasBean) adapter.getData().get(position);
+                Bundle bundle = new Bundle();
+                bundle.putString(Key.BUNDLE_LINK, item.getLink());
+                bundle.putString(Key.BUNDLE_TITLE, item.getAuthor());
+                bundle.putBoolean(Key.BUNDLE_COLLECT, item.isCollect());
+                bundle.putInt(Key.BUNDLE_ID, item.getId());
+                startActivity(ArticleDetailActivity.class, bundle);
+            }
+        });
+
+
         mStateView.getStateViewImpl().setRetryListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtil.showToast("点击重试!");
+                // TODO: 2019/5/10 重试
             }
         });
     }
@@ -119,16 +140,16 @@ public class WeChatTabFragment extends LazyMVPFragment<WeChatTabPresenter> imple
      * 收藏/取消收藏
      */
     @LoginFilter(FilterType.JUMP)
-    private void collectClick(ImageView view, WxArticleListBean.DatasBean item,int position) {
+    private void collectClick(ImageView view, WxArticleListBean.DatasBean item, int position) {
         boolean collect = item.isCollect();
         if (collect) {
             view.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_collect_normal));
             view.startAnimation(AnimationUtils.loadAnimation(mActivity, R.anim.collect));
-            mPresenter.unCollect(item.getId(),position);
+            mPresenter.unCollect(item.getId(), position);
         } else {
             view.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_collect));
             view.startAnimation(AnimationUtils.loadAnimation(mActivity, R.anim.collect));
-            mPresenter.doCollect(item.getId(),position);
+            mPresenter.doCollect(item.getId(), position);
         }
     }
 
@@ -174,30 +195,63 @@ public class WeChatTabFragment extends LazyMVPFragment<WeChatTabPresenter> imple
     }
 
 
-
     @Override
     public void collectSuccess(int position) {
         mAdapter.getData().get(position).setCollect(true);
         mAdapter.notifyItemChanged(position);
+        ToastUtil.showToast(getString(R.string.collect_success));
     }
 
     @Override
     public void collectFail(int position, String msg) {
         mAdapter.getData().get(position).setCollect(false);
         mAdapter.notifyItemChanged(position);
+        ToastUtil.showToast(msg);
     }
 
     @Override
     public void unCollectSuccess(int position) {
         mAdapter.getData().get(position).setCollect(false);
         mAdapter.notifyItemChanged(position);
+        ToastUtil.showToast(getString(R.string.cancel_collect_success));
     }
 
     @Override
     public void unCollectFail(int position, String msg) {
         mAdapter.getData().get(position).setCollect(true);
         mAdapter.notifyItemChanged(position);
+        ToastUtil.showToast(msg);
     }
 
 
+    @Override
+    protected void receiveEvent(Event event) {
+        switch (event.getCode()) {
+            case EventCode.COLLECT_ARTICLE_SUCCESS:
+                handleCollectEvent(event,true);
+                break;
+            case EventCode.CANCEL_COLLECT_ARTICLE_SUCCESS:
+                handleCollectEvent(event,false);
+                break;
+            default:
+                break;
+        }
+    }
+
+    /**
+     * 处理收藏/取消收藏事件
+     * @param event 事件
+     * @param isCollect 是否是收藏
+     */
+    private void handleCollectEvent(Event event, boolean isCollect) {
+        int id = (int) event.getEvent();
+        List<WxArticleListBean.DatasBean> data = mAdapter.getData();
+        for (int i = 0; i < data.size(); i++) {
+            WxArticleListBean.DatasBean datasBean = data.get(i);
+            if(datasBean.getId()==id){
+                mAdapter.getData().get(i).setCollect(isCollect);
+                mAdapter.notifyItemChanged(i);
+            }
+        }
+    }
 }
