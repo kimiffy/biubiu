@@ -11,7 +11,8 @@ ext {
 
     dependVersion = [
             support: "27.1.1",
-            dbflow: "4.2.0"
+            dbflow : "4.2.0",
+            sqlcipher_version : "3.5.9"
     ]
 
     dependencies = [
@@ -44,7 +45,8 @@ ext {
             "dbflow"              : "com.github.Raizlabs.DBFlow:dbflow:${dependVersion.dbflow}",
             "dbflow-processor"    : "com.github.Raizlabs.DBFlow:dbflow-processor:${dependVersion.dbflow}",
             "dbflow-core"         : "com.github.Raizlabs.DBFlow:dbflow-core:${dependVersion.dbflow}",
-
+            "dbflow-sqlcipher"    : "com.github.Raizlabs.DBFlow:dbflow-sqlcipher:${dependVersion.dbflow}",
+            "sqlcipher"           : "net.zetetic:android-database-sqlcipher:${dependVersion.sqlcipher_version}@aar",
             //aop
             "aspectjrt"           : "org.aspectj:aspectjrt:1.8.13",
 

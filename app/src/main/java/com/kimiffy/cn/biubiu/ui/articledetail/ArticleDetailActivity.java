@@ -16,6 +16,9 @@ import com.kimiffy.cn.biubiu.base.BaseMVPActivity;
 import com.kimiffy.cn.biubiu.constant.EventCode;
 import com.kimiffy.cn.biubiu.constant.Key;
 import com.kimiffy.cn.biubiu.utils.ToastUtil;
+import com.kimiffy.cn.biubiu.utils.aop.FilterType;
+import com.kimiffy.cn.biubiu.utils.aop.annotation.LoginFilter;
+import com.kimiffy.cn.biubiu.utils.aop.annotation.SingleClick;
 import com.kimiffy.cn.biubiu.utils.event.Event;
 import com.kimiffy.cn.biubiu.utils.event.EventBusUtil;
 
@@ -112,7 +115,6 @@ public class ArticleDetailActivity extends BaseMVPActivity<ArticleDetailPresente
         return super.onCreateOptionsMenu(menu);
     }
 
-
     private void initMenu(Menu menu) {
         final MenuItem item = menu.findItem(R.id.action_collect);
         final View view = item.getActionView();
@@ -125,24 +127,30 @@ public class ArticleDetailActivity extends BaseMVPActivity<ArticleDetailPresente
         item.getActionView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mIsCollect) {
-                    mIvCollect.setImageDrawable(getResources().getDrawable(R.drawable.ic_collect_normal));
-                    mIvCollect.startAnimation(AnimationUtils.loadAnimation(ArticleDetailActivity.this, R.anim.collect));
-                    mPresenter.collectClick(true, mId);
-                } else {
-                    mIvCollect.setImageDrawable(getResources().getDrawable(R.drawable.ic_collect));
-                    mIvCollect.startAnimation(AnimationUtils.loadAnimation(ArticleDetailActivity.this, R.anim.collect));
-                    mPresenter.collectClick(false, mId);
-                }
+                menuClick();
             }
         });
+    }
+
+    @LoginFilter(FilterType.JUMP)
+    @SingleClick
+    private void menuClick() {
+        if (mIsCollect) {
+            mIvCollect.setImageDrawable(getResources().getDrawable(R.drawable.ic_collect_normal));
+//          mIvCollect.startAnimation(AnimationUtils.loadAnimation(ArticleDetailActivity.this, R.anim.collect));
+            mPresenter.collectClick(true, mId);
+        } else {
+            mIvCollect.setImageDrawable(getResources().getDrawable(R.drawable.ic_collect));
+            mIvCollect.startAnimation(AnimationUtils.loadAnimation(ArticleDetailActivity.this, R.anim.collect));
+            mPresenter.collectClick(false, mId);
+        }
     }
 
 
     @Override
     public void collectSuccess() {
         mIsCollect = true;
-        EventBusUtil.post(new Event<>(EventCode.COLLECT_ARTICLE_SUCCESS,mId));
+        EventBusUtil.post(new Event<>(EventCode.COLLECT_ARTICLE_SUCCESS, mId));
         ToastUtil.showToast(getString(R.string.collect_success));
     }
 
@@ -156,7 +164,7 @@ public class ArticleDetailActivity extends BaseMVPActivity<ArticleDetailPresente
     @Override
     public void unCollectSuccess() {
         mIsCollect = false;
-        EventBusUtil.post(new Event<>(EventCode.CANCEL_COLLECT_ARTICLE_SUCCESS,mId));
+        EventBusUtil.post(new Event<>(EventCode.CANCEL_COLLECT_ARTICLE_SUCCESS, mId));
     }
 
     @Override

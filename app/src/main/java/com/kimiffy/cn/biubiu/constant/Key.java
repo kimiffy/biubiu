@@ -8,7 +8,6 @@ package com.kimiffy.cn.biubiu.constant;
 public class Key {
 
     //SP
-    public static final String PREF_LOGIN_INFO ="PREF_LOGIN_INFO";
     public static final String PREF_WX_TAB_LIST ="PREF_WX_TAB_LIST";
 
     //bundle

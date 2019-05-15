@@ -90,9 +90,11 @@ public class HomeFragment extends BaseMVPFragment<HomePresenter> implements Home
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 ArticleBean.DatasBean bean = mAdapter.getData().get(position);
-                String link = bean.getLink();
                 Bundle bundle = new Bundle();
-                bundle.putString(Key.BUNDLE_LINK, link);
+                bundle.putString(Key.BUNDLE_LINK, bean.getLink());
+                bundle.putString(Key.BUNDLE_TITLE, bean.getAuthor());
+                bundle.putBoolean(Key.BUNDLE_COLLECT, bean.isCollect());
+                bundle.putInt(Key.BUNDLE_ID, bean.getId());
                 startActivity(ArticleDetailActivity.class, bundle);
             }
         });
@@ -100,7 +102,7 @@ public class HomeFragment extends BaseMVPFragment<HomePresenter> implements Home
     }
 
     /**
-     * 第一次进入显示刷新
+     * 第一次进入加载数据
      */
     private void firstFresh() {
         mSrlRefresh.setRefreshing(true);

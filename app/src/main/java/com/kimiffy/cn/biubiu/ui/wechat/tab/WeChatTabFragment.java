@@ -139,12 +139,13 @@ public class WeChatTabFragment extends LazyMVPFragment<WeChatTabPresenter> imple
     /**
      * 收藏/取消收藏
      */
+    @SingleClick
     @LoginFilter(FilterType.JUMP)
     private void collectClick(ImageView view, WxArticleListBean.DatasBean item, int position) {
         boolean collect = item.isCollect();
         if (collect) {
             view.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_collect_normal));
-            view.startAnimation(AnimationUtils.loadAnimation(mActivity, R.anim.collect));
+//            view.startAnimation(AnimationUtils.loadAnimation(mActivity, R.anim.collect));
             mPresenter.unCollect(item.getId(), position);
         } else {
             view.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_collect));

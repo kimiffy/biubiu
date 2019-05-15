@@ -47,6 +47,8 @@ dependencies {
     annotationProcessor rootProject.ext.dependencies["dbflow-processor"]
     implementation rootProject.ext.dependencies["dbflow-core"]
     implementation rootProject.ext.dependencies["dbflow"]
+    implementation rootProject.ext.dependencies["dbflow-sqlcipher"]
+    implementation rootProject.ext.dependencies["sqlcipher"]
     implementation rootProject.ext.dependencies["autosize"]
     implementation rootProject.ext.dependencies["agentweb"]
 }

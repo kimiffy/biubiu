@@ -5,9 +5,12 @@ import android.os.Handler;
 import com.kimiffy.cn.biubiu.base.BaseBean;
 import com.kimiffy.cn.biubiu.base.BasePresenter;
 import com.kimiffy.cn.biubiu.bean.ArticleBean;
+import com.kimiffy.cn.biubiu.bean.UserBean;
 import com.kimiffy.cn.biubiu.constant.Config;
+import com.kimiffy.cn.biubiu.database.model.LoginInfo;
 import com.kimiffy.cn.biubiu.http.callback.BaseObserver;
 import com.kimiffy.cn.biubiu.http.exception.ErrorType;
+import com.kimiffy.cn.biubiu.utils.UserUtil;
 
 import java.util.List;
 
@@ -16,7 +19,7 @@ import java.util.List;
  * Created by kimiffy on 2019/4/23.
  */
 
-public class HomePresenter extends BasePresenter<HomeContract.View> implements HomeContract.Presenter{
+public class HomePresenter extends BasePresenter<HomeContract.View> implements HomeContract.Presenter {
 
     private boolean isRefresh;
     private int currentPage;
@@ -27,14 +30,21 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
 
     @Override
     public void firstFresh() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                refresh();
-            }
-        }, Config.LOAD_DELAY_TIME);
-
+        LoginInfo loginInfo = UserUtil.getLoginInfo();
+        if (null != loginInfo) {
+            String username = loginInfo.username;
+            String password = loginInfo.password;
+            autoLogin(username, password);
+        }else{
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    refresh();
+                }
+            }, Config.LOAD_DELAY_TIME);
+        }
     }
+
 
     @Override
     public void refresh() {
@@ -74,4 +84,29 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
         });
 
     }
+
+
+    /**
+     * 自动登录
+     *
+     * @param username 账号
+     * @param password 密码
+     */
+    private void autoLogin(String username, final String password) {
+        addDisposable(mApiService.login(username, password), new BaseObserver<BaseBean<UserBean>>() {
+            @Override
+            public void onSuccess(BaseBean<UserBean> bean) {
+                UserBean userBean = bean.data;
+                UserUtil.handleLoginInfo(userBean, password);
+                refresh();
+            }
+
+            @Override
+            public void onFailure(String msg, ErrorType errorType) {
+                refresh();
+            }
+        });
+    }
+
+
 }

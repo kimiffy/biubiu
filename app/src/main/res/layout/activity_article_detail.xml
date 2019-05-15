@@ -13,6 +13,7 @@
         android:background="@color/md_white_1000"
         android:elevation="4dp"
         app:navigationIcon="@drawable/ic_arrow_back"
+        app:popupTheme="@style/ToolbarPopupTheme"
         app:titleTextColor="@color/md_grey_600">
 
     </android.support.v7.widget.Toolbar>

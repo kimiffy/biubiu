@@ -3,11 +3,9 @@ package com.kimiffy.cn.biubiu.ui.login;
 import com.kimiffy.cn.biubiu.base.BaseBean;
 import com.kimiffy.cn.biubiu.base.BasePresenter;
 import com.kimiffy.cn.biubiu.bean.UserBean;
-import com.kimiffy.cn.biubiu.constant.Key;
 import com.kimiffy.cn.biubiu.http.callback.BaseObserver;
 import com.kimiffy.cn.biubiu.http.exception.ErrorType;
-import com.kimiffy.cn.biubiu.utils.GsonUtil;
-import com.kimiffy.cn.biubiu.utils.SpUtil;
+import com.kimiffy.cn.biubiu.utils.UserUtil;
 
 /**
  * Description:登录控制层
@@ -20,14 +18,14 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
     }
 
     @Override
-    public void login(String name, String psw) {
+    public void login(final String name, final String psw) {
 
         addDisposable(mApiService.login(name, psw), new BaseObserver<BaseBean<UserBean>>() {
             @Override
             public void onSuccess(BaseBean<UserBean> bean) {
-                String userInfo = GsonUtil.toJson(bean);
-                SpUtil.putString(Key.PREF_LOGIN_INFO, userInfo);
+                UserBean userBean = bean.data;
                 mView.loginSuccess(bean.data);
+                UserUtil.handleLoginInfo(userBean, psw);
             }
 
             @Override
@@ -40,8 +38,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
 
     @Override
     public void loginOut() {
-        SpUtil.putString(Key.PREF_LOGIN_INFO, "");
-
+        UserUtil.deleteLoginInfo();
     }
 
 }
