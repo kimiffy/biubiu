@@ -6,9 +6,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.FrameLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.kimiffy.cn.biubiu.R;

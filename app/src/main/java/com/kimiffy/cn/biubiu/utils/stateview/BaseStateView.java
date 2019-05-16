@@ -10,8 +10,6 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.FrameLayout.LayoutParams;
 
-import com.kimiffy.cn.biubiu.utils.LogUtil;
-
 /**
  * Description:状态布局 基类
  * Created by kimiffy on 2019/3/21.

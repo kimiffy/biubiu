@@ -10,8 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-
-import com.kimiffy.cn.biubiu.utils.LogUtil;
 import com.kimiffy.cn.biubiu.utils.event.BindEventBus;
 import com.kimiffy.cn.biubiu.utils.event.Event;
 import com.kimiffy.cn.biubiu.utils.event.EventBusUtil;

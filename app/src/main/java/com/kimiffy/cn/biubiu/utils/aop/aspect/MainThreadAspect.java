@@ -4,7 +4,6 @@ import android.os.Handler;
 import android.os.Looper;
 
 import com.kimiffy.cn.biubiu.utils.AppUtils;
-import com.kimiffy.cn.biubiu.utils.LogUtil;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;

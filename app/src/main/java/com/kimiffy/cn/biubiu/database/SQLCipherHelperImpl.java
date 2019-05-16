@@ -20,6 +20,6 @@ public class SQLCipherHelperImpl extends SQLCipherOpenHelper {
 
     @Override
     protected String getCipherSecret() {
-        return MyApplication.getInstance().getString(R.string.app_name);
+        return MyApplication.getInstance().getString(R.string.app_name);//加密key
     }
 }

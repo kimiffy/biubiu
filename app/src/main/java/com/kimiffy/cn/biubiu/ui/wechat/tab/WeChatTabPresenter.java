@@ -1,13 +1,19 @@
 package com.kimiffy.cn.biubiu.ui.wechat.tab;
 
-import android.os.Handler;
-
 import com.kimiffy.cn.biubiu.base.BaseBean;
 import com.kimiffy.cn.biubiu.base.BasePresenter;
 import com.kimiffy.cn.biubiu.bean.WxArticleListBean;
 import com.kimiffy.cn.biubiu.constant.Config;
 import com.kimiffy.cn.biubiu.http.callback.BaseObserver;
 import com.kimiffy.cn.biubiu.http.exception.ErrorType;
+
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Description:公众号文章列表控制层
@@ -29,13 +35,16 @@ public class WeChatTabPresenter extends BasePresenter<WeChatTabContract.View> im
     @Override
     public void firstFresh(int id) {
         this.id = id;
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                reFresh();
-            }
-        }, Config.LOAD_DELAY_TIME);
-
+        Disposable disposable = Observable.timer(Config.LOAD_DELAY_TIME, TimeUnit.MILLISECONDS)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<Long>() {
+                    @Override
+                    public void accept(Long aLong) throws Exception {
+                        reFresh();
+                    }
+                });
+        compositeDisposable.add(disposable);
     }
 
     @Override

@@ -74,7 +74,7 @@ public class GsonUtil {
      */
     public static <T> List<T> toList(String json, Class<T> cls) {
         Gson gson = new Gson();
-        List<T> list = new ArrayList<T>();
+        List<T> list = new ArrayList<>();
         if(TextUtils.isEmpty(json)){
             return list;
         }

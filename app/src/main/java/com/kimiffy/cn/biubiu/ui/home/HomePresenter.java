@@ -1,7 +1,5 @@
 package com.kimiffy.cn.biubiu.ui.home;
 
-import android.os.Handler;
-
 import com.kimiffy.cn.biubiu.base.BaseBean;
 import com.kimiffy.cn.biubiu.base.BasePresenter;
 import com.kimiffy.cn.biubiu.bean.ArticleBean;
@@ -13,6 +11,13 @@ import com.kimiffy.cn.biubiu.http.exception.ErrorType;
 import com.kimiffy.cn.biubiu.utils.UserUtil;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Description:首页控制层
@@ -32,16 +37,30 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
     public void firstFresh() {
         LoginInfo loginInfo = UserUtil.getLoginInfo();
         if (null != loginInfo) {
-            String username = loginInfo.username;
-            String password = loginInfo.password;
-            autoLogin(username, password);
-        }else{
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    refresh();
-                }
-            }, Config.LOAD_DELAY_TIME);
+            final String username = loginInfo.username;
+            final String password = loginInfo.password;
+            Disposable disposable = Observable.timer(Config.LOAD_DELAY_TIME, TimeUnit.MILLISECONDS)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Consumer<Long>() {
+                        @Override
+                        public void accept(Long aLong) throws Exception {
+                            autoLogin(username, password);
+                        }
+                    });
+            compositeDisposable.add(disposable);
+
+        } else {
+            Disposable disposable = Observable.timer(Config.LOAD_DELAY_TIME, TimeUnit.MILLISECONDS)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Consumer<Long>() {
+                        @Override
+                        public void accept(Long aLong) throws Exception {
+                            refresh();
+                        }
+                    });
+            compositeDisposable.add(disposable);
         }
     }
 
@@ -107,6 +126,5 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
             }
         });
     }
-
 
 }

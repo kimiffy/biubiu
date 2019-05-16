@@ -1,7 +1,6 @@
 package com.kimiffy.cn.biubiu.base.contract;
 
 import com.kimiffy.cn.biubiu.utils.stateview.StateViewProxy;
-import com.kimiffy.cn.biubiu.utils.stateview.IStateView;
 
 /**
  * Description:

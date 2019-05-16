@@ -2,7 +2,6 @@ package com.kimiffy.cn.biubiu.ui.articledetail;
 
 import com.kimiffy.cn.biubiu.base.contract.IBaseView;
 import com.kimiffy.cn.biubiu.base.contract.IPresenter;
-import com.kimiffy.cn.biubiu.ui.home.HomeContract;
 
 /**
  * Description:文章详情契约

@@ -15,7 +15,7 @@ import io.reactivex.schedulers.Schedulers;
 public class BasePresenter<V extends IBaseView> implements IPresenter<V> {
 
     protected V mView;
-    private CompositeDisposable compositeDisposable;//用于管理observer
+    protected CompositeDisposable compositeDisposable;//用于管理observer
     protected ApiService mApiService;
 
     /**
@@ -27,6 +27,9 @@ public class BasePresenter<V extends IBaseView> implements IPresenter<V> {
     public void attach(V v) {
         if (null == mApiService) {
             mApiService = ApiManager.getApiService();
+        }
+        if (compositeDisposable == null) {
+            compositeDisposable = new CompositeDisposable();
         }
         this.mView = v;
     }
