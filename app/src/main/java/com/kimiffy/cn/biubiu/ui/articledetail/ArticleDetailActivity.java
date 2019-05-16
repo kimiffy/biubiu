@@ -1,5 +1,6 @@
 package com.kimiffy.cn.biubiu.ui.articledetail;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -15,6 +16,7 @@ import com.kimiffy.cn.biubiu.R;
 import com.kimiffy.cn.biubiu.base.BaseMVPActivity;
 import com.kimiffy.cn.biubiu.constant.EventCode;
 import com.kimiffy.cn.biubiu.constant.Key;
+import com.kimiffy.cn.biubiu.utils.StringUtil;
 import com.kimiffy.cn.biubiu.utils.ToastUtil;
 import com.kimiffy.cn.biubiu.utils.aop.FilterType;
 import com.kimiffy.cn.biubiu.utils.aop.annotation.LoginFilter;
@@ -35,10 +37,11 @@ public class ArticleDetailActivity extends BaseMVPActivity<ArticleDetailPresente
     Toolbar mToolbar;
     private String mLink;
     private AgentWeb mAgentWeb;
-    private String mTitle;
+    private String mAuthor;
     private boolean mIsCollect;
     private int mId;
     private ImageView mIvCollect;
+    private String mTitle;
 
     @Override
     protected ArticleDetailPresenter createPresenter() {
@@ -56,6 +59,7 @@ public class ArticleDetailActivity extends BaseMVPActivity<ArticleDetailPresente
         Bundle bundle = getIntent().getExtras();
         if (null != bundle) {
             mLink = bundle.getString(Key.BUNDLE_LINK);
+            mAuthor = bundle.getString(Key.BUNDLE_AUTHOR);
             mTitle = bundle.getString(Key.BUNDLE_TITLE);
             mIsCollect = bundle.getBoolean(Key.BUNDLE_COLLECT, false);
             mId = bundle.getInt(Key.BUNDLE_ID, -1);
@@ -77,6 +81,11 @@ public class ArticleDetailActivity extends BaseMVPActivity<ArticleDetailPresente
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.action_share:
+                        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                        shareIntent.setType("text/plain");
+                        CharSequence title = StringUtil.formatTitle(mTitle);
+                        shareIntent.putExtra(Intent.EXTRA_TEXT, "【" + title + "】" + "\n" + mLink);
+                        startActivity(Intent.createChooser(shareIntent, getString(R.string.share)));
                         break;
                 }
                 return true;
@@ -96,7 +105,7 @@ public class ArticleDetailActivity extends BaseMVPActivity<ArticleDetailPresente
 
 
     private void initToolBar() {
-        mToolbar.setTitle(mTitle);
+        mToolbar.setTitle(mAuthor);
         setSupportActionBar(mToolbar);
         mToolbar.inflateMenu(R.menu.menu_toolbar_article_detail);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {

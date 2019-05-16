@@ -61,8 +61,8 @@ public class ArticleListActivity extends BaseMVPActivity<ArticleListPresenter> i
     @Override
     protected void initUI() {
         mAdapter = new ArticleListAdapter(R.layout.item_rlv_article, articleList);
-        rlvArticle.setLayoutManager(new LinearLayoutManager(this));//布局管理器
-        rlvArticle.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));//分割线
+        rlvArticle.setLayoutManager(new LinearLayoutManager(this));
+        rlvArticle.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         rlvArticle.setAdapter(mAdapter);
         mPresenter.refresh();
     }

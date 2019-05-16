@@ -120,7 +120,8 @@ public class WeChatTabFragment extends LazyMVPFragment<WeChatTabPresenter> imple
                 WxArticleListBean.DatasBean item = (WxArticleListBean.DatasBean) adapter.getData().get(position);
                 Bundle bundle = new Bundle();
                 bundle.putString(Key.BUNDLE_LINK, item.getLink());
-                bundle.putString(Key.BUNDLE_TITLE, item.getAuthor());
+                bundle.putString(Key.BUNDLE_AUTHOR, item.getAuthor());
+                bundle.putString(Key.BUNDLE_TITLE, item.getTitle());
                 bundle.putBoolean(Key.BUNDLE_COLLECT, item.isCollect());
                 bundle.putInt(Key.BUNDLE_ID, item.getId());
                 startActivity(ArticleDetailActivity.class, bundle);

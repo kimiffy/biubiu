@@ -92,7 +92,8 @@ public class HomeFragment extends BaseMVPFragment<HomePresenter> implements Home
                 ArticleBean.DatasBean bean = mAdapter.getData().get(position);
                 Bundle bundle = new Bundle();
                 bundle.putString(Key.BUNDLE_LINK, bean.getLink());
-                bundle.putString(Key.BUNDLE_TITLE, bean.getAuthor());
+                bundle.putString(Key.BUNDLE_AUTHOR, bean.getAuthor());
+                bundle.putString(Key.BUNDLE_TITLE, bean.getTitle());
                 bundle.putBoolean(Key.BUNDLE_COLLECT, bean.isCollect());
                 bundle.putInt(Key.BUNDLE_ID, bean.getId());
                 startActivity(ArticleDetailActivity.class, bundle);
