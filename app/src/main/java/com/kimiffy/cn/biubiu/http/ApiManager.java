@@ -1,6 +1,5 @@
 package com.kimiffy.cn.biubiu.http;
 
-import com.kimiffy.cn.biubiu.app.MyApplication;
 import com.kimiffy.cn.biubiu.constant.Config;
 import com.kimiffy.cn.biubiu.http.cookie.CookiesManager;
 import com.kimiffy.cn.biubiu.http.interceptor.HeaderInterceptor;
@@ -51,12 +50,34 @@ public class ApiManager {
                 .writeTimeout(TIME_OUT, TimeUnit.SECONDS)  //读取缓存超时
                 .retryOnConnectionFailure(true)  //失败重连
                 .addInterceptor(new HeaderInterceptor())  //添加header
-                .addInterceptor(new NetCacheInterceptor())  //添加网络缓存
                 .cookieJar(new CookiesManager());
 
+        addCacheInterceptor(builder);
         addLogInterceptor(builder);  //日志拦截器
-        setCacheFile(builder);  //网络缓存
         mOkHttpClient = builder.build();
+    }
+
+    /**
+     * 添加网络缓存
+     *
+     * @param builder
+     */
+    private void addCacheInterceptor(OkHttpClient.Builder builder) {
+        NetCacheInterceptor netCacheInterceptor = new NetCacheInterceptor();
+        builder.addInterceptor(netCacheInterceptor)
+                .addNetworkInterceptor(netCacheInterceptor);
+        //文件缓存路径
+        File file = new File(Config.NET_CACHE_PATH);
+        if (!file.exists()) {
+            boolean mkdirs = file.mkdirs();
+            if(mkdirs){
+                Cache cache = new Cache(file, 1024 * 1024 * 50);
+                builder.cache(cache);
+            }
+        }else{
+            Cache cache = new Cache(file, 1024 * 1024 * 50);
+            builder.cache(cache);
+        }
     }
 
     /**
@@ -72,16 +93,6 @@ public class ApiManager {
         mApiService = retrofit.create(ApiService.class);
     }
 
-    /**
-     * 设置缓存文件路径
-     */
-    private void setCacheFile(OkHttpClient.Builder builder) {
-        File cacheFile = new File(MyApplication.getInstance().getExternalCacheDir(), Config.HTTP_CACHE_NAME);
-        if (cacheFile.exists()) {
-            Cache cache = new Cache(cacheFile, 1024 * 1024 * 50);
-            builder.cache(cache);
-        }
-    }
 
     /**
      * 调试模式下加入日志拦截器

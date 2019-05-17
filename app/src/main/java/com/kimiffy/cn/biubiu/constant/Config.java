@@ -9,13 +9,16 @@ import android.os.Environment;
 
 public class Config {
 
-    public static final String SP_NAME = "sp_biubiu";//SharedPreferences 文件名
+    private static final String APP_NAME ="biubiu";
 
-    public static final String HTTP_CACHE_NAME = "biubiu";//网络缓存文件名
+    public static final String SP_NAME = APP_NAME+"_sp";//SharedPreferences 文件名
+
     //存储文件夹路径
-    private static final String STORAGE_PATH = Environment.getExternalStorageDirectory() + "/" + "biubiu" + "/";
+    private static final String STORAGE_PATH = Environment.getExternalStorageDirectory() + "/" + APP_NAME + "/";
     //下载文件夹路径
     public static final String DOWNLOAD_FILE_PATH = STORAGE_PATH + "/" + "download" + "/";
+    //网络缓存路径
+    public static final String NET_CACHE_PATH = STORAGE_PATH + "/" + "cache" + "/"+"net_cache";
 
     //为了刷新动画过度自然,第一次进入某些页面请求数据默认一定的时间后再请求数据
     public static int LOAD_DELAY_TIME =500;
