@@ -6,15 +6,23 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.kimiffy.cn.biubiu.R;
 import com.kimiffy.cn.biubiu.base.BaseMVPFragment;
 import com.kimiffy.cn.biubiu.bean.ArticleBean;
+import com.kimiffy.cn.biubiu.bean.WxArticleListBean;
 import com.kimiffy.cn.biubiu.constant.Key;
 import com.kimiffy.cn.biubiu.ui.articledetail.ArticleDetailActivity;
 import com.kimiffy.cn.biubiu.utils.ToastUtil;
+import com.kimiffy.cn.biubiu.utils.aop.FilterType;
+import com.kimiffy.cn.biubiu.utils.aop.annotation.LoginFilter;
 import com.kimiffy.cn.biubiu.utils.aop.annotation.SingleClick;
+import com.kimiffy.cn.biubiu.utils.event.BindEventBus;
+import com.kimiffy.cn.biubiu.utils.event.Event;
+import com.kimiffy.cn.biubiu.utils.event.EventCode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +33,7 @@ import butterknife.BindView;
  * Description:首页
  * Created by kimiffy on 2019/4/23.
  */
-
+@BindEventBus
 public class HomeFragment extends BaseMVPFragment<HomePresenter> implements HomeContract.View {
 
     @BindView(R.id.rlv_article)
@@ -58,8 +66,8 @@ public class HomeFragment extends BaseMVPFragment<HomePresenter> implements Home
 
     @Override
     protected void initUI() {
-        mSrlRefresh.setColorSchemeColors(getResources().getColor(R.color.md_blue_A200),getResources().getColor(R.color.md_blue_A400));
-        mAdapter = new HomeAdapter(R.layout.item_rlv_article, articleList);
+        mSrlRefresh.setColorSchemeColors(getResources().getColor(R.color.md_blue_A200), getResources().getColor(R.color.md_blue_A400));
+        mAdapter = new HomeAdapter(mActivity,R.layout.item_rlv_article, articleList);
         mRlvArticle.setLayoutManager(new LinearLayoutManager(getBindActivity()));
         mRlvArticle.addItemDecoration(new DividerItemDecoration(getBindActivity(), LinearLayoutManager.VERTICAL));
         mRlvArticle.setAdapter(mAdapter);
@@ -99,6 +107,22 @@ public class HomeFragment extends BaseMVPFragment<HomePresenter> implements Home
             }
         });
 
+        mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @SingleClick
+            @Override
+            public void onItemChildClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
+                ArticleBean.DatasBean item = (ArticleBean.DatasBean) baseQuickAdapter.getData().get(i);
+                switch (view.getId()) {
+                    case R.id.iv_collect:
+                        collectClick((ImageView) view, item, i);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+
+
     }
 
     /**
@@ -107,6 +131,24 @@ public class HomeFragment extends BaseMVPFragment<HomePresenter> implements Home
     private void firstFresh() {
         mSrlRefresh.setRefreshing(true);
         mPresenter.firstFresh();
+    }
+
+
+    /**
+     * 收藏/取消收藏
+     */
+    @SingleClick
+    @LoginFilter(FilterType.JUMP)
+    private void collectClick(ImageView view, ArticleBean.DatasBean item, int position) {
+        boolean collect = item.isCollect();
+        if (collect) {
+            view.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_collect_normal));
+            mPresenter.unCollect(item.getId(), position);
+        } else {
+            view.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_collect));
+            view.startAnimation(AnimationUtils.loadAnimation(mActivity, R.anim.collect));
+            mPresenter.doCollect(item.getId(), position);
+        }
     }
 
 
@@ -140,4 +182,63 @@ public class HomeFragment extends BaseMVPFragment<HomePresenter> implements Home
 
     }
 
+    @Override
+    public void collectSuccess(int position) {
+        mAdapter.getData().get(position).setCollect(true);
+        mAdapter.notifyItemChanged(position);
+        ToastUtil.showToast(getString(R.string.collect_success));
+    }
+
+    @Override
+    public void collectFail(int position, String msg) {
+        mAdapter.getData().get(position).setCollect(false);
+        mAdapter.notifyItemChanged(position);
+        ToastUtil.showToast(msg);
+    }
+
+    @Override
+    public void unCollectSuccess(int position) {
+        mAdapter.getData().get(position).setCollect(false);
+        mAdapter.notifyItemChanged(position);
+        ToastUtil.showToast(getString(R.string.cancel_collect_success));
+    }
+
+    @Override
+    public void unCollectFail(int position, String msg) {
+        mAdapter.getData().get(position).setCollect(true);
+        mAdapter.notifyItemChanged(position);
+        ToastUtil.showToast(msg);
+    }
+
+
+    @Override
+    protected void receiveEvent(Event event) {
+        switch (event.getCode()) {
+            case EventCode.COLLECT_ARTICLE_SUCCESS:
+                handleCollectEvent(event,true);
+                break;
+            case EventCode.CANCEL_COLLECT_ARTICLE_SUCCESS:
+                handleCollectEvent(event,false);
+                break;
+            default:
+                break;
+        }
+    }
+
+    /**
+     * 处理收藏/取消收藏事件
+     * @param event 事件
+     * @param isCollect 是否是收藏
+     */
+    private void handleCollectEvent(Event event, boolean isCollect) {
+        int id = (int) event.getEvent();
+        List<ArticleBean.DatasBean> data = mAdapter.getData();
+        for (int i = 0; i < data.size(); i++) {
+            ArticleBean.DatasBean datasBean = data.get(i);
+            if(datasBean.getId()==id){
+                mAdapter.getData().get(i).setCollect(isCollect);
+                mAdapter.notifyItemChanged(i);
+            }
+        }
+    }
 }

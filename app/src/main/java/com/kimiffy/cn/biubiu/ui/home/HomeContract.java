@@ -22,6 +22,11 @@ public class HomeContract {
         void getBanner();
 
         void getArticleList(int page);
+
+        void doCollect(int id,int position);
+
+        void unCollect(int id,int position);
+
     }
 
     public interface View extends IBaseView {
@@ -32,5 +37,13 @@ public class HomeContract {
         void getBannerSuccess();
 
         void getBannerFail();
+
+        void collectSuccess(int position);
+
+        void collectFail(int position, String msg);
+
+        void unCollectSuccess(int position);
+
+        void unCollectFail(int position, String msg);
     }
 }

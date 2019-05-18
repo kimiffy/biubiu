@@ -1,5 +1,6 @@
 package com.kimiffy.cn.biubiu.ui.home;
 
+import android.app.Activity;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
@@ -18,9 +19,11 @@ import java.util.List;
  */
 
 public class HomeAdapter extends BaseQuickAdapter<ArticleBean.DatasBean, BaseViewHolder> {
+    private Activity mActivity;
 
-    public HomeAdapter(int layoutResId, @Nullable List<ArticleBean.DatasBean> data) {
+    HomeAdapter(Activity activity, int layoutResId, @Nullable List<ArticleBean.DatasBean> data) {
         super(layoutResId, data);
+        this.mActivity = activity;
     }
 
     @Override
@@ -46,5 +49,15 @@ public class HomeAdapter extends BaseQuickAdapter<ArticleBean.DatasBean, BaseVie
         } else {
             helper.getView(R.id.iv_fresh).setVisibility(View.INVISIBLE);
         }
+
+
+        boolean collect = item.isCollect();
+        if (collect) {
+            helper.setImageDrawable(R.id.iv_collect, mActivity.getResources().getDrawable(R.drawable.ic_collect));
+        } else {
+            helper.setImageDrawable(R.id.iv_collect, mActivity.getResources().getDrawable(R.drawable.ic_collect_normal));
+        }
+        helper.addOnClickListener(R.id.iv_collect);
+
     }
 }

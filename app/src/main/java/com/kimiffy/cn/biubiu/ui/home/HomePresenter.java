@@ -104,6 +104,43 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
 
     }
 
+    /**
+     * 收藏
+     * @param id 文章id
+     * @param position 列表position
+     */
+    @Override
+    public void doCollect(int id,final int position) {
+        addDisposable(mApiService.collectArticle(id), new BaseObserver<BaseBean>() {
+            @Override
+            public void onSuccess(BaseBean bean) {
+                mView.collectSuccess(position);
+            }
+
+            @Override
+            public void onFailure(String msg, ErrorType errorType) {
+                mView.collectFail(position,msg);
+            }
+        });
+
+    }
+
+    @Override
+    public void unCollect(int id,final int position) {
+        addDisposable(mApiService.unCollectArticle(id), new BaseObserver<BaseBean>() {
+            @Override
+            public void onSuccess(BaseBean bean) {
+                mView.unCollectSuccess(position);
+            }
+
+            @Override
+            public void onFailure(String msg, ErrorType errorType) {
+                mView.unCollectFail(position,msg);
+            }
+        });
+    }
+
+
 
     /**
      * 自动登录
