@@ -9,12 +9,10 @@ import android.widget.TextView;
 
 import com.kimiffy.cn.biubiu.R;
 import com.kimiffy.cn.biubiu.base.BaseActivity;
-import com.kimiffy.cn.biubiu.utils.event.EventCode;
 import com.kimiffy.cn.biubiu.database.model.User;
 import com.kimiffy.cn.biubiu.database.model.User_Table;
 import com.kimiffy.cn.biubiu.http.dowload.DownLoadListener;
 import com.kimiffy.cn.biubiu.http.dowload.DownLoadManager;
-import com.kimiffy.cn.biubiu.ui.articlelist.ArticleListActivity;
 import com.kimiffy.cn.biubiu.ui.login.LoginActivity;
 import com.kimiffy.cn.biubiu.utils.ToastUtil;
 import com.kimiffy.cn.biubiu.utils.aop.FilterType;
@@ -23,6 +21,7 @@ import com.kimiffy.cn.biubiu.utils.aop.annotation.NeedPermission;
 import com.kimiffy.cn.biubiu.utils.event.BindEventBus;
 import com.kimiffy.cn.biubiu.utils.event.Event;
 import com.kimiffy.cn.biubiu.utils.event.EventBusUtil;
+import com.kimiffy.cn.biubiu.utils.event.EventCode;
 import com.kimiffy.cn.biubiu.utils.imageloader.ImageLoader;
 import com.kimiffy.cn.biubiu.utils.imageloader.base.ScaleType;
 import com.kimiffy.cn.biubiu.utils.imageloader.glide.CommonOption;
@@ -212,7 +211,7 @@ public class TestActivity extends BaseActivity {
     //统一管理登录
     @LoginFilter(FilterType.JUMP)
     private void goArticleListPage() {
-        startActivity(ArticleListActivity.class);
+
     }
 
     private void login() {
