@@ -1,4 +1,4 @@
-package com.kimiffy.cn.biubiu.ui.wechat.tab;
+package com.kimiffy.cn.biubiu.ui.project.tab;
 
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -12,8 +12,7 @@ import android.widget.ImageView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.kimiffy.cn.biubiu.R;
 import com.kimiffy.cn.biubiu.base.LazyMVPFragment;
-import com.kimiffy.cn.biubiu.bean.WxArticleListBean;
-import com.kimiffy.cn.biubiu.utils.event.EventCode;
+import com.kimiffy.cn.biubiu.bean.ProjectListBean;
 import com.kimiffy.cn.biubiu.constant.Key;
 import com.kimiffy.cn.biubiu.ui.articledetail.ArticleDetailActivity;
 import com.kimiffy.cn.biubiu.utils.ToastUtil;
@@ -22,6 +21,7 @@ import com.kimiffy.cn.biubiu.utils.aop.annotation.LoginFilter;
 import com.kimiffy.cn.biubiu.utils.aop.annotation.SingleClick;
 import com.kimiffy.cn.biubiu.utils.event.BindEventBus;
 import com.kimiffy.cn.biubiu.utils.event.Event;
+import com.kimiffy.cn.biubiu.utils.event.EventCode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,38 +29,38 @@ import java.util.List;
 import butterknife.BindView;
 
 /**
- * Description:公众号文章列表
- * Created by kimiffy on 2019/5/3.
+ * Description:项目tab
+ * Created by kimiffy on 2019/5/17.
  */
 @BindEventBus
-public class WeChatTabFragment extends LazyMVPFragment<WeChatTabPresenter> implements WeChatTabContract.View {
-
-
+public class ProjectTabFragment extends LazyMVPFragment<ProjectTabPresenter> implements ProjectTabContract.View {
     @BindView(R.id.rlv_article)
     RecyclerView mRlvArticle;
     @BindView(R.id.srl_refresh)
     SwipeRefreshLayout mSrlRefresh;
     private int id;
-    private List<WxArticleListBean.DatasBean> mList;
-    private WxArticleListAdapter mAdapter;
+    private List<ProjectListBean.DatasBean> mList;
+    private ProjectListAdapter mAdapter;
+    private String mType;
 
-    public static WeChatTabFragment newInstance(int id) {
+    public static ProjectTabFragment newInstance(int id,String type) {
         Bundle args = new Bundle();
         args.putInt(Key.ARGUMENT_ID, id);
-        WeChatTabFragment fragment = new WeChatTabFragment();
+        args.putString(Key.ARGUMENT_TYPE, type);
+        ProjectTabFragment fragment = new ProjectTabFragment();
         fragment.setArguments(args);
         return fragment;
     }
 
     @Override
-    protected WeChatTabPresenter createPresenter() {
-        return new WeChatTabPresenter(this);
+    protected ProjectTabPresenter createPresenter() {
+        return new ProjectTabPresenter(this);
     }
 
 
     @Override
     protected int getLayoutResId() {
-        return R.layout.fragment_we_chat_tab;
+        return R.layout.fragment_project_tab;
     }
 
     @Override
@@ -68,6 +68,7 @@ public class WeChatTabFragment extends LazyMVPFragment<WeChatTabPresenter> imple
         Bundle arguments = getArguments();
         if (null != arguments) {
             id = arguments.getInt(Key.ARGUMENT_ID, -1);
+            mType = arguments.getString(Key.ARGUMENT_TYPE);
         }
         mList = new ArrayList<>();
     }
@@ -75,7 +76,7 @@ public class WeChatTabFragment extends LazyMVPFragment<WeChatTabPresenter> imple
     @Override
     protected void initUI() {
         mSrlRefresh.setColorSchemeColors(getResources().getColor(R.color.md_blue_A200), getResources().getColor(R.color.md_blue_A400));
-        mAdapter = new WxArticleListAdapter(mActivity, R.layout.item_rlv_wx_article, mList);
+        mAdapter = new ProjectListAdapter(mActivity, R.layout.item_rlv_project, mList);
         mRlvArticle.setLayoutManager(new LinearLayoutManager(getBindActivity()));
         mRlvArticle.addItemDecoration(new DividerItemDecoration(getBindActivity(), LinearLayoutManager.VERTICAL));
         mRlvArticle.setAdapter(mAdapter);
@@ -102,7 +103,7 @@ public class WeChatTabFragment extends LazyMVPFragment<WeChatTabPresenter> imple
             @SingleClick
             @Override
             public void onItemChildClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
-                WxArticleListBean.DatasBean item = (WxArticleListBean.DatasBean) baseQuickAdapter.getData().get(i);
+                ProjectListBean.DatasBean item = (ProjectListBean.DatasBean) baseQuickAdapter.getData().get(i);
                 switch (view.getId()) {
                     case R.id.iv_collect:
                         collectClick((ImageView) view, item, i);
@@ -117,10 +118,10 @@ public class WeChatTabFragment extends LazyMVPFragment<WeChatTabPresenter> imple
             @SingleClick
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                WxArticleListBean.DatasBean item = (WxArticleListBean.DatasBean) adapter.getData().get(position);
+                ProjectListBean.DatasBean item = (ProjectListBean.DatasBean) adapter.getData().get(position);
                 Bundle bundle = new Bundle();
                 bundle.putString(Key.BUNDLE_LINK, item.getLink());
-                bundle.putString(Key.BUNDLE_TOOLBAR_TITLE, item.getAuthor());
+                bundle.putString(Key.BUNDLE_TOOLBAR_TITLE, mType);
                 bundle.putString(Key.BUNDLE_TITLE, item.getTitle());
                 bundle.putBoolean(Key.BUNDLE_COLLECT, item.isCollect());
                 bundle.putInt(Key.BUNDLE_ID, item.getId());
@@ -132,7 +133,7 @@ public class WeChatTabFragment extends LazyMVPFragment<WeChatTabPresenter> imple
         mStateView.getStateViewImpl().setRetryListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: 2019/5/10 重试
+                // TODO: 2019/5/17 重试
             }
         });
     }
@@ -142,7 +143,7 @@ public class WeChatTabFragment extends LazyMVPFragment<WeChatTabPresenter> imple
      */
     @SingleClick
     @LoginFilter(FilterType.JUMP)
-    private void collectClick(ImageView view, WxArticleListBean.DatasBean item, int position) {
+    private void collectClick(ImageView view, ProjectListBean.DatasBean item, int position) {
         boolean collect = item.isCollect();
         if (collect) {
             view.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_collect_normal));
@@ -174,9 +175,10 @@ public class WeChatTabFragment extends LazyMVPFragment<WeChatTabPresenter> imple
         return mRlvArticle;
     }
 
+
     @Override
-    public void getDataSuccess(WxArticleListBean bean, boolean isRefresh) {
-        List<WxArticleListBean.DatasBean> datas = bean.getDatas();
+    public void getDataSuccess(ProjectListBean bean, boolean isRefresh) {
+        List<ProjectListBean.DatasBean> datas = bean.getDatas();
         if (isRefresh) {
             mList = datas;
             mAdapter.replaceData(mList);
@@ -230,10 +232,10 @@ public class WeChatTabFragment extends LazyMVPFragment<WeChatTabPresenter> imple
     protected void receiveEvent(Event event) {
         switch (event.getCode()) {
             case EventCode.COLLECT_ARTICLE_SUCCESS:
-                handleCollectEvent(event,true);
+                handleCollectEvent(event, true);
                 break;
             case EventCode.CANCEL_COLLECT_ARTICLE_SUCCESS:
-                handleCollectEvent(event,false);
+                handleCollectEvent(event, false);
                 break;
             default:
                 break;
@@ -242,15 +244,16 @@ public class WeChatTabFragment extends LazyMVPFragment<WeChatTabPresenter> imple
 
     /**
      * 处理收藏/取消收藏事件
-     * @param event 事件
+     *
+     * @param event     事件
      * @param isCollect 是否是收藏
      */
     private void handleCollectEvent(Event event, boolean isCollect) {
         int id = (int) event.getEvent();
-        List<WxArticleListBean.DatasBean> data = mAdapter.getData();
+        List<ProjectListBean.DatasBean> data = mAdapter.getData();
         for (int i = 0; i < data.size(); i++) {
-            WxArticleListBean.DatasBean datasBean = data.get(i);
-            if(datasBean.getId()==id){
+            ProjectListBean.DatasBean datasBean = data.get(i);
+            if (datasBean.getId() == id) {
                 mAdapter.getData().get(i).setCollect(isCollect);
                 mAdapter.notifyItemChanged(i);
             }

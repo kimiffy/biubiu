@@ -14,7 +14,7 @@ import android.widget.LinearLayout;
 import com.just.agentweb.AgentWeb;
 import com.kimiffy.cn.biubiu.R;
 import com.kimiffy.cn.biubiu.base.BaseMVPActivity;
-import com.kimiffy.cn.biubiu.constant.EventCode;
+import com.kimiffy.cn.biubiu.utils.event.EventCode;
 import com.kimiffy.cn.biubiu.constant.Key;
 import com.kimiffy.cn.biubiu.utils.StringUtil;
 import com.kimiffy.cn.biubiu.utils.ToastUtil;
@@ -37,7 +37,7 @@ public class ArticleDetailActivity extends BaseMVPActivity<ArticleDetailPresente
     Toolbar mToolbar;
     private String mLink;
     private AgentWeb mAgentWeb;
-    private String mAuthor;
+    private String mToolBarTitle;
     private boolean mIsCollect;
     private int mId;
     private ImageView mIvCollect;
@@ -59,7 +59,7 @@ public class ArticleDetailActivity extends BaseMVPActivity<ArticleDetailPresente
         Bundle bundle = getIntent().getExtras();
         if (null != bundle) {
             mLink = bundle.getString(Key.BUNDLE_LINK);
-            mAuthor = bundle.getString(Key.BUNDLE_AUTHOR);
+            mToolBarTitle = bundle.getString(Key.BUNDLE_TOOLBAR_TITLE);
             mTitle = bundle.getString(Key.BUNDLE_TITLE);
             mIsCollect = bundle.getBoolean(Key.BUNDLE_COLLECT, false);
             mId = bundle.getInt(Key.BUNDLE_ID, -1);
@@ -105,7 +105,7 @@ public class ArticleDetailActivity extends BaseMVPActivity<ArticleDetailPresente
 
 
     private void initToolBar() {
-        mToolbar.setTitle(mAuthor);
+        mToolbar.setTitle(mToolBarTitle);
         setSupportActionBar(mToolbar);
         mToolbar.inflateMenu(R.menu.menu_toolbar_article_detail);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {

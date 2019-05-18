@@ -12,7 +12,9 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.kimiffy.cn.biubiu.R;
 import com.kimiffy.cn.biubiu.base.BaseMVPActivity;
 import com.kimiffy.cn.biubiu.bean.ArticleBean;
+import com.kimiffy.cn.biubiu.constant.Key;
 import com.kimiffy.cn.biubiu.ui.articledetail.ArticleDetailActivity;
+import com.kimiffy.cn.biubiu.ui.home.HomeAdapter;
 import com.kimiffy.cn.biubiu.utils.ToastUtil;
 
 import java.util.ArrayList;
@@ -34,7 +36,7 @@ public class ArticleListActivity extends BaseMVPActivity<ArticleListPresenter> i
     @BindView(R.id.root_view)
     ConstraintLayout rootView;
     private List<ArticleBean.DatasBean> articleList;
-    private ArticleListAdapter mAdapter;
+    private HomeAdapter mAdapter;
 
     @Override
     protected ArticleListPresenter createPresenter() {
@@ -60,7 +62,7 @@ public class ArticleListActivity extends BaseMVPActivity<ArticleListPresenter> i
 
     @Override
     protected void initUI() {
-        mAdapter = new ArticleListAdapter(R.layout.item_rlv_article, articleList);
+        mAdapter = new HomeAdapter(R.layout.item_rlv_article, articleList);
         rlvArticle.setLayoutManager(new LinearLayoutManager(this));
         rlvArticle.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         rlvArticle.setAdapter(mAdapter);
@@ -90,7 +92,7 @@ public class ArticleListActivity extends BaseMVPActivity<ArticleListPresenter> i
                 ArticleBean.DatasBean bean = mAdapter.getData().get(position);
                 String link = bean.getLink();
                 Bundle bundle = new Bundle();
-                bundle.putString("link", link);
+                bundle.putString(Key.BUNDLE_LINK, link);
                 startActivity(ArticleDetailActivity.class, bundle);
             }
         });

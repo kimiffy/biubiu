@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.kimiffy.cn.biubiu.R;
 import com.kimiffy.cn.biubiu.base.BaseActivity;
-import com.kimiffy.cn.biubiu.constant.EventCode;
+import com.kimiffy.cn.biubiu.utils.event.EventCode;
 import com.kimiffy.cn.biubiu.database.model.User;
 import com.kimiffy.cn.biubiu.database.model.User_Table;
 import com.kimiffy.cn.biubiu.http.dowload.DownLoadListener;

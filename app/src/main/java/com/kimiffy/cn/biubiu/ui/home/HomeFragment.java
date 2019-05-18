@@ -13,7 +13,6 @@ import com.kimiffy.cn.biubiu.base.BaseMVPFragment;
 import com.kimiffy.cn.biubiu.bean.ArticleBean;
 import com.kimiffy.cn.biubiu.constant.Key;
 import com.kimiffy.cn.biubiu.ui.articledetail.ArticleDetailActivity;
-import com.kimiffy.cn.biubiu.ui.articlelist.ArticleListAdapter;
 import com.kimiffy.cn.biubiu.utils.ToastUtil;
 import com.kimiffy.cn.biubiu.utils.aop.annotation.SingleClick;
 
@@ -35,7 +34,7 @@ public class HomeFragment extends BaseMVPFragment<HomePresenter> implements Home
     SwipeRefreshLayout mSrlRefresh;
 
     private List<ArticleBean.DatasBean> articleList;
-    private ArticleListAdapter mAdapter;
+    private HomeAdapter mAdapter;
 
 
     @Override
@@ -60,7 +59,7 @@ public class HomeFragment extends BaseMVPFragment<HomePresenter> implements Home
     @Override
     protected void initUI() {
         mSrlRefresh.setColorSchemeColors(getResources().getColor(R.color.md_blue_A200),getResources().getColor(R.color.md_blue_A400));
-        mAdapter = new ArticleListAdapter(R.layout.item_rlv_article, articleList);
+        mAdapter = new HomeAdapter(R.layout.item_rlv_article, articleList);
         mRlvArticle.setLayoutManager(new LinearLayoutManager(getBindActivity()));
         mRlvArticle.addItemDecoration(new DividerItemDecoration(getBindActivity(), LinearLayoutManager.VERTICAL));
         mRlvArticle.setAdapter(mAdapter);
@@ -92,7 +91,7 @@ public class HomeFragment extends BaseMVPFragment<HomePresenter> implements Home
                 ArticleBean.DatasBean bean = mAdapter.getData().get(position);
                 Bundle bundle = new Bundle();
                 bundle.putString(Key.BUNDLE_LINK, bean.getLink());
-                bundle.putString(Key.BUNDLE_AUTHOR, bean.getAuthor());
+                bundle.putString(Key.BUNDLE_TOOLBAR_TITLE, bean.getAuthor());
                 bundle.putString(Key.BUNDLE_TITLE, bean.getTitle());
                 bundle.putBoolean(Key.BUNDLE_COLLECT, bean.isCollect());
                 bundle.putInt(Key.BUNDLE_ID, bean.getId());
