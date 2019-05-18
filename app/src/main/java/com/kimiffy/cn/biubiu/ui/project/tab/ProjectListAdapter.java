@@ -41,7 +41,7 @@ public class ProjectListAdapter extends BaseQuickAdapter<ProjectListBean.DatasBe
             helper.setText(R.id.tv_title, format);
         }
         if (!TextUtils.isEmpty(item.getAuthor())) {
-            helper.setText(R.id.tv_author, item.getAuthor());
+            helper.setText(R.id.tv_author, "By: "+item.getAuthor());
         }
 
         if (!TextUtils.isEmpty(item.getDesc())) {
@@ -57,7 +57,6 @@ public class ProjectListAdapter extends BaseQuickAdapter<ProjectListBean.DatasBe
                     .build();
             ImageLoader.getInstance().loadImage(mActivity, commonOption);
         }
-
 
         boolean collect = item.isCollect();
         if (collect) {

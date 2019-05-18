@@ -3,6 +3,7 @@ package com.kimiffy.cn.biubiu.ui.wechat.tab;
 import android.app.Activity;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -41,6 +42,12 @@ public class WxArticleListAdapter extends BaseQuickAdapter<WxArticleListBean.Dat
         if (!TextUtils.isEmpty(item.getChapterName()) && !TextUtils.isEmpty(item.getSuperChapterName())) {
 
             helper.setText(R.id.tv_chapter, item.getSuperChapterName() + " / " + item.getChapterName());
+        }
+
+        if (item.isFresh()) {
+            helper.getView(R.id.iv_fresh).setVisibility(View.VISIBLE);
+        } else {
+            helper.getView(R.id.iv_fresh).setVisibility(View.INVISIBLE);
         }
 
         boolean collect = item.isCollect();
