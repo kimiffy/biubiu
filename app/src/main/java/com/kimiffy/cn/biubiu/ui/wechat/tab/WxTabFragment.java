@@ -29,11 +29,11 @@ import java.util.List;
 import butterknife.BindView;
 
 /**
- * Description:公众号文章列表
+ * Description:公众号文章/体系文章 列表tab
  * Created by kimiffy on 2019/5/3.
  */
 @BindEventBus
-public class WeChatTabFragment extends LazyMVPFragment<WeChatTabPresenter> implements WeChatTabContract.View {
+public class WxTabFragment extends LazyMVPFragment<WxTabPresenter> implements WxTabContract.View {
 
 
     @BindView(R.id.rlv_article)
@@ -44,17 +44,17 @@ public class WeChatTabFragment extends LazyMVPFragment<WeChatTabPresenter> imple
     private List<WxArticleListBean.DatasBean> mList;
     private WxArticleListAdapter mAdapter;
 
-    public static WeChatTabFragment newInstance(int id) {
+    public static WxTabFragment newInstance(int id) {
         Bundle args = new Bundle();
         args.putInt(Key.ARGUMENT_ID, id);
-        WeChatTabFragment fragment = new WeChatTabFragment();
+        WxTabFragment fragment = new WxTabFragment();
         fragment.setArguments(args);
         return fragment;
     }
 
     @Override
-    protected WeChatTabPresenter createPresenter() {
-        return new WeChatTabPresenter(this);
+    protected WxTabPresenter createPresenter() {
+        return new WxTabPresenter(this);
     }
 
 

@@ -9,9 +9,9 @@ import com.kimiffy.cn.biubiu.bean.WxArticleListBean;
  * Created by kimiffy on 2019/5/3.
  */
 
-public class WeChatTabContract {
+public class WxTabContract {
 
-    public interface Presenter extends IPresenter<WeChatTabContract.View> {
+    public interface Presenter extends IPresenter<WxTabContract.View> {
 
         void firstFresh(int id);
 

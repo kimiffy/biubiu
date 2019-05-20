@@ -8,7 +8,7 @@ import android.support.v4.view.ViewPager;
 import com.kimiffy.cn.biubiu.R;
 import com.kimiffy.cn.biubiu.base.BaseMVPFragment;
 import com.kimiffy.cn.biubiu.bean.WxTitleBean;
-import com.kimiffy.cn.biubiu.ui.wechat.tab.WeChatTabFragment;
+import com.kimiffy.cn.biubiu.ui.wechat.tab.WxTabFragment;
 import com.kimiffy.cn.biubiu.utils.ToastUtil;
 
 import java.util.ArrayList;
@@ -67,7 +67,7 @@ public class WeChatMainFragment extends BaseMVPFragment<WeChatMainPresenter> imp
         for (WxTitleBean wxTitleBean : bean) {
             String name = wxTitleBean.getName();
             mTitles.add(name);
-            mFragments.add( WeChatTabFragment.newInstance(wxTitleBean.getId()));
+            mFragments.add( WxTabFragment.newInstance(wxTitleBean.getId()));
         }
         mAdapter.notifyDataSetChanged();
 

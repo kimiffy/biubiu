@@ -20,14 +20,14 @@ import io.reactivex.schedulers.Schedulers;
  * Created by kimiffy on 2019/5/3.
  */
 
-public class WeChatTabPresenter extends BasePresenter<WeChatTabContract.View> implements WeChatTabContract.Presenter {
+public class WxTabPresenter extends BasePresenter<WxTabContract.View> implements WxTabContract.Presenter {
 
     private int currentPage;
     private int id;
     private boolean isRefresh;
     private boolean isFirstTimeLoad = true;
 
-    WeChatTabPresenter(WeChatTabContract.View view) {
+    WxTabPresenter(WxTabContract.View view) {
         mView = view;
     }
 
