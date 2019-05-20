@@ -1,6 +1,5 @@
 package com.kimiffy.cn.biubiu.ui;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -30,6 +29,7 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.bnv_bar)
     BottomNavigationView mBnvBar;
     private Fragment[] mFragments = new Fragment[5];
+    private String[] mFragmentTags = {"tag1", "tag2", "tag3", "tag4", "tag5"};
     private int lastIndex;
 
     @Override
@@ -39,6 +39,16 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initData(Bundle savedInstanceState) {
+        //通过tag恢复保存的fragment
+        if (savedInstanceState != null) {
+            for (int i = 0; i < 5; i++) {
+                Fragment fragment = getSupportFragmentManager().getFragment(savedInstanceState, mFragmentTags[i]);
+                if (fragment != null) {
+                    mFragments[i] = fragment;
+                }
+            }
+            lastIndex = savedInstanceState.getInt(Key.BUNDLE_STATE_LAST_INDEX, 0);
+        }
 
     }
 
@@ -132,44 +142,44 @@ public class MainActivity extends BaseActivity {
 
     /**
      * 实例化Fragment
+     *
      * @param position 下标
      * @return fragment
      */
     private Fragment createFragment(int position) {
-        Fragment fragment=null;
-        switch (position){
+        Fragment fragment = null;
+        switch (position) {
             case 0:
-                fragment=HomeFragment.newInstance();
+                fragment = HomeFragment.newInstance();
                 break;
             case 1:
-                fragment=HomeFragment.newInstance();
+                fragment = HomeFragment.newInstance();
                 break;
             case 2:
-                fragment= WeChatMainFragment.newInstance();
+                fragment = WeChatMainFragment.newInstance();
                 break;
             case 3:
-                fragment= ProjectMainFragment.newInstance();
+                fragment = ProjectMainFragment.newInstance();
                 break;
             case 4:
-                fragment=HomeFragment.newInstance();
+                fragment = HomeFragment.newInstance();
                 break;
         }
         return fragment;
     }
 
-    @SuppressLint("MissingSuperCall")
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        //保存上一次显示的下标
+        //保存已经添加到FragmentManager的fragment
+        for (int i = 0; i < 5; i++) {
+            if (null != mFragments[i] && mFragments[i].isAdded()) {
+                getSupportFragmentManager().putFragment(outState, mFragmentTags[i], mFragments[i]);
+            }
+        }
         outState.putInt(Key.BUNDLE_STATE_LAST_INDEX, lastIndex);
+        super.onSaveInstanceState(outState);
     }
 
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        lastIndex = savedInstanceState.getInt(Key.BUNDLE_STATE_LAST_INDEX);
-        setSelectedTab(lastIndex);
-        super.onRestoreInstanceState(savedInstanceState);
-    }
 
     @Override
     protected void onDestroy() {

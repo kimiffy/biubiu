@@ -39,6 +39,7 @@ public abstract class BaseFragment extends Fragment {
         if (null == rootView) {
             rootView = inflater.inflate(getLayoutResId(), container, false);
         }
+        rootView.setClickable(true);//防止点击穿透
         return rootView;
     }
 
