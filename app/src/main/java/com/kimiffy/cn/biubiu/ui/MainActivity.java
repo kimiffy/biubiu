@@ -43,7 +43,7 @@ public class MainActivity extends BaseActivity {
         if (savedInstanceState != null) {
             for (int i = 0; i < 5; i++) {
                 Fragment fragment = getSupportFragmentManager().getFragment(savedInstanceState, mFragmentTags[i]);
-                if (fragment != null) {
+                if (null!= fragment ) {
                     mFragments[i] = fragment;
                 }
             }
