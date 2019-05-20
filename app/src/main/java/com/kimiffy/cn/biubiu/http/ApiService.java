@@ -4,6 +4,7 @@ import com.kimiffy.cn.biubiu.base.BaseBean;
 import com.kimiffy.cn.biubiu.bean.ArticleBean;
 import com.kimiffy.cn.biubiu.bean.ProjectListBean;
 import com.kimiffy.cn.biubiu.bean.ProjectTitleBean;
+import com.kimiffy.cn.biubiu.bean.SystemBean;
 import com.kimiffy.cn.biubiu.bean.UserBean;
 import com.kimiffy.cn.biubiu.bean.WxArticleListBean;
 import com.kimiffy.cn.biubiu.bean.WxTitleBean;
@@ -110,4 +111,11 @@ public interface ApiService {
      */
     @GET("project/list/{page}/json")
     Observable<BaseBean<ProjectListBean>> getProjectList( @Path("page") int page,@Query("cid") int id);
+
+
+    /**
+     *  获取知识体系列表
+     */
+    @GET("tree/json")
+    Observable<BaseBean<List<SystemBean>>>getSystemList();
 }
