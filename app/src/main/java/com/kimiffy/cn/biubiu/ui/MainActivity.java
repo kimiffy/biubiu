@@ -13,6 +13,7 @@ import com.kimiffy.cn.biubiu.base.BaseActivity;
 import com.kimiffy.cn.biubiu.constant.Key;
 import com.kimiffy.cn.biubiu.ui.home.HomeFragment;
 import com.kimiffy.cn.biubiu.ui.project.ProjectMainFragment;
+import com.kimiffy.cn.biubiu.ui.system.SystemMainFragment;
 import com.kimiffy.cn.biubiu.ui.wechat.WeChatMainFragment;
 import com.kimiffy.cn.biubiu.utils.BottomNavigationViewHelper;
 
@@ -153,7 +154,7 @@ public class MainActivity extends BaseActivity {
                 fragment = HomeFragment.newInstance();
                 break;
             case 1:
-                fragment = HomeFragment.newInstance();
+                fragment = SystemMainFragment.newInstance();
                 break;
             case 2:
                 fragment = WeChatMainFragment.newInstance();
