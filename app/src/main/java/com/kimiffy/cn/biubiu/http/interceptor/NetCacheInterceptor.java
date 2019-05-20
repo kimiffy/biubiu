@@ -41,8 +41,8 @@ public class NetCacheInterceptor implements Interceptor {
                     .header("Cache-Control", cacheControl)
                     .removeHeader("Pragma").build();
         } else {
-            //无网络时直接取缓存数据，该缓存数据保存1天
-            int maxStale = 60 * 60 * 24  * 1;  //1天
+            //无网络时直接取缓存数据，该缓存数据保存3天
+            int maxStale = 60 * 60 * 24  * 3;  //3天
             return response.newBuilder()
                     .header("Cache-Control", "public,only-if-cached,max-stale=" + maxStale)
                     .removeHeader("Pragma").build();
