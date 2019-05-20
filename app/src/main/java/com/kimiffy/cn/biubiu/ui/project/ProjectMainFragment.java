@@ -9,6 +9,7 @@ import com.kimiffy.cn.biubiu.R;
 import com.kimiffy.cn.biubiu.base.BaseMVPFragment;
 import com.kimiffy.cn.biubiu.bean.ProjectTitleBean;
 import com.kimiffy.cn.biubiu.ui.project.tab.ProjectTabFragment;
+import com.kimiffy.cn.biubiu.utils.StringUtil;
 import com.kimiffy.cn.biubiu.utils.ToastUtil;
 
 import java.util.ArrayList;
@@ -66,9 +67,9 @@ public class ProjectMainFragment extends BaseMVPFragment<ProjectMainPresenter> i
         mFragments.clear();
         mTitles.clear();
         for (ProjectTitleBean titleBean : data) {
-            String name = titleBean.getName();
+            String name = StringUtil.formatTitle(titleBean.getName()).toString();
             mTitles.add(name);
-            mFragments.add(ProjectTabFragment.newInstance(titleBean.getId(),titleBean.getName()));
+            mFragments.add(ProjectTabFragment.newInstance(titleBean.getId(),name));
         }
         mAdapter.notifyDataSetChanged();
     }
