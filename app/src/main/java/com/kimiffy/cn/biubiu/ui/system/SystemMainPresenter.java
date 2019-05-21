@@ -2,7 +2,6 @@ package com.kimiffy.cn.biubiu.ui.system;
 
 import com.kimiffy.cn.biubiu.base.BaseBean;
 import com.kimiffy.cn.biubiu.base.BasePresenter;
-import com.kimiffy.cn.biubiu.bean.ArticleBean;
 import com.kimiffy.cn.biubiu.bean.SystemBean;
 import com.kimiffy.cn.biubiu.constant.Config;
 import com.kimiffy.cn.biubiu.http.callback.BaseObserver;

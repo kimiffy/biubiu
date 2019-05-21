@@ -7,6 +7,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.kimiffy.cn.biubiu.R;
 import com.kimiffy.cn.biubiu.bean.SystemBean;
+import com.kimiffy.cn.biubiu.utils.StringUtil;
 
 import java.util.List;
 
@@ -15,10 +16,10 @@ import java.util.List;
  * Created by kimiffy on 2019/5/20.
  */
 
-public class SystemAdapter extends BaseQuickAdapter<SystemBean, BaseViewHolder> {
+public class SystemMainAdapter extends BaseQuickAdapter<SystemBean, BaseViewHolder> {
 
 
-    SystemAdapter(int layoutResId, @Nullable List<SystemBean> data) {
+    SystemMainAdapter(int layoutResId, @Nullable List<SystemBean> data) {
         super(layoutResId, data);
     }
 
@@ -32,7 +33,8 @@ public class SystemAdapter extends BaseQuickAdapter<SystemBean, BaseViewHolder> 
         if (!item.getChildren().isEmpty()) {
             StringBuilder sb = new StringBuilder();
             for (SystemBean.ChildrenBean childrenBean : item.getChildren()) {
-                sb.append(childrenBean.getName()).append("      ");
+                String name = StringUtil.formatTitle(childrenBean.getName()).toString();
+                sb.append(name).append("    ");
             }
             helper.setText(R.id.tv_content, sb.toString());
         }

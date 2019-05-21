@@ -12,6 +12,9 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.kimiffy.cn.biubiu.R;
 import com.kimiffy.cn.biubiu.base.BaseMVPFragment;
 import com.kimiffy.cn.biubiu.bean.SystemBean;
+import com.kimiffy.cn.biubiu.constant.Key;
+import com.kimiffy.cn.biubiu.ui.system.detail.SystemListActivity;
+import com.kimiffy.cn.biubiu.utils.GsonUtil;
 import com.kimiffy.cn.biubiu.utils.aop.annotation.SingleClick;
 
 import java.util.ArrayList;
@@ -34,7 +37,7 @@ public class SystemMainFragment extends BaseMVPFragment<SystemMainPresenter> imp
     @BindView(R.id.srl_refresh)
     SwipeRefreshLayout mSrlRefresh;
     private List<SystemBean> mList;
-    private SystemAdapter mAdapter;
+    private SystemMainAdapter mAdapter;
 
     public static SystemMainFragment newInstance() {
         return new SystemMainFragment();
@@ -64,7 +67,7 @@ public class SystemMainFragment extends BaseMVPFragment<SystemMainPresenter> imp
     @Override
     protected void initUI() {
         mSrlRefresh.setColorSchemeColors(getResources().getColor(R.color.md_blue_A200), getResources().getColor(R.color.md_blue_A400));
-        mAdapter = new SystemAdapter(R.layout.item_rlv_sys, mList);
+        mAdapter = new SystemMainAdapter(R.layout.item_rlv_sys, mList);
         mRlvSys.setLayoutManager(new LinearLayoutManager(getBindActivity()));
         mRlvSys.addItemDecoration(new DividerItemDecoration(getBindActivity(), LinearLayoutManager.VERTICAL));
         mRlvSys.setAdapter(mAdapter);
@@ -87,7 +90,13 @@ public class SystemMainFragment extends BaseMVPFragment<SystemMainPresenter> imp
             @SingleClick
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-
+                SystemBean data = (SystemBean) adapter.getData().get(position);
+                List<SystemBean.ChildrenBean> children = data.getChildren();
+                String json = GsonUtil.toJson(children);
+                Bundle bundle = new Bundle();
+                bundle.putString(Key.BUNDLE_TOOLBAR_TITLE,data.getName());
+                bundle.putString(Key.BUNDLE_SYS_CHILD,json);
+                startActivity(SystemListActivity.class,bundle);
             }
         });
 

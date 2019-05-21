@@ -8,7 +8,7 @@ import java.util.List;
  * Created by kimiffy on 2019/5/20.
  */
 
-public class SystemBean implements Serializable{
+public class SystemBean {
 
     private int courseId;
     private int id;
@@ -74,7 +74,7 @@ public class SystemBean implements Serializable{
         this.children = children;
     }
 
-    public static class ChildrenBean implements Serializable{
+    public static class ChildrenBean {
         /**
          * children : []
          * courseId : 13
