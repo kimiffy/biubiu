@@ -4,6 +4,8 @@ import com.kimiffy.cn.biubiu.base.contract.IBaseView;
 import com.kimiffy.cn.biubiu.base.contract.IPresenter;
 import com.kimiffy.cn.biubiu.bean.ArticleBean;
 
+import java.util.List;
+
 /**
  * Description:首页契约类
  * Created by kimiffy on 2019/4/23.
@@ -30,9 +32,13 @@ public class HomeContract {
     }
 
     public interface View extends IBaseView {
-        void getArticleListSuccess(ArticleBean dataBean, boolean isRefresh);
+        void getArticleListSuccess(List<ArticleBean.DatasBean> dataBean, boolean isRefresh);
 
         void getArticleListFail(String info);
+
+        void stopRefresh();
+
+        void noMoreData();
 
         void getBannerSuccess();
 

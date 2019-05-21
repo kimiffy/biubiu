@@ -175,20 +175,15 @@ public class WxTabFragment extends LazyMVPFragment<WxTabPresenter> implements Wx
     }
 
     @Override
-    public void getDataSuccess(WxArticleListBean bean, boolean isRefresh) {
-        List<WxArticleListBean.DatasBean> datas = bean.getDatas();
+    public void getDataSuccess(List<WxArticleListBean.DatasBean> bean, boolean isRefresh) {
         if (isRefresh) {
-            mList = datas;
+            mList = bean;
             mAdapter.replaceData(mList);
         } else {
-            if (!datas.isEmpty()) {
-                mAdapter.addData(datas);
-                mAdapter.loadMoreComplete();
-            } else {
-                mAdapter.loadMoreEnd();
-            }
+            mAdapter.addData(bean);
+            mAdapter.loadMoreComplete();
         }
-        mSrlRefresh.setRefreshing(false);
+
     }
 
     @Override
@@ -196,6 +191,15 @@ public class WxTabFragment extends LazyMVPFragment<WxTabPresenter> implements Wx
         mSrlRefresh.setRefreshing(false);
     }
 
+    @Override
+    public void stopRefresh() {
+        mSrlRefresh.setRefreshing(false);
+    }
+
+    @Override
+    public void noMoreData() {
+        mAdapter.loadMoreEnd();
+    }
 
     @Override
     public void collectSuccess(int position) {
@@ -230,10 +234,10 @@ public class WxTabFragment extends LazyMVPFragment<WxTabPresenter> implements Wx
     protected void receiveEvent(Event event) {
         switch (event.getCode()) {
             case EventCode.COLLECT_ARTICLE_SUCCESS:
-                handleCollectEvent(event,true);
+                handleCollectEvent(event, true);
                 break;
             case EventCode.CANCEL_COLLECT_ARTICLE_SUCCESS:
-                handleCollectEvent(event,false);
+                handleCollectEvent(event, false);
                 break;
             default:
                 break;
@@ -242,7 +246,8 @@ public class WxTabFragment extends LazyMVPFragment<WxTabPresenter> implements Wx
 
     /**
      * 处理收藏/取消收藏事件
-     * @param event 事件
+     *
+     * @param event     事件
      * @param isCollect 是否是收藏
      */
     private void handleCollectEvent(Event event, boolean isCollect) {
@@ -250,7 +255,7 @@ public class WxTabFragment extends LazyMVPFragment<WxTabPresenter> implements Wx
         List<WxArticleListBean.DatasBean> data = mAdapter.getData();
         for (int i = 0; i < data.size(); i++) {
             WxArticleListBean.DatasBean datasBean = data.get(i);
-            if(datasBean.getId()==id){
+            if (datasBean.getId() == id) {
                 mAdapter.getData().get(i).setCollect(isCollect);
                 mAdapter.notifyItemChanged(i);
             }

@@ -14,7 +14,6 @@ import android.widget.LinearLayout;
 import com.just.agentweb.AgentWeb;
 import com.kimiffy.cn.biubiu.R;
 import com.kimiffy.cn.biubiu.base.BaseMVPActivity;
-import com.kimiffy.cn.biubiu.utils.event.EventCode;
 import com.kimiffy.cn.biubiu.constant.Key;
 import com.kimiffy.cn.biubiu.utils.StringUtil;
 import com.kimiffy.cn.biubiu.utils.ToastUtil;
@@ -23,6 +22,7 @@ import com.kimiffy.cn.biubiu.utils.aop.annotation.LoginFilter;
 import com.kimiffy.cn.biubiu.utils.aop.annotation.SingleClick;
 import com.kimiffy.cn.biubiu.utils.event.Event;
 import com.kimiffy.cn.biubiu.utils.event.EventBusUtil;
+import com.kimiffy.cn.biubiu.utils.event.EventCode;
 
 import butterknife.BindView;
 

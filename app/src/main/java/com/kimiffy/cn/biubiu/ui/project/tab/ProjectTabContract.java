@@ -4,6 +4,8 @@ import com.kimiffy.cn.biubiu.base.contract.IBaseView;
 import com.kimiffy.cn.biubiu.base.contract.IPresenter;
 import com.kimiffy.cn.biubiu.bean.ProjectListBean;
 
+import java.util.List;
+
 /**
  * Description:项目tab 契约类
  * Created by kimiffy on 2019/5/17.
@@ -27,9 +29,13 @@ public class ProjectTabContract {
     }
 
     public interface View extends IBaseView {
-        void getDataSuccess(ProjectListBean bean, boolean isRefresh);
+        void getDataSuccess(List<ProjectListBean.DatasBean> bean, boolean isRefresh);
 
         void getDataFail(String info);
+
+        void stopRefresh();
+
+        void noMoreData();
 
         void collectSuccess(int position);
 

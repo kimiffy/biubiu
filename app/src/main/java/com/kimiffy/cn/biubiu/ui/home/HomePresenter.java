@@ -26,6 +26,7 @@ import io.reactivex.schedulers.Schedulers;
 
 public class HomePresenter extends BasePresenter<HomeContract.View> implements HomeContract.Presenter {
 
+    private boolean isFirstTimeLoad = true;
     private boolean isRefresh;
     private int currentPage;
 
@@ -91,14 +92,35 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
             @Override
             public void onSuccess(BaseBean<ArticleBean> bean) {
                 List<ArticleBean.DatasBean> datas = bean.data.getDatas();
-                if (!datas.isEmpty()) {
-                    mView.getArticleListSuccess(bean.data, isRefresh);
+                if (null != datas&&!datas.isEmpty()) {
+                    isFirstTimeLoad = false;
+                    mView.showContent();
+                    mView.getArticleListSuccess(datas, isRefresh);
+                } else {
+                    if (isFirstTimeLoad) {
+                        mView.showDataEmpty();
+                    }else {
+                        mView.noMoreData();
+                    }
+                }
+                if(isRefresh){
+                    mView.stopRefresh();
                 }
             }
 
             @Override
             public void onFailure(String msg, ErrorType errorType) {
+                if (isFirstTimeLoad) {
+                    if (errorType.ordinal() == 0) {
+                        mView.showNetError();
+                    } else {
+                        mView.showDataError();
+                    }
+                }
                 mView.getArticleListFail(msg);
+                if(isRefresh){
+                    mView.stopRefresh();
+                }
             }
         });
 

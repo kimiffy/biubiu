@@ -7,6 +7,7 @@ import com.kimiffy.cn.biubiu.constant.Config;
 import com.kimiffy.cn.biubiu.http.callback.BaseObserver;
 import com.kimiffy.cn.biubiu.http.exception.ErrorType;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
@@ -27,7 +28,7 @@ public class ProjectTabPresenter extends BasePresenter<ProjectTabContract.View> 
     private boolean isRefresh;
     private boolean isFirstTimeLoad = true;
 
-    public ProjectTabPresenter(ProjectTabContract.View view) {
+    ProjectTabPresenter(ProjectTabContract.View view) {
         mView = view;
     }
 
@@ -97,15 +98,20 @@ public class ProjectTabPresenter extends BasePresenter<ProjectTabContract.View> 
         addDisposable(mApiService.getProjectList(page,id), new BaseObserver<BaseBean<ProjectListBean>>() {
             @Override
             public void onSuccess(BaseBean<ProjectListBean> bean) {
-                ProjectListBean data = bean.data;
-                if (null != data) {
+                List<ProjectListBean.DatasBean> datas = bean.data.getDatas();
+                if (null != datas&&!datas.isEmpty()) {
                     isFirstTimeLoad = false;
                     mView.showContent();
-                    mView.getDataSuccess(data, isRefresh);
+                    mView.getDataSuccess(datas, isRefresh);
                 } else {
                     if (isFirstTimeLoad) {
                         mView.showDataEmpty();
+                    }else {
+                        mView.noMoreData();
                     }
+                }
+                if(isRefresh){
+                    mView.stopRefresh();
                 }
             }
 
@@ -119,6 +125,9 @@ public class ProjectTabPresenter extends BasePresenter<ProjectTabContract.View> 
                     }
                 }
                 mView.getDataFail(msg);
+                if(isRefresh){
+                    mView.stopRefresh();
+                }
             }
         });
     }

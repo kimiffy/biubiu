@@ -13,7 +13,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.kimiffy.cn.biubiu.R;
 import com.kimiffy.cn.biubiu.base.BaseMVPFragment;
 import com.kimiffy.cn.biubiu.bean.ArticleBean;
-import com.kimiffy.cn.biubiu.bean.WxArticleListBean;
 import com.kimiffy.cn.biubiu.constant.Key;
 import com.kimiffy.cn.biubiu.ui.articledetail.ArticleDetailActivity;
 import com.kimiffy.cn.biubiu.utils.ToastUtil;
@@ -62,6 +61,12 @@ public class HomeFragment extends BaseMVPFragment<HomePresenter> implements Home
     @Override
     protected void initData(Bundle savedInstanceState) {
         articleList = new ArrayList<>();
+    }
+
+
+    @Override
+    protected View getStateViewRootView() {
+        return mRlvArticle;
     }
 
     @Override
@@ -153,13 +158,12 @@ public class HomeFragment extends BaseMVPFragment<HomePresenter> implements Home
 
 
     @Override
-    public void getArticleListSuccess(ArticleBean dataBean, boolean isRefresh) {
+    public void getArticleListSuccess(List<ArticleBean.DatasBean> dataBean, boolean isRefresh) {
         if (isRefresh) {
-            articleList = dataBean.getDatas();
+            articleList = dataBean;
             mAdapter.replaceData(articleList);
-            mSrlRefresh.setRefreshing(false);
         } else {
-            mAdapter.addData(dataBean.getDatas());
+            mAdapter.addData(dataBean);
             mAdapter.loadMoreComplete();
         }
     }
@@ -167,8 +171,17 @@ public class HomeFragment extends BaseMVPFragment<HomePresenter> implements Home
 
     @Override
     public void getArticleListFail(String info) {
-        mSrlRefresh.setRefreshing(false);
         ToastUtil.showToast(info);
+    }
+
+    @Override
+    public void stopRefresh() {
+        mSrlRefresh.setRefreshing(false);
+    }
+
+    @Override
+    public void noMoreData() {
+        mAdapter.loadMoreEnd();
     }
 
 

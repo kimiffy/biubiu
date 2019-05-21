@@ -177,25 +177,29 @@ public class ProjectTabFragment extends LazyMVPFragment<ProjectTabPresenter> imp
 
 
     @Override
-    public void getDataSuccess(ProjectListBean bean, boolean isRefresh) {
-        List<ProjectListBean.DatasBean> datas = bean.getDatas();
+    public void getDataSuccess(List<ProjectListBean.DatasBean> bean, boolean isRefresh) {
         if (isRefresh) {
-            mList = datas;
+            mList = bean;
             mAdapter.replaceData(mList);
         } else {
-            if (!datas.isEmpty()) {
-                mAdapter.addData(datas);
-                mAdapter.loadMoreComplete();
-            } else {
-                mAdapter.loadMoreEnd();
-            }
+            mAdapter.addData(bean);
+            mAdapter.loadMoreComplete();
         }
-        mSrlRefresh.setRefreshing(false);
     }
 
     @Override
     public void getDataFail(String info) {
         mSrlRefresh.setRefreshing(false);
+    }
+
+    @Override
+    public void stopRefresh() {
+        mSrlRefresh.setRefreshing(false);
+    }
+
+    @Override
+    public void noMoreData() {
+        mAdapter.loadMoreEnd();
     }
 
 

@@ -7,6 +7,7 @@ import com.kimiffy.cn.biubiu.constant.Config;
 import com.kimiffy.cn.biubiu.http.callback.BaseObserver;
 import com.kimiffy.cn.biubiu.http.exception.ErrorType;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
@@ -97,16 +98,22 @@ public class WxTabPresenter extends BasePresenter<WxTabContract.View> implements
         addDisposable(mApiService.getWxArticleList(id, page), new BaseObserver<BaseBean<WxArticleListBean>>() {
             @Override
             public void onSuccess(BaseBean<WxArticleListBean> bean) {
-                WxArticleListBean data = bean.data;
-                if (null != data) {
+                List<WxArticleListBean.DatasBean> datas = bean.data.getDatas();
+                if (null != datas&&!datas.isEmpty()) {
                     isFirstTimeLoad = false;
                     mView.showContent();
-                    mView.getDataSuccess(data, isRefresh);
+                    mView.getDataSuccess(datas, isRefresh);
                 } else {
                     if (isFirstTimeLoad) {
                         mView.showDataEmpty();
+                    }else {
+                        mView.noMoreData();
                     }
                 }
+                if(isRefresh){
+                    mView.stopRefresh();
+                }
+
             }
 
             @Override
@@ -119,6 +126,9 @@ public class WxTabPresenter extends BasePresenter<WxTabContract.View> implements
                     }
                 }
                 mView.getDataFail(msg);
+                if(isRefresh){
+                    mView.stopRefresh();
+                }
             }
         });
     }
