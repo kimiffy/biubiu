@@ -18,6 +18,8 @@ public class Key {
     public static final String BUNDLE_TITLE ="BUNDLE_TITLE";
     public static final String BUNDLE_COLLECT ="BUNDLE_COLLECT";
     public static final String BUNDLE_ID ="BUNDLE_ID";
+    public static final String BUNDLE_SYS_CHILD ="BUNDLE_SYS_CHILD";
+
 
 
     //argument
