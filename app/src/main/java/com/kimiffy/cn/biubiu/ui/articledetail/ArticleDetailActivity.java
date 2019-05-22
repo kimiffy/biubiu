@@ -39,6 +39,7 @@ public class ArticleDetailActivity extends BaseMVPActivity<ArticleDetailPresente
     private AgentWeb mAgentWeb;
     private String mToolBarTitle;
     private boolean mIsCollect;
+    private boolean mIsShowMenu;
     private int mId;
     private ImageView mIvCollect;
     private String mTitle;
@@ -63,6 +64,7 @@ public class ArticleDetailActivity extends BaseMVPActivity<ArticleDetailPresente
             mTitle = bundle.getString(Key.BUNDLE_TITLE);
             mIsCollect = bundle.getBoolean(Key.BUNDLE_COLLECT, false);
             mId = bundle.getInt(Key.BUNDLE_ID, -1);
+            mIsShowMenu=bundle.getBoolean(Key.BUNDLE_SHOW_MENU,true);//默认显示menu
         }
     }
 
@@ -107,7 +109,9 @@ public class ArticleDetailActivity extends BaseMVPActivity<ArticleDetailPresente
     private void initToolBar() {
         mToolbar.setTitle(mToolBarTitle);
         setSupportActionBar(mToolbar);
-        mToolbar.inflateMenu(R.menu.menu_toolbar_article_detail);
+        if(mIsShowMenu){
+            mToolbar.inflateMenu(R.menu.menu_toolbar_article_detail);
+        }
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -119,8 +123,10 @@ public class ArticleDetailActivity extends BaseMVPActivity<ArticleDetailPresente
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_toolbar_article_detail, menu);
-        initMenu(menu);
+        if(mIsShowMenu){
+            getMenuInflater().inflate(R.menu.menu_toolbar_article_detail, menu);
+            initMenu(menu);
+        }
         return super.onCreateOptionsMenu(menu);
     }
 

@@ -10,6 +10,7 @@ public class Key {
     //SP
     public static final String PREF_WX_TAB_LIST ="PREF_WX_TAB_LIST";
     public static final String PREF_PROJECT_TAB_LIST ="PREF_PROJECT_TAB_LIST";
+    public static final String PREF_BANNER_LIST ="PREF_BANNER_LIST";
 
     //bundle
     public static final String BUNDLE_LINK ="BUNDLE_LINK";
@@ -19,6 +20,7 @@ public class Key {
     public static final String BUNDLE_COLLECT ="BUNDLE_COLLECT";
     public static final String BUNDLE_ID ="BUNDLE_ID";
     public static final String BUNDLE_SYS_CHILD ="BUNDLE_SYS_CHILD";
+    public static final String BUNDLE_SHOW_MENU ="BUNDLE_SHOW_MENU";
 
 
 
