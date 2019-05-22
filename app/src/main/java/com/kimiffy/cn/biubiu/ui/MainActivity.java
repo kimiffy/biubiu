@@ -29,7 +29,8 @@ public class MainActivity extends BaseActivity {
     FrameLayout mFlContent;
     @BindView(R.id.bnv_bar)
     BottomNavigationView mBnvBar;
-    private Fragment[] mFragments = new Fragment[5];
+    private final int TAB_SIZE=5;
+    private Fragment[] mFragments = new Fragment[TAB_SIZE];
     private String[] mFragmentTags = {"tag1", "tag2", "tag3", "tag4", "tag5"};
     private int lastIndex;
 
@@ -42,7 +43,7 @@ public class MainActivity extends BaseActivity {
     protected void initData(Bundle savedInstanceState) {
         //通过tag恢复保存的fragment
         if (savedInstanceState != null) {
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i < TAB_SIZE; i++) {
                 Fragment fragment = getSupportFragmentManager().getFragment(savedInstanceState, mFragmentTags[i]);
                 if (null!= fragment ) {
                     mFragments[i] = fragment;
@@ -172,7 +173,7 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         //保存已经添加到FragmentManager的fragment
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < TAB_SIZE; i++) {
             if (null != mFragments[i] && mFragments[i].isAdded()) {
                 getSupportFragmentManager().putFragment(outState, mFragmentTags[i], mFragments[i]);
             }
