@@ -96,3 +96,7 @@ rx.internal.util.atomic.LinkedQueueNode consumerNode;
     *;
 }
 -dontwarn com.just.agentweb.**
+#banner
+-keep class com.youth.banner.** {
+    *;
+ }
