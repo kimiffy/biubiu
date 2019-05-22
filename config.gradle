@@ -10,9 +10,9 @@ ext {
     ]
 
     dependVersion = [
-            support: "27.1.1",
-            dbflow : "4.2.0",
-            sqlcipher_version : "3.5.9"
+            support          : "27.1.1",
+            dbflow           : "4.2.0",
+            sqlcipher_version: "3.5.9"
     ]
 
     dependencies = [
@@ -69,6 +69,7 @@ ext {
 
             //ui
             "brvah"               : "com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.46",
+            "banner"              : "com.youth.banner:banner:1.4.10",
 
 
     ]
