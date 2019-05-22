@@ -3,11 +3,15 @@ package com.kimiffy.cn.biubiu.ui.home;
 import com.kimiffy.cn.biubiu.base.BaseBean;
 import com.kimiffy.cn.biubiu.base.BasePresenter;
 import com.kimiffy.cn.biubiu.bean.ArticleBean;
+import com.kimiffy.cn.biubiu.bean.BannerBean;
 import com.kimiffy.cn.biubiu.bean.UserBean;
 import com.kimiffy.cn.biubiu.constant.Config;
+import com.kimiffy.cn.biubiu.constant.Key;
 import com.kimiffy.cn.biubiu.database.model.LoginInfo;
 import com.kimiffy.cn.biubiu.http.callback.BaseObserver;
 import com.kimiffy.cn.biubiu.http.exception.ErrorType;
+import com.kimiffy.cn.biubiu.utils.GsonUtil;
+import com.kimiffy.cn.biubiu.utils.SpUtil;
 import com.kimiffy.cn.biubiu.utils.UserUtil;
 
 import java.util.List;
@@ -82,6 +86,26 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
 
     @Override
     public void getBanner() {
+        addDisposable(mApiService.getBannerList(), new BaseObserver<BaseBean<List<BannerBean>>>() {
+            @Override
+            public void onSuccess(BaseBean<List<BannerBean>> bean) {
+                List<BannerBean> data = bean.data;
+                String bannerString = GsonUtil.toJson(data);
+                SpUtil.putString(Key.PREF_BANNER_LIST,bannerString);
+                mView.getBannerSuccess(data);
+            }
+
+            @Override
+            public void onFailure(String msg, ErrorType errorType) {
+                String json = SpUtil.getString(Key.PREF_BANNER_LIST, "");
+                List<BannerBean> list = GsonUtil.toList(json, BannerBean.class);
+                if(null!=list&&!list.isEmpty()){
+                    mView.getBannerSuccess(list);
+                }else{
+                    mView.getBannerFail(msg);
+                }
+            }
+        });
 
     }
 
@@ -92,18 +116,18 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
             @Override
             public void onSuccess(BaseBean<ArticleBean> bean) {
                 List<ArticleBean.DatasBean> datas = bean.data.getDatas();
-                if (null != datas&&!datas.isEmpty()) {
+                if (null != datas && !datas.isEmpty()) {
                     isFirstTimeLoad = false;
                     mView.showContent();
                     mView.getArticleListSuccess(datas, isRefresh);
                 } else {
                     if (isFirstTimeLoad) {
                         mView.showDataEmpty();
-                    }else {
+                    } else {
                         mView.noMoreData();
                     }
                 }
-                if(isRefresh){
+                if (isRefresh) {
                     mView.stopRefresh();
                 }
             }
@@ -118,7 +142,7 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
                     }
                 }
                 mView.getArticleListFail(msg);
-                if(isRefresh){
+                if (isRefresh) {
                     mView.stopRefresh();
                 }
             }
@@ -128,11 +152,12 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
 
     /**
      * 收藏
-     * @param id 文章id
+     *
+     * @param id       文章id
      * @param position 列表position
      */
     @Override
-    public void doCollect(int id,final int position) {
+    public void doCollect(int id, final int position) {
         addDisposable(mApiService.collectArticle(id), new BaseObserver<BaseBean>() {
             @Override
             public void onSuccess(BaseBean bean) {
@@ -141,14 +166,14 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
 
             @Override
             public void onFailure(String msg, ErrorType errorType) {
-                mView.collectFail(position,msg);
+                mView.collectFail(position, msg);
             }
         });
 
     }
 
     @Override
-    public void unCollect(int id,final int position) {
+    public void unCollect(int id, final int position) {
         addDisposable(mApiService.unCollectArticle(id), new BaseObserver<BaseBean>() {
             @Override
             public void onSuccess(BaseBean bean) {
@@ -157,11 +182,10 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
 
             @Override
             public void onFailure(String msg, ErrorType errorType) {
-                mView.unCollectFail(position,msg);
+                mView.unCollectFail(position, msg);
             }
         });
     }
-
 
 
     /**

@@ -3,6 +3,7 @@ package com.kimiffy.cn.biubiu.ui.home;
 import com.kimiffy.cn.biubiu.base.contract.IBaseView;
 import com.kimiffy.cn.biubiu.base.contract.IPresenter;
 import com.kimiffy.cn.biubiu.bean.ArticleBean;
+import com.kimiffy.cn.biubiu.bean.BannerBean;
 
 import java.util.List;
 
@@ -40,9 +41,9 @@ public class HomeContract {
 
         void noMoreData();
 
-        void getBannerSuccess();
+        void getBannerSuccess(List<BannerBean> data);
 
-        void getBannerFail();
+        void getBannerFail(String msg);
 
         void collectSuccess(int position);
 

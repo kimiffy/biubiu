@@ -5,16 +5,20 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.kimiffy.cn.biubiu.R;
 import com.kimiffy.cn.biubiu.base.BaseMVPFragment;
 import com.kimiffy.cn.biubiu.bean.ArticleBean;
+import com.kimiffy.cn.biubiu.bean.BannerBean;
 import com.kimiffy.cn.biubiu.constant.Key;
 import com.kimiffy.cn.biubiu.ui.articledetail.ArticleDetailActivity;
+import com.kimiffy.cn.biubiu.utils.BannerImageLoader;
 import com.kimiffy.cn.biubiu.utils.ToastUtil;
 import com.kimiffy.cn.biubiu.utils.aop.FilterType;
 import com.kimiffy.cn.biubiu.utils.aop.annotation.LoginFilter;
@@ -22,6 +26,10 @@ import com.kimiffy.cn.biubiu.utils.aop.annotation.SingleClick;
 import com.kimiffy.cn.biubiu.utils.event.BindEventBus;
 import com.kimiffy.cn.biubiu.utils.event.Event;
 import com.kimiffy.cn.biubiu.utils.event.EventCode;
+import com.youth.banner.Banner;
+import com.youth.banner.BannerConfig;
+import com.youth.banner.Transformer;
+import com.youth.banner.listener.OnBannerListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,9 +48,15 @@ public class HomeFragment extends BaseMVPFragment<HomePresenter> implements Home
     @BindView(R.id.srl_refresh)
     SwipeRefreshLayout mSrlRefresh;
 
+    private List<String> linkList;
+    private List<String> imageList;
+    private List<String> titleList;
+
     private List<ArticleBean.DatasBean> articleList;
     private HomeAdapter mAdapter;
-
+    private LinearLayout mHeader;
+    private Banner mBanner;
+    private boolean mBannerIsReady=false;
 
     @Override
     protected HomePresenter createPresenter() {
@@ -61,6 +75,9 @@ public class HomeFragment extends BaseMVPFragment<HomePresenter> implements Home
     @Override
     protected void initData(Bundle savedInstanceState) {
         articleList = new ArrayList<>();
+        linkList = new ArrayList<>();
+        imageList = new ArrayList<>();
+        titleList = new ArrayList<>();
     }
 
 
@@ -72,12 +89,15 @@ public class HomeFragment extends BaseMVPFragment<HomePresenter> implements Home
     @Override
     protected void initUI() {
         mSrlRefresh.setColorSchemeColors(getResources().getColor(R.color.md_blue_A200), getResources().getColor(R.color.md_blue_A400));
-        mAdapter = new HomeAdapter(mActivity,R.layout.item_rlv_article, articleList);
+        mAdapter = new HomeAdapter(mActivity, R.layout.item_rlv_article, articleList);
         mRlvArticle.setLayoutManager(new LinearLayoutManager(getBindActivity()));
         mRlvArticle.addItemDecoration(new DividerItemDecoration(getBindActivity(), LinearLayoutManager.VERTICAL));
         mRlvArticle.setAdapter(mAdapter);
+        mAdapter.addHeaderView(getBannerView());
         firstFresh();
+
     }
+
 
     @Override
     protected void setListener() {
@@ -131,10 +151,22 @@ public class HomeFragment extends BaseMVPFragment<HomePresenter> implements Home
     }
 
     /**
+     * 创建Banner
+     *
+     * @return
+     */
+    private View getBannerView() {
+        mHeader = (LinearLayout) getLayoutInflater().inflate(R.layout.layout_banner, null);
+        mBanner = mHeader.findViewById(R.id.banner);
+        return mHeader;
+    }
+
+    /**
      * 第一次进入加载数据
      */
     private void firstFresh() {
         mSrlRefresh.setRefreshing(true);
+        mPresenter.getBanner();
         mPresenter.firstFresh();
     }
 
@@ -186,13 +218,47 @@ public class HomeFragment extends BaseMVPFragment<HomePresenter> implements Home
 
 
     @Override
-    public void getBannerSuccess() {
-
+    public void getBannerSuccess(List<BannerBean> data) {
+        imageList.clear();
+        titleList.clear();
+        linkList.clear();
+        for(BannerBean bannerBean:data){
+            imageList.add(bannerBean.getImagePath());
+            titleList.add(bannerBean.getTitle());
+            linkList.add(bannerBean.getUrl());
+        }
+        if(!mActivity.isFinishing()){
+            mBanner.setImageLoader(new BannerImageLoader())
+                    .setBannerStyle(BannerConfig.NUM_INDICATOR_TITLE)
+                    .setImages(imageList)
+                    .setBannerAnimation(Transformer.Default)
+                    .setBannerTitles(titleList)
+                    .isAutoPlay(true)
+                    .setDelayTime(6000)
+                    .setIndicatorGravity(BannerConfig.RIGHT)
+                    .start();
+            mBannerIsReady = true;
+        }
+        mBanner.setOnBannerListener(new OnBannerListener() {
+            @Override
+            public void OnBannerClick(int position) {
+                if(!TextUtils.isEmpty(linkList.get(position))){
+                    Bundle bundle = new Bundle();
+                    bundle.putString(Key.BUNDLE_LINK, linkList.get(position));
+                    bundle.putString(Key.BUNDLE_TOOLBAR_TITLE, titleList.get(position));
+                    bundle.putString(Key.BUNDLE_TITLE,  titleList.get(position));
+                    bundle.putBoolean(Key.BUNDLE_COLLECT, false);
+                    bundle.putBoolean(Key.BUNDLE_SHOW_MENU,false);
+                    startActivity(ArticleDetailActivity.class,bundle);
+                }
+            }
+        });
     }
 
     @Override
-    public void getBannerFail() {
-
+    public void getBannerFail(String msg) {
+        mAdapter.removeHeaderView(mHeader);
+        mBannerIsReady = false;
     }
 
     @Override
@@ -228,10 +294,10 @@ public class HomeFragment extends BaseMVPFragment<HomePresenter> implements Home
     protected void receiveEvent(Event event) {
         switch (event.getCode()) {
             case EventCode.COLLECT_ARTICLE_SUCCESS:
-                handleCollectEvent(event,true);
+                handleCollectEvent(event, true);
                 break;
             case EventCode.CANCEL_COLLECT_ARTICLE_SUCCESS:
-                handleCollectEvent(event,false);
+                handleCollectEvent(event, false);
                 break;
             default:
                 break;
@@ -240,7 +306,8 @@ public class HomeFragment extends BaseMVPFragment<HomePresenter> implements Home
 
     /**
      * 处理收藏/取消收藏事件
-     * @param event 事件
+     *
+     * @param event     事件
      * @param isCollect 是否是收藏
      */
     private void handleCollectEvent(Event event, boolean isCollect) {
@@ -248,10 +315,27 @@ public class HomeFragment extends BaseMVPFragment<HomePresenter> implements Home
         List<ArticleBean.DatasBean> data = mAdapter.getData();
         for (int i = 0; i < data.size(); i++) {
             ArticleBean.DatasBean datasBean = data.get(i);
-            if(datasBean.getId()==id){
+            if (datasBean.getId() == id) {
                 mAdapter.getData().get(i).setCollect(isCollect);
                 mAdapter.notifyItemChanged(i);
             }
+        }
+    }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if(mBannerIsReady){
+            mBanner.startAutoPlay();
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if(mBannerIsReady){
+            mBanner.stopAutoPlay();
         }
     }
 }

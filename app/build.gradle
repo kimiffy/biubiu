@@ -51,6 +51,7 @@ dependencies {
     implementation rootProject.ext.dependencies["sqlcipher"]
     implementation rootProject.ext.dependencies["autosize"]
     implementation rootProject.ext.dependencies["agentweb"]
+    implementation rootProject.ext.dependencies["banner"]
 }
 
 
