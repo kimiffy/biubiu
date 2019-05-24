@@ -23,9 +23,9 @@
         <item name="android:textSize" tools:ignore="SpUsage">18dp</item>
     </style>
 
-
+    <!--闪屏页主题-->
     <style name="AppTheme.Launcher" parent="AppTheme">
-        <item name="android:windowBackground">@mipmap/bg_splash</item>
+        <item name="android:windowBackground">@drawable/layer_splash</item>
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowContentOverlay">@null</item>

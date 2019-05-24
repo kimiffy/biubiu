@@ -1,6 +1,7 @@
 package com.kimiffy.cn.biubiu.base;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
@@ -8,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 
+import com.kimiffy.cn.biubiu.R;
 import com.kimiffy.cn.biubiu.utils.event.BindEventBus;
 import com.kimiffy.cn.biubiu.utils.event.Event;
 import com.kimiffy.cn.biubiu.utils.event.EventBusUtil;
@@ -30,6 +32,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        setTheme(getActivityTheme());;
         super.onCreate(savedInstanceState);
         setContentView(getLayoutResId());
         unbinder = ButterKnife.bind(this);
@@ -39,7 +42,6 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         initEventBus();
         setListener();
     }
-
 
     /**
      * 获取界面布局id
@@ -67,6 +69,13 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
      */
     protected void setListener() {
 
+    }
+
+    /**
+     *  页面主题
+     */
+    protected int getActivityTheme() {
+      return R.style.AppTheme;//默认使用app主题
     }
 
     /**
