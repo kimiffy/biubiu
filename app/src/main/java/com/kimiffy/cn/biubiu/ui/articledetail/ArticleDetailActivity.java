@@ -3,6 +3,7 @@ package com.kimiffy.cn.biubiu.ui.articledetail;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -64,7 +65,7 @@ public class ArticleDetailActivity extends BaseMVPActivity<ArticleDetailPresente
             mTitle = bundle.getString(Key.BUNDLE_TITLE);
             mIsCollect = bundle.getBoolean(Key.BUNDLE_COLLECT, false);
             mId = bundle.getInt(Key.BUNDLE_ID, -1);
-            mIsShowMenu=bundle.getBoolean(Key.BUNDLE_SHOW_MENU,true);//默认显示menu
+            mIsShowMenu = bundle.getBoolean(Key.BUNDLE_SHOW_MENU, true);//默认显示menu
         }
     }
 
@@ -109,7 +110,7 @@ public class ArticleDetailActivity extends BaseMVPActivity<ArticleDetailPresente
     private void initToolBar() {
         mToolbar.setTitle(mToolBarTitle);
         setSupportActionBar(mToolbar);
-        if(mIsShowMenu){
+        if (mIsShowMenu) {
             mToolbar.inflateMenu(R.menu.menu_toolbar_article_detail);
         }
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -123,7 +124,7 @@ public class ArticleDetailActivity extends BaseMVPActivity<ArticleDetailPresente
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if(mIsShowMenu){
+        if (mIsShowMenu) {
             getMenuInflater().inflate(R.menu.menu_toolbar_article_detail, menu);
             initMenu(menu);
         }
@@ -188,6 +189,17 @@ public class ArticleDetailActivity extends BaseMVPActivity<ArticleDetailPresente
         ToastUtil.showToast(msg);
     }
 
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            boolean back = mAgentWeb.back();
+            if (back) {
+                return false;
+            }
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 
     @Override
     protected void onDestroy() {
