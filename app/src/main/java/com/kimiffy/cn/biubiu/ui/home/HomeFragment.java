@@ -2,7 +2,7 @@ package com.kimiffy.cn.biubiu.ui.home;
 
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -19,7 +19,6 @@ import com.kimiffy.cn.biubiu.bean.BannerBean;
 import com.kimiffy.cn.biubiu.constant.Key;
 import com.kimiffy.cn.biubiu.ui.articledetail.ArticleDetailActivity;
 import com.kimiffy.cn.biubiu.utils.BannerImageLoader;
-import com.kimiffy.cn.biubiu.utils.LogUtil;
 import com.kimiffy.cn.biubiu.utils.ToastUtil;
 import com.kimiffy.cn.biubiu.utils.aop.FilterType;
 import com.kimiffy.cn.biubiu.utils.aop.annotation.LoginFilter;
@@ -94,6 +93,7 @@ public class HomeFragment extends BaseMVPFragment<HomePresenter> implements Home
         mRlvArticle.setLayoutManager(new LinearLayoutManager(getBindActivity()));
         mRlvArticle.setAdapter(mAdapter);
         mAdapter.addHeaderView(getBannerView());
+        ((DefaultItemAnimator) mRlvArticle.getItemAnimator()).setSupportsChangeAnimations(false);
         firstFresh();
 
     }
@@ -264,24 +264,25 @@ public class HomeFragment extends BaseMVPFragment<HomePresenter> implements Home
     @Override
     public void collectSuccess(int position) {
         mAdapter.getData().get(position).setCollect(true);
-        int headerLayoutCount = mAdapter.getHeaderLayoutCount();
-        mAdapter.notifyItemChanged(position+headerLayoutCount);
+        //由于首页增加了头部banner 导致position有变化 需要处理一下
+        int headerCount = mAdapter.getHeaderLayoutCount();
+        mAdapter.notifyItemChanged(position+headerCount);
         ToastUtil.showToast(getString(R.string.collect_success));
     }
 
     @Override
     public void collectFail(int position, String msg) {
         mAdapter.getData().get(position).setCollect(false);
-        int headerLayoutCount = mAdapter.getHeaderLayoutCount();
-        mAdapter.notifyItemChanged(position+headerLayoutCount);
+        int headerCount = mAdapter.getHeaderLayoutCount();
+        mAdapter.notifyItemChanged(position+headerCount);
         ToastUtil.showToast(msg);
     }
 
     @Override
     public void unCollectSuccess(int position) {
         mAdapter.getData().get(position).setCollect(false);
-        int headerLayoutCount = mAdapter.getHeaderLayoutCount();
-        mAdapter.notifyItemChanged(position+headerLayoutCount);
+        int headerCount = mAdapter.getHeaderLayoutCount();
+        mAdapter.notifyItemChanged(position+headerCount);
         ToastUtil.showToast(getString(R.string.cancel_collect_success));
     }
 
@@ -317,12 +318,12 @@ public class HomeFragment extends BaseMVPFragment<HomePresenter> implements Home
     private void handleCollectEvent(Event event, boolean isCollect) {
         int id = (int) event.getEvent();
         List<ArticleBean.DatasBean> data = mAdapter.getData();
-        for (int i = 0; i < data.size(); i++) {
+        for (int i = 0;i < data.size(); i++) {
             ArticleBean.DatasBean datasBean = data.get(i);
             if (datasBean.getId() == id) {
                 mAdapter.getData().get(i).setCollect(isCollect);
-                int headerLayoutCount = mAdapter.getHeaderLayoutCount();
-                mAdapter.notifyItemChanged(i+headerLayoutCount);
+                int headerCount = mAdapter.getHeaderLayoutCount();
+                mAdapter.notifyItemChanged(i+headerCount);
             }
         }
     }

@@ -2,6 +2,7 @@ package com.kimiffy.cn.biubiu.ui.wechat.tab;
 
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -78,6 +79,7 @@ public class WxTabFragment extends LazyMVPFragment<WxTabPresenter> implements Wx
         mAdapter = new WxArticleListAdapter(mActivity, R.layout.item_rlv_wx_article, mList);
         mRlvArticle.setLayoutManager(new LinearLayoutManager(getBindActivity()));
         mRlvArticle.setAdapter(mAdapter);
+        ((DefaultItemAnimator) mRlvArticle.getItemAnimator()).setSupportsChangeAnimations(false);
     }
 
 
