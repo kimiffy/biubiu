@@ -147,7 +147,13 @@ public class HomeFragment extends BaseMVPFragment<HomePresenter> implements Home
             }
         });
 
-
+        mStateView.getStateViewImpl().setRetryListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mSrlRefresh.setRefreshing(true);
+                mPresenter.firstFresh();
+            }
+        });
     }
 
     /**

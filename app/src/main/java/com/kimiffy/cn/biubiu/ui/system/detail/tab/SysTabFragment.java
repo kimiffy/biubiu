@@ -134,7 +134,7 @@ public class SysTabFragment extends LazyMVPFragment<SysTabPresenter> implements 
         mStateView.getStateViewImpl().setRetryListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: 2019/5/10 重试
+                onLazyLoad();
             }
         });
     }

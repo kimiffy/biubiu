@@ -22,8 +22,9 @@
     <string name="cancel_collect_success">取消收藏</string>
     <string name="cancel_collect_fail">取消收藏失败</string>
     <string name="share">分享</string>
-
-
+    <string name="loading">加载中…</string>
+    <string name="data_reload">重新加载</string>
+    <string name="data_empty">暂无数据</string>
     <!--首页-->
 
 
@@ -33,6 +34,10 @@
 
 
     <!--公众号-->
+
+
+
+
 
 
 

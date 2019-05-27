@@ -99,6 +99,12 @@ public class SystemMainFragment extends BaseMVPFragment<SystemMainPresenter> imp
             }
         });
 
+        mStateView.getStateViewImpl().setRetryListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getData();
+            }
+        });
     }
 
 

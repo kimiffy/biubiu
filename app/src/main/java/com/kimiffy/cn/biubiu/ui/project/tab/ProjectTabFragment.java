@@ -134,7 +134,12 @@ public class ProjectTabFragment extends LazyMVPFragment<ProjectTabPresenter> imp
         mStateView.getStateViewImpl().setRetryListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: 2019/5/17 重试
+               mStateView.getStateViewImpl().setRetryListener(new View.OnClickListener() {
+                   @Override
+                   public void onClick(View v) {
+                       onLazyLoad();
+                   }
+               });
             }
         });
     }
@@ -148,7 +153,6 @@ public class ProjectTabFragment extends LazyMVPFragment<ProjectTabPresenter> imp
         boolean collect = item.isCollect();
         if (collect) {
             view.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_collect_normal));
-//            view.startAnimation(AnimationUtils.loadAnimation(mActivity, R.anim.collect));
             mPresenter.unCollect(item.getId(), position);
         } else {
             view.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_collect));
