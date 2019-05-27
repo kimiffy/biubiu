@@ -19,6 +19,7 @@ import com.kimiffy.cn.biubiu.bean.BannerBean;
 import com.kimiffy.cn.biubiu.constant.Key;
 import com.kimiffy.cn.biubiu.ui.articledetail.ArticleDetailActivity;
 import com.kimiffy.cn.biubiu.utils.BannerImageLoader;
+import com.kimiffy.cn.biubiu.utils.LogUtil;
 import com.kimiffy.cn.biubiu.utils.ToastUtil;
 import com.kimiffy.cn.biubiu.utils.aop.FilterType;
 import com.kimiffy.cn.biubiu.utils.aop.annotation.LoginFilter;
@@ -91,7 +92,6 @@ public class HomeFragment extends BaseMVPFragment<HomePresenter> implements Home
         mSrlRefresh.setColorSchemeColors(getResources().getColor(R.color.md_blue_A200), getResources().getColor(R.color.md_blue_A400));
         mAdapter = new HomeAdapter(mActivity, R.layout.item_rlv_article, articleList);
         mRlvArticle.setLayoutManager(new LinearLayoutManager(getBindActivity()));
-        mRlvArticle.addItemDecoration(new DividerItemDecoration(getBindActivity(), LinearLayoutManager.VERTICAL));
         mRlvArticle.setAdapter(mAdapter);
         mAdapter.addHeaderView(getBannerView());
         firstFresh();
@@ -264,28 +264,32 @@ public class HomeFragment extends BaseMVPFragment<HomePresenter> implements Home
     @Override
     public void collectSuccess(int position) {
         mAdapter.getData().get(position).setCollect(true);
-        mAdapter.notifyItemChanged(position);
+        int headerLayoutCount = mAdapter.getHeaderLayoutCount();
+        mAdapter.notifyItemChanged(position+headerLayoutCount);
         ToastUtil.showToast(getString(R.string.collect_success));
     }
 
     @Override
     public void collectFail(int position, String msg) {
         mAdapter.getData().get(position).setCollect(false);
-        mAdapter.notifyItemChanged(position);
+        int headerLayoutCount = mAdapter.getHeaderLayoutCount();
+        mAdapter.notifyItemChanged(position+headerLayoutCount);
         ToastUtil.showToast(msg);
     }
 
     @Override
     public void unCollectSuccess(int position) {
         mAdapter.getData().get(position).setCollect(false);
-        mAdapter.notifyItemChanged(position);
+        int headerLayoutCount = mAdapter.getHeaderLayoutCount();
+        mAdapter.notifyItemChanged(position+headerLayoutCount);
         ToastUtil.showToast(getString(R.string.cancel_collect_success));
     }
 
     @Override
     public void unCollectFail(int position, String msg) {
         mAdapter.getData().get(position).setCollect(true);
-        mAdapter.notifyItemChanged(position);
+        int headerLayoutCount = mAdapter.getHeaderLayoutCount();
+        mAdapter.notifyItemChanged(position+headerLayoutCount);
         ToastUtil.showToast(msg);
     }
 
@@ -317,7 +321,8 @@ public class HomeFragment extends BaseMVPFragment<HomePresenter> implements Home
             ArticleBean.DatasBean datasBean = data.get(i);
             if (datasBean.getId() == id) {
                 mAdapter.getData().get(i).setCollect(isCollect);
-                mAdapter.notifyItemChanged(i);
+                int headerLayoutCount = mAdapter.getHeaderLayoutCount();
+                mAdapter.notifyItemChanged(i+headerLayoutCount);
             }
         }
     }

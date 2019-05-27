@@ -22,5 +22,5 @@ public class Config {
 
     //为了刷新动画过度自然,第一次进入某些页面请求数据默认一定的时间后再请求数据
     public static int LOAD_DELAY_TIME =500;
-
+    public static int LOAD_DELAY_TIME_2 =300;
 }

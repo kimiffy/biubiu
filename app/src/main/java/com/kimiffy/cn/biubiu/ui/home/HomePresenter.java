@@ -44,7 +44,7 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
         if (null != loginInfo) {
             final String username = loginInfo.username;
             final String password = loginInfo.password;
-            Disposable disposable = Observable.timer(Config.LOAD_DELAY_TIME, TimeUnit.MILLISECONDS)
+            Disposable disposable = Observable.timer(Config.LOAD_DELAY_TIME_2, TimeUnit.MILLISECONDS)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Consumer<Long>() {

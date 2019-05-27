@@ -77,7 +77,6 @@ public class WxTabFragment extends LazyMVPFragment<WxTabPresenter> implements Wx
         mSrlRefresh.setColorSchemeColors(getResources().getColor(R.color.md_blue_A200), getResources().getColor(R.color.md_blue_A400));
         mAdapter = new WxArticleListAdapter(mActivity, R.layout.item_rlv_wx_article, mList);
         mRlvArticle.setLayoutManager(new LinearLayoutManager(getBindActivity()));
-        mRlvArticle.addItemDecoration(new DividerItemDecoration(getBindActivity(), LinearLayoutManager.VERTICAL));
         mRlvArticle.setAdapter(mAdapter);
     }
 

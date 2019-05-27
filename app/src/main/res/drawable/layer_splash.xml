@@ -2,8 +2,10 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android"
     android:opacity="opaque">
     <item android:drawable="@android:color/white" />
+    <!-- 如果item下的 bitmap 没有设置 gravity ,API 23 以下会出错-->
     <item>
         <bitmap
+            android:gravity="fill"
             android:src="@mipmap/bg_splash" />
     </item>
 </layer-list>

@@ -69,7 +69,6 @@ public class SystemMainFragment extends BaseMVPFragment<SystemMainPresenter> imp
         mSrlRefresh.setColorSchemeColors(getResources().getColor(R.color.md_blue_A200), getResources().getColor(R.color.md_blue_A400));
         mAdapter = new SystemMainAdapter(R.layout.item_rlv_sys, mList);
         mRlvSys.setLayoutManager(new LinearLayoutManager(getBindActivity()));
-        mRlvSys.addItemDecoration(new DividerItemDecoration(getBindActivity(), LinearLayoutManager.VERTICAL));
         mRlvSys.setAdapter(mAdapter);
         getData();
     }

@@ -15,6 +15,7 @@ import com.kimiffy.cn.biubiu.base.LazyMVPFragment;
 import com.kimiffy.cn.biubiu.bean.SystemDetailBean;
 import com.kimiffy.cn.biubiu.constant.Key;
 import com.kimiffy.cn.biubiu.ui.articledetail.ArticleDetailActivity;
+import com.kimiffy.cn.biubiu.utils.LogUtil;
 import com.kimiffy.cn.biubiu.utils.ToastUtil;
 import com.kimiffy.cn.biubiu.utils.aop.FilterType;
 import com.kimiffy.cn.biubiu.utils.aop.annotation.LoginFilter;
@@ -77,7 +78,6 @@ public class SysTabFragment extends LazyMVPFragment<SysTabPresenter> implements 
         mSrlRefresh.setColorSchemeColors(getResources().getColor(R.color.md_blue_A200), getResources().getColor(R.color.md_blue_A400));
         mAdapter = new SysArticleListAdapter(mActivity, R.layout.item_rlv_wx_article, mList);
         mRlvArticle.setLayoutManager(new LinearLayoutManager(getBindActivity()));
-        mRlvArticle.addItemDecoration(new DividerItemDecoration(getBindActivity(), LinearLayoutManager.VERTICAL));
         mRlvArticle.setAdapter(mAdapter);
     }
 

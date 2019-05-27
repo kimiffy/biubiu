@@ -78,7 +78,6 @@ public class ProjectTabFragment extends LazyMVPFragment<ProjectTabPresenter> imp
         mSrlRefresh.setColorSchemeColors(getResources().getColor(R.color.md_blue_A200), getResources().getColor(R.color.md_blue_A400));
         mAdapter = new ProjectListAdapter(mActivity, R.layout.item_rlv_project, mList);
         mRlvArticle.setLayoutManager(new LinearLayoutManager(getBindActivity()));
-        mRlvArticle.addItemDecoration(new DividerItemDecoration(getBindActivity(), LinearLayoutManager.VERTICAL));
         mRlvArticle.setAdapter(mAdapter);
     }
 
