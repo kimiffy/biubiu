@@ -233,7 +233,7 @@ public class HomeFragment extends BaseMVPFragment<HomePresenter> implements Home
             titleList.add(bannerBean.getTitle());
             linkList.add(bannerBean.getUrl());
         }
-        if(!mActivity.isFinishing()){
+        if(!mActivity.isFinishing()&&!mActivity.isDestroyed()){
             mBanner.setImageLoader(new BannerImageLoader())
                     .setBannerStyle(BannerConfig.NUM_INDICATOR_TITLE)
                     .setImages(imageList)
@@ -244,21 +244,22 @@ public class HomeFragment extends BaseMVPFragment<HomePresenter> implements Home
                     .setIndicatorGravity(BannerConfig.RIGHT)
                     .start();
             mBannerIsReady = true;
-        }
-        mBanner.setOnBannerListener(new OnBannerListener() {
-            @Override
-            public void OnBannerClick(int position) {
-                if(!TextUtils.isEmpty(linkList.get(position))){
-                    Bundle bundle = new Bundle();
-                    bundle.putString(Key.BUNDLE_LINK, linkList.get(position));
-                    bundle.putString(Key.BUNDLE_TOOLBAR_TITLE, titleList.get(position));
-                    bundle.putString(Key.BUNDLE_TITLE,  titleList.get(position));
-                    bundle.putBoolean(Key.BUNDLE_COLLECT, false);
-                    bundle.putBoolean(Key.BUNDLE_SHOW_MENU,false);
-                    startActivity(ArticleDetailActivity.class,bundle);
+            mBanner.setOnBannerListener(new OnBannerListener() {
+                @Override
+                public void OnBannerClick(int position) {
+                    if(!TextUtils.isEmpty(linkList.get(position))){
+                        Bundle bundle = new Bundle();
+                        bundle.putString(Key.BUNDLE_LINK, linkList.get(position));
+                        bundle.putString(Key.BUNDLE_TOOLBAR_TITLE, titleList.get(position));
+                        bundle.putString(Key.BUNDLE_TITLE,  titleList.get(position));
+                        bundle.putBoolean(Key.BUNDLE_COLLECT, false);
+                        bundle.putBoolean(Key.BUNDLE_SHOW_MENU,false);
+                        startActivity(ArticleDetailActivity.class,bundle);
+                    }
                 }
-            }
-        });
+            });
+        }
+
     }
 
     @Override
