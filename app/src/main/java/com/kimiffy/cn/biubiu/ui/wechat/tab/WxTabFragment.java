@@ -3,7 +3,6 @@ package com.kimiffy.cn.biubiu.ui.wechat.tab;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -37,7 +36,7 @@ import butterknife.BindView;
 public class WxTabFragment extends LazyMVPFragment<WxTabPresenter> implements WxTabContract.View {
 
 
-    @BindView(R.id.rlv_article)
+    @BindView(R.id.rv_article)
     RecyclerView mRlvArticle;
     @BindView(R.id.srl_refresh)
     SwipeRefreshLayout mSrlRefresh;
@@ -76,7 +75,7 @@ public class WxTabFragment extends LazyMVPFragment<WxTabPresenter> implements Wx
     @Override
     protected void initUI() {
         mSrlRefresh.setColorSchemeColors(getResources().getColor(R.color.md_blue_A200), getResources().getColor(R.color.md_blue_A400));
-        mAdapter = new WxArticleListAdapter(mActivity, R.layout.item_rlv_wx_article, mList);
+        mAdapter = new WxArticleListAdapter(mActivity, R.layout.item_rv_wx_article, mList);
         mRlvArticle.setLayoutManager(new LinearLayoutManager(getBindActivity()));
         mRlvArticle.setAdapter(mAdapter);
         ((DefaultItemAnimator) mRlvArticle.getItemAnimator()).setSupportsChangeAnimations(false);

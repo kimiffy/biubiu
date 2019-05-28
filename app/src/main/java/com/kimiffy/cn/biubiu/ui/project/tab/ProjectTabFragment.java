@@ -3,7 +3,6 @@ package com.kimiffy.cn.biubiu.ui.project.tab;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -35,7 +34,7 @@ import butterknife.BindView;
  */
 @BindEventBus
 public class ProjectTabFragment extends LazyMVPFragment<ProjectTabPresenter> implements ProjectTabContract.View {
-    @BindView(R.id.rlv_article)
+    @BindView(R.id.rv_article)
     RecyclerView mRlvArticle;
     @BindView(R.id.srl_refresh)
     SwipeRefreshLayout mSrlRefresh;
@@ -77,7 +76,7 @@ public class ProjectTabFragment extends LazyMVPFragment<ProjectTabPresenter> imp
     @Override
     protected void initUI() {
         mSrlRefresh.setColorSchemeColors(getResources().getColor(R.color.md_blue_A200), getResources().getColor(R.color.md_blue_A400));
-        mAdapter = new ProjectListAdapter(mActivity, R.layout.item_rlv_project, mList);
+        mAdapter = new ProjectListAdapter(mActivity, R.layout.item_rv_project, mList);
         mRlvArticle.setLayoutManager(new LinearLayoutManager(getBindActivity()));
         mRlvArticle.setAdapter(mAdapter);
         ((DefaultItemAnimator) mRlvArticle.getItemAnimator()).setSupportsChangeAnimations(false);

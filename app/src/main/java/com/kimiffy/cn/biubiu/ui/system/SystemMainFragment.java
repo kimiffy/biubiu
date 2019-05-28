@@ -2,7 +2,6 @@ package com.kimiffy.cn.biubiu.ui.system;
 
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -32,7 +31,7 @@ public class SystemMainFragment extends BaseMVPFragment<SystemMainPresenter> imp
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    @BindView(R.id.rlv_sys)
+    @BindView(R.id.rv_sys)
     RecyclerView mRlvSys;
     @BindView(R.id.srl_refresh)
     SwipeRefreshLayout mSrlRefresh;
@@ -67,7 +66,7 @@ public class SystemMainFragment extends BaseMVPFragment<SystemMainPresenter> imp
     @Override
     protected void initUI() {
         mSrlRefresh.setColorSchemeColors(getResources().getColor(R.color.md_blue_A200), getResources().getColor(R.color.md_blue_A400));
-        mAdapter = new SystemMainAdapter(R.layout.item_rlv_sys, mList);
+        mAdapter = new SystemMainAdapter(R.layout.item_rv_sys, mList);
         mRlvSys.setLayoutManager(new LinearLayoutManager(getBindActivity()));
         mRlvSys.setAdapter(mAdapter);
         getData();

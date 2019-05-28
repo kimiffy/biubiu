@@ -3,7 +3,6 @@ package com.kimiffy.cn.biubiu.ui.system.detail.tab;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -16,7 +15,6 @@ import com.kimiffy.cn.biubiu.base.LazyMVPFragment;
 import com.kimiffy.cn.biubiu.bean.SystemDetailBean;
 import com.kimiffy.cn.biubiu.constant.Key;
 import com.kimiffy.cn.biubiu.ui.articledetail.ArticleDetailActivity;
-import com.kimiffy.cn.biubiu.utils.LogUtil;
 import com.kimiffy.cn.biubiu.utils.ToastUtil;
 import com.kimiffy.cn.biubiu.utils.aop.FilterType;
 import com.kimiffy.cn.biubiu.utils.aop.annotation.LoginFilter;
@@ -38,7 +36,7 @@ import butterknife.BindView;
 public class SysTabFragment extends LazyMVPFragment<SysTabPresenter> implements SysTabContract.View {
 
 
-    @BindView(R.id.rlv_article)
+    @BindView(R.id.rv_article)
     RecyclerView mRlvArticle;
     @BindView(R.id.srl_refresh)
     SwipeRefreshLayout mSrlRefresh;
@@ -77,7 +75,7 @@ public class SysTabFragment extends LazyMVPFragment<SysTabPresenter> implements 
     @Override
     protected void initUI() {
         mSrlRefresh.setColorSchemeColors(getResources().getColor(R.color.md_blue_A200), getResources().getColor(R.color.md_blue_A400));
-        mAdapter = new SysArticleListAdapter(mActivity, R.layout.item_rlv_wx_article, mList);
+        mAdapter = new SysArticleListAdapter(mActivity, R.layout.item_rv_wx_article, mList);
         mRlvArticle.setLayoutManager(new LinearLayoutManager(getBindActivity()));
         mRlvArticle.setAdapter(mAdapter);
         ((DefaultItemAnimator) mRlvArticle.getItemAnimator()).setSupportsChangeAnimations(false);
