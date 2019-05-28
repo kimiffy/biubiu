@@ -4,6 +4,7 @@ import com.kimiffy.cn.biubiu.base.BaseBean;
 import com.kimiffy.cn.biubiu.base.BasePresenter;
 import com.kimiffy.cn.biubiu.bean.ArticleBean;
 import com.kimiffy.cn.biubiu.bean.BannerBean;
+import com.kimiffy.cn.biubiu.bean.HotWordBean;
 import com.kimiffy.cn.biubiu.bean.UserBean;
 import com.kimiffy.cn.biubiu.constant.Config;
 import com.kimiffy.cn.biubiu.constant.Key;
@@ -91,7 +92,7 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
             public void onSuccess(BaseBean<List<BannerBean>> bean) {
                 List<BannerBean> data = bean.data;
                 String bannerString = GsonUtil.toJson(data);
-                SpUtil.putString(Key.PREF_BANNER_LIST,bannerString);
+                SpUtil.putString(Key.PREF_BANNER_LIST, bannerString);
                 mView.getBannerSuccess(data);
             }
 
@@ -99,9 +100,9 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
             public void onFailure(String msg, ErrorType errorType) {
                 String json = SpUtil.getString(Key.PREF_BANNER_LIST, "");
                 List<BannerBean> list = GsonUtil.toList(json, BannerBean.class);
-                if(null!=list&&!list.isEmpty()){
+                if (null != list && !list.isEmpty()) {
                     mView.getBannerSuccess(list);
-                }else{
+                } else {
                     mView.getBannerFail(msg);
                 }
             }
@@ -183,6 +184,26 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
             @Override
             public void onFailure(String msg, ErrorType errorType) {
                 mView.unCollectFail(position, msg);
+            }
+        });
+    }
+
+    @Override
+    public void getHotWord() {
+        addDisposable(mApiService.getHotWordBean(), new BaseObserver<BaseBean<List<HotWordBean>>>() {
+            @Override
+            public void onSuccess(BaseBean<List<HotWordBean>> bean) {
+                List<HotWordBean> data = bean.data;
+                if (null != data && !data.isEmpty()) {
+                    int random = (int) (Math.random() * ((data.size()) + 1));
+                    String hotWord = data.get(random).getName();
+                    mView.getHotWordSuccess(hotWord);
+                }
+            }
+
+            @Override
+            public void onFailure(String msg, ErrorType errorType) {
+
             }
         });
     }

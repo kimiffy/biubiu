@@ -30,6 +30,8 @@ public class HomeContract {
 
         void unCollect(int id,int position);
 
+        void getHotWord();
+
     }
 
     public interface View extends IBaseView {
@@ -52,5 +54,8 @@ public class HomeContract {
         void unCollectSuccess(int position);
 
         void unCollectFail(int position, String msg);
+
+        void getHotWordSuccess(String data);
+
     }
 }

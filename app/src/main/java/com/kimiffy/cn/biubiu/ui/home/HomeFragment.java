@@ -5,11 +5,14 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.kimiffy.cn.biubiu.R;
@@ -47,6 +50,12 @@ public class HomeFragment extends BaseMVPFragment<HomePresenter> implements Home
     RecyclerView mRlvArticle;
     @BindView(R.id.srl_refresh)
     SwipeRefreshLayout mSrlRefresh;
+    @BindView(R.id.tv_search_hint)
+    TextView mTvSearchHint;
+    @BindView(R.id.rl_search)
+    RelativeLayout mRlSearch;
+    @BindView(R.id.toolbar_common)
+    Toolbar mToolbarCommon;
 
     private List<String> linkList;
     private List<String> imageList;
@@ -56,7 +65,7 @@ public class HomeFragment extends BaseMVPFragment<HomePresenter> implements Home
     private HomeAdapter mAdapter;
     private LinearLayout mHeader;
     private Banner mBanner;
-    private boolean mBannerIsReady=false;
+    private boolean mBannerIsReady = false;
 
     @Override
     protected HomePresenter createPresenter() {
@@ -173,6 +182,7 @@ public class HomeFragment extends BaseMVPFragment<HomePresenter> implements Home
     private void firstFresh() {
         mSrlRefresh.setRefreshing(true);
         mPresenter.getBanner();
+        mPresenter.getHotWord();
         mPresenter.firstFresh();
     }
 
@@ -228,12 +238,12 @@ public class HomeFragment extends BaseMVPFragment<HomePresenter> implements Home
         imageList.clear();
         titleList.clear();
         linkList.clear();
-        for(BannerBean bannerBean:data){
+        for (BannerBean bannerBean : data) {
             imageList.add(bannerBean.getImagePath());
             titleList.add(bannerBean.getTitle());
             linkList.add(bannerBean.getUrl());
         }
-        if(!mActivity.isFinishing()&&!mActivity.isDestroyed()){
+        if (!mActivity.isFinishing() && !mActivity.isDestroyed()) {
             mBanner.setImageLoader(new BannerImageLoader())
                     .setBannerStyle(BannerConfig.NUM_INDICATOR_TITLE)
                     .setImages(imageList)
@@ -247,14 +257,14 @@ public class HomeFragment extends BaseMVPFragment<HomePresenter> implements Home
             mBanner.setOnBannerListener(new OnBannerListener() {
                 @Override
                 public void OnBannerClick(int position) {
-                    if(!TextUtils.isEmpty(linkList.get(position))){
+                    if (!TextUtils.isEmpty(linkList.get(position))) {
                         Bundle bundle = new Bundle();
                         bundle.putString(Key.BUNDLE_LINK, linkList.get(position));
                         bundle.putString(Key.BUNDLE_TOOLBAR_TITLE, titleList.get(position));
-                        bundle.putString(Key.BUNDLE_TITLE,  titleList.get(position));
+                        bundle.putString(Key.BUNDLE_TITLE, titleList.get(position));
                         bundle.putBoolean(Key.BUNDLE_COLLECT, false);
-                        bundle.putBoolean(Key.BUNDLE_SHOW_MENU,false);
-                        startActivity(ArticleDetailActivity.class,bundle);
+                        bundle.putBoolean(Key.BUNDLE_SHOW_MENU, false);
+                        startActivity(ArticleDetailActivity.class, bundle);
                     }
                 }
             });
@@ -273,7 +283,7 @@ public class HomeFragment extends BaseMVPFragment<HomePresenter> implements Home
         mAdapter.getData().get(position).setCollect(true);
         //由于首页增加了头部banner 导致position有变化 需要处理一下
         int headerCount = mAdapter.getHeaderLayoutCount();
-        mAdapter.notifyItemChanged(position+headerCount);
+        mAdapter.notifyItemChanged(position + headerCount);
         ToastUtil.showToast(getString(R.string.collect_success));
     }
 
@@ -281,7 +291,7 @@ public class HomeFragment extends BaseMVPFragment<HomePresenter> implements Home
     public void collectFail(int position, String msg) {
         mAdapter.getData().get(position).setCollect(false);
         int headerCount = mAdapter.getHeaderLayoutCount();
-        mAdapter.notifyItemChanged(position+headerCount);
+        mAdapter.notifyItemChanged(position + headerCount);
         ToastUtil.showToast(msg);
     }
 
@@ -289,7 +299,7 @@ public class HomeFragment extends BaseMVPFragment<HomePresenter> implements Home
     public void unCollectSuccess(int position) {
         mAdapter.getData().get(position).setCollect(false);
         int headerCount = mAdapter.getHeaderLayoutCount();
-        mAdapter.notifyItemChanged(position+headerCount);
+        mAdapter.notifyItemChanged(position + headerCount);
         ToastUtil.showToast(getString(R.string.cancel_collect_success));
     }
 
@@ -297,8 +307,13 @@ public class HomeFragment extends BaseMVPFragment<HomePresenter> implements Home
     public void unCollectFail(int position, String msg) {
         mAdapter.getData().get(position).setCollect(true);
         int headerLayoutCount = mAdapter.getHeaderLayoutCount();
-        mAdapter.notifyItemChanged(position+headerLayoutCount);
+        mAdapter.notifyItemChanged(position + headerLayoutCount);
         ToastUtil.showToast(msg);
+    }
+
+    @Override
+    public void getHotWordSuccess(String hotWord) {
+        mTvSearchHint.setText(hotWord);
     }
 
 
@@ -325,12 +340,12 @@ public class HomeFragment extends BaseMVPFragment<HomePresenter> implements Home
     private void handleCollectEvent(Event event, boolean isCollect) {
         int id = (int) event.getEvent();
         List<ArticleBean.DatasBean> data = mAdapter.getData();
-        for (int i = 0;i < data.size(); i++) {
+        for (int i = 0; i < data.size(); i++) {
             ArticleBean.DatasBean datasBean = data.get(i);
             if (datasBean.getId() == id) {
                 mAdapter.getData().get(i).setCollect(isCollect);
                 int headerCount = mAdapter.getHeaderLayoutCount();
-                mAdapter.notifyItemChanged(i+headerCount);
+                mAdapter.notifyItemChanged(i + headerCount);
             }
         }
     }
@@ -339,7 +354,7 @@ public class HomeFragment extends BaseMVPFragment<HomePresenter> implements Home
     @Override
     public void onStart() {
         super.onStart();
-        if(mBannerIsReady){
+        if (mBannerIsReady) {
             mBanner.startAutoPlay();
         }
     }
@@ -347,8 +362,9 @@ public class HomeFragment extends BaseMVPFragment<HomePresenter> implements Home
     @Override
     public void onStop() {
         super.onStop();
-        if(mBannerIsReady){
+        if (mBannerIsReady) {
             mBanner.stopAutoPlay();
         }
     }
+
 }

@@ -3,6 +3,7 @@ package com.kimiffy.cn.biubiu.http;
 import com.kimiffy.cn.biubiu.base.BaseBean;
 import com.kimiffy.cn.biubiu.bean.ArticleBean;
 import com.kimiffy.cn.biubiu.bean.BannerBean;
+import com.kimiffy.cn.biubiu.bean.HotWordBean;
 import com.kimiffy.cn.biubiu.bean.ProjectListBean;
 import com.kimiffy.cn.biubiu.bean.ProjectTitleBean;
 import com.kimiffy.cn.biubiu.bean.SystemBean;
@@ -133,4 +134,11 @@ public interface ApiService {
      */
     @GET("banner/json")
     Observable<BaseBean<List<BannerBean>>>getBannerList();
+
+
+    /**
+     * 获取 搜索热词
+     */
+    @GET("/hotkey/json")
+    Observable<BaseBean<List<HotWordBean>>> getHotWordBean();
 }
