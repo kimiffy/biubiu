@@ -21,6 +21,7 @@ import com.kimiffy.cn.biubiu.bean.ArticleBean;
 import com.kimiffy.cn.biubiu.bean.BannerBean;
 import com.kimiffy.cn.biubiu.constant.Key;
 import com.kimiffy.cn.biubiu.ui.articledetail.ArticleDetailActivity;
+import com.kimiffy.cn.biubiu.ui.search.SearchActivity;
 import com.kimiffy.cn.biubiu.utils.BannerImageLoader;
 import com.kimiffy.cn.biubiu.utils.ToastUtil;
 import com.kimiffy.cn.biubiu.utils.aop.FilterType;
@@ -46,7 +47,7 @@ import butterknife.BindView;
 @BindEventBus
 public class HomeFragment extends BaseMVPFragment<HomePresenter> implements HomeContract.View {
 
-    @BindView(R.id.rlv_article)
+    @BindView(R.id.rv_article)
     RecyclerView mRlvArticle;
     @BindView(R.id.srl_refresh)
     SwipeRefreshLayout mSrlRefresh;
@@ -98,7 +99,7 @@ public class HomeFragment extends BaseMVPFragment<HomePresenter> implements Home
     @Override
     protected void initUI() {
         mSrlRefresh.setColorSchemeColors(getResources().getColor(R.color.md_blue_A200), getResources().getColor(R.color.md_blue_A400));
-        mAdapter = new HomeAdapter(mActivity, R.layout.item_rlv_article, articleList);
+        mAdapter = new HomeAdapter(mActivity, R.layout.item_rv_article, articleList);
         mRlvArticle.setLayoutManager(new LinearLayoutManager(getBindActivity()));
         mRlvArticle.setAdapter(mAdapter);
         mAdapter.addHeaderView(getBannerView());
@@ -161,6 +162,13 @@ public class HomeFragment extends BaseMVPFragment<HomePresenter> implements Home
             public void onClick(View v) {
                 mSrlRefresh.setRefreshing(true);
                 mPresenter.firstFresh();
+            }
+        });
+
+        mRlSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(SearchActivity.class);
             }
         });
     }

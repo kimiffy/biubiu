@@ -11,6 +11,8 @@ public class Key {
     public static final String PREF_WX_TAB_LIST ="PREF_WX_TAB_LIST";
     public static final String PREF_PROJECT_TAB_LIST ="PREF_PROJECT_TAB_LIST";
     public static final String PREF_BANNER_LIST ="PREF_BANNER_LIST";
+    public static final String PREF_HOT_WORD_LIST ="PREF_HOT_WORD_LIST";
+    public static final String PREF_SEARCH_HISTORY_LIST ="PREF_SEARCH_HISTORY_LIST";
 
     //bundle
     public static final String BUNDLE_LINK ="BUNDLE_LINK";

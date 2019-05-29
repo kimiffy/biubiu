@@ -198,6 +198,8 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
                     int random = (int) (Math.random() * ((data.size()) + 1));
                     String hotWord = data.get(random).getName();
                     mView.getHotWordSuccess(hotWord);
+                    String hotString = GsonUtil.toJson(data);
+                    SpUtil.putString(Key.PREF_HOT_WORD_LIST, hotString);
                 }
             }
 

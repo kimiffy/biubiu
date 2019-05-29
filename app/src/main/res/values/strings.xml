@@ -25,6 +25,10 @@
     <string name="loading">加载中…</string>
     <string name="data_reload">重新加载</string>
     <string name="data_empty">暂无数据</string>
+    <string name="search_hot">热门搜索</string>
+    <string name="search_history">搜索历史</string>
+    <string name="search_hint">发现更多干货</string>
+    <string name="search_clean">清空</string>
     <!--首页-->
 
 
