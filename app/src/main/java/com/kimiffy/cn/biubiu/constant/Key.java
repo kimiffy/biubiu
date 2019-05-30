@@ -23,6 +23,7 @@ public class Key {
     public static final String BUNDLE_ID ="BUNDLE_ID";
     public static final String BUNDLE_SYS_CHILD ="BUNDLE_SYS_CHILD";
     public static final String BUNDLE_SHOW_MENU ="BUNDLE_SHOW_MENU";
+    public static final String BUNDLE_SEARCH_KEY_WORD ="BUNDLE_SEARCH_KEY_WORD";
 
 
 
