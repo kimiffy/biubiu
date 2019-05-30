@@ -141,4 +141,14 @@ public interface ApiService {
      */
     @GET("/hotkey/json")
     Observable<BaseBean<List<HotWordBean>>> getHotWordBean();
+
+
+    /**
+     *
+     * 查询搜索结果
+     * @param page 页码
+     * @param key 搜索关键词
+     */
+    @POST("/article/query/{page}/json")
+    Observable<BaseBean<ArticleBean>> getSearchResult(@Path("page") int page , @Query("k")String key);
 }
