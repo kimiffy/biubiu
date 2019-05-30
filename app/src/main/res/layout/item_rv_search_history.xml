@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="30dp">
+    android:layout_height="35dp">
 
 
     <ImageView
@@ -31,5 +31,17 @@
         app:layout_constraintStart_toEndOf="@+id/clock"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="SpUsage" />
+
+
+    <ImageView
+        android:id="@+id/iv_delete"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_marginEnd="15dp"
+        android:src="@drawable/ic_delete"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
 
 </android.support.constraint.ConstraintLayout>

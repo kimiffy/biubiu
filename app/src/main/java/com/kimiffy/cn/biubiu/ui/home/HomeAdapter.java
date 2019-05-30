@@ -21,7 +21,7 @@ import java.util.List;
 public class HomeAdapter extends BaseQuickAdapter<ArticleBean.DatasBean, BaseViewHolder> {
     private Activity mActivity;
 
-    HomeAdapter(Activity activity, int layoutResId, @Nullable List<ArticleBean.DatasBean> data) {
+    public HomeAdapter(Activity activity, int layoutResId, @Nullable List<ArticleBean.DatasBean> data) {
         super(layoutResId, data);
         this.mActivity = activity;
     }
@@ -38,7 +38,8 @@ public class HomeAdapter extends BaseQuickAdapter<ArticleBean.DatasBean, BaseVie
             helper.setText(R.id.tv_title, format);
         }
         if (!TextUtils.isEmpty(item.getChapterName()) && !TextUtils.isEmpty(item.getSuperChapterName())) {
-            helper.setText(R.id.tv_type, item.getSuperChapterName() + "/" + item.getChapterName());
+            CharSequence format = StringUtil.formatTitle( item.getChapterName());
+            helper.setText(R.id.tv_type, item.getSuperChapterName() + "/" + format);
         }
         if (!TextUtils.isEmpty(item.getNiceDate())) {
             helper.setText(R.id.tv_date, item.getNiceDate());

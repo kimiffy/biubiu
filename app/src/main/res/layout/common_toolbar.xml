@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/toolbar_common"
     android:layout_width="match_parent"
+    android:elevation="4dp"
     android:layout_height="?attr/actionBarSize">
 
     <RelativeLayout

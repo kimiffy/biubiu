@@ -25,5 +25,7 @@ public class SearchAdapter extends BaseQuickAdapter<SearchHistoryBean, BaseViewH
         if(!item.getKeyWord().isEmpty()){
             helper.setText(R.id.tv_search_history_word, item.getKeyWord());
         }
+
+        helper.addOnClickListener(R.id.iv_delete);
     }
 }

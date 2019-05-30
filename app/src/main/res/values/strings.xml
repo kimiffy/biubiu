@@ -29,6 +29,7 @@
     <string name="search_history">搜索历史</string>
     <string name="search_hint">发现更多干货</string>
     <string name="search_clean">清空</string>
+    <string name="search_empty">暂无搜索记录</string>
     <!--首页-->
 
 

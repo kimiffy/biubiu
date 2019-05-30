@@ -1,7 +1,6 @@
 package com.kimiffy.cn.biubiu.ui.search;
 
 import android.os.Bundle;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -14,6 +13,8 @@ import com.kimiffy.cn.biubiu.R;
 import com.kimiffy.cn.biubiu.base.BaseMVPActivity;
 import com.kimiffy.cn.biubiu.bean.HotWordBean;
 import com.kimiffy.cn.biubiu.bean.SearchHistoryBean;
+import com.kimiffy.cn.biubiu.constant.Key;
+import com.kimiffy.cn.biubiu.ui.search.result.SearchResultActivity;
 import com.kimiffy.cn.biubiu.utils.aop.annotation.SingleClick;
 import com.kimiffy.cn.biubiu.widget.FlowLayout;
 import com.kimiffy.cn.biubiu.widget.TagAdapter;
@@ -65,7 +66,8 @@ public class SearchActivity extends BaseMVPActivity<SearchPresenter> implements 
         initSearchView();
         mAdapter = new SearchAdapter(R.layout.item_rv_search_history, mHistoryBeanList);
         mRvSearchHistory.setLayoutManager(new LinearLayoutManager(this));
-        mRvSearchHistory.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+//        mRvSearchHistory.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+        mAdapter.setEmptyView(R.layout.layout_search_empty, mRvSearchHistory);
         mRvSearchHistory.setAdapter(mAdapter);
         mPresenter.getHotWord();
         mPresenter.getSearchHistory();
@@ -77,7 +79,7 @@ public class SearchActivity extends BaseMVPActivity<SearchPresenter> implements 
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mSearchAutoComplete.hasFocus()) {
+                if (mSearchAutoComplete.hasFocus()) {//todo 这里最好是判断键盘有没有打开
                     mSearchView.clearFocus();
                 } else {
                     finish();
@@ -92,7 +94,7 @@ public class SearchActivity extends BaseMVPActivity<SearchPresenter> implements 
                 SearchHistoryBean searchHistoryBean = new SearchHistoryBean();
                 searchHistoryBean.setKeyWord(name);
                 if (!mHistoryBeanList.contains(searchHistoryBean)) {
-                    mHistoryBeanList.add(0,searchHistoryBean);
+                    mHistoryBeanList.add(0, searchHistoryBean);
                     mPresenter.saveHistory(mHistoryBeanList);
                 }
                 goSearchDetail(name);
@@ -117,7 +119,7 @@ public class SearchActivity extends BaseMVPActivity<SearchPresenter> implements 
                 SearchHistoryBean searchHistoryBean = new SearchHistoryBean();
                 searchHistoryBean.setKeyWord(query);
                 if (!mHistoryBeanList.contains(searchHistoryBean)) {
-                    mHistoryBeanList.add(0,searchHistoryBean);
+                    mHistoryBeanList.add(0, searchHistoryBean);
                     mPresenter.saveHistory(mHistoryBeanList);
                 }
                 goSearchDetail(query);
@@ -138,6 +140,19 @@ public class SearchActivity extends BaseMVPActivity<SearchPresenter> implements 
             }
         });
 
+        mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                switch (view.getId()) {
+                    case R.id.iv_delete:
+                        mHistoryBeanList.remove(position);
+                        mPresenter.saveHistory(mHistoryBeanList);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
     }
 
 
@@ -147,8 +162,9 @@ public class SearchActivity extends BaseMVPActivity<SearchPresenter> implements 
      * @param keyWord 搜索关键词
      */
     private void goSearchDetail(String keyWord) {
-
-
+        Bundle bundle = new Bundle();
+        bundle.putString(Key.BUNDLE_SEARCH_KEY_WORD, keyWord);
+        startActivity(SearchResultActivity.class, bundle);
     }
 
 
