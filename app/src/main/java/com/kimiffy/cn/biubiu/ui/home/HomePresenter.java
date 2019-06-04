@@ -1,5 +1,7 @@
 package com.kimiffy.cn.biubiu.ui.home;
 
+import android.text.TextUtils;
+
 import com.kimiffy.cn.biubiu.base.BaseBean;
 import com.kimiffy.cn.biubiu.base.BasePresenter;
 import com.kimiffy.cn.biubiu.bean.ArticleBean;
@@ -16,6 +18,7 @@ import com.kimiffy.cn.biubiu.utils.SpUtil;
 import com.kimiffy.cn.biubiu.utils.UserUtil;
 
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
@@ -195,9 +198,12 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
             public void onSuccess(BaseBean<List<HotWordBean>> bean) {
                 List<HotWordBean> data = bean.data;
                 if (null != data && !data.isEmpty()) {
-                    int random = (int) (Math.random() * ((data.size()) + 1));
+                    int size = data.size();
+                    int random = new Random().nextInt(size);
                     String hotWord = data.get(random).getName();
-                    mView.getHotWordSuccess(hotWord);
+                    if (!TextUtils.isEmpty(hotWord)) {
+                        mView.getHotWordSuccess(hotWord);
+                    }
                     String hotString = GsonUtil.toJson(data);
                     SpUtil.putString(Key.PREF_HOT_WORD_LIST, hotString);
                 }
