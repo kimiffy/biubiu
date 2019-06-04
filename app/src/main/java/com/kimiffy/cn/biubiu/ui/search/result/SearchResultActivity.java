@@ -76,6 +76,7 @@ public class SearchResultActivity extends BaseMVPActivity<SearchResultPresenter>
         mRvArticle.setLayoutManager(new LinearLayoutManager(this));
         ((DefaultItemAnimator) mRvArticle.getItemAnimator()).setSupportsChangeAnimations(false);
         mRvArticle.setAdapter(mAdapter);
+        mSrlRefresh.setRefreshing(true);
         mPresenter.firstFresh(mKeyWord);
     }
 
