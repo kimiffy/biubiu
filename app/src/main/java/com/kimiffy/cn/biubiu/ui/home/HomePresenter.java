@@ -198,14 +198,14 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
             public void onSuccess(BaseBean<List<HotWordBean>> bean) {
                 List<HotWordBean> data = bean.data;
                 if (null != data && !data.isEmpty()) {
-//                    int size = data.size();
-//                    int random = new Random().nextInt(size);
-//                    String hotWord = data.get(random).getName();
-//                    if (!TextUtils.isEmpty(hotWord)) {
-//                        mView.getHotWordSuccess(hotWord);
-//                    }
-//                    String hotString = GsonUtil.toJson(data);
-//                    SpUtil.putString(Key.PREF_HOT_WORD_LIST, hotString);
+                    int size = data.size();
+                    int random = new Random().nextInt(size);
+                    String hotWord = data.get(random).getName();
+                    if (!TextUtils.isEmpty(hotWord)) {
+                        mView.getHotWordSuccess(hotWord);
+                    }
+                    String hotString = GsonUtil.toJson(data);
+                    SpUtil.putString(Key.PREF_HOT_WORD_LIST, hotString);
                 }
             }
 
